@@ -1,0 +1,153 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/layout/Header.astro';
+import Footer from '~/components/layout/Footer.astro';
+import { SITE, CLINIC } from '~/consts';
+
+const title = '오시는길 — 진료시간·주차·전화';
+const description = `${CLINIC.legalName} 위치, 진료시간, 주차, 전화번호 안내. ${CLINIC.address.addressLocality}.`;
+---
+
+<BaseLayout title={title} description={description} type="website" canonicalPath="/visit/">
+  <Header />
+
+  {/* 한의원 외관 hero */}
+  <section class="relative bg-stone-900">
+    <div class="relative aspect-[16/9] md:aspect-[21/9] lg:aspect-[3/1] max-h-[420px] overflow-hidden">
+      <img
+        src="/images/clinic/clinic-exterior.jpg"
+        alt="태림한의원 외관"
+        class="w-full h-full object-cover object-center opacity-70"
+        loading="eager"
+        decoding="async"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-stone-950/30 to-transparent"></div>
+      <div class="absolute inset-0 flex items-end">
+        <div class="v-container w-full pb-8 md:pb-12">
+          <div class="text-[13px] md:text-sm font-bold tracking-[0.2em] uppercase text-green-300 mb-3">
+            태림한의원 · {CLINIC.address.addressLocality}
+          </div>
+          <h1 class="text-3xl md:text-5xl font-bold text-white tracking-tight">
+            오시는길
+          </h1>
+          <p class="mt-4 text-white/90 text-lg md:text-xl max-w-xl">
+            {CLINIC.address.addressLocality} {CLINIC.address.streetAddress || '(상세 주소 준비 중)'}
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <main class="v-container py-12 md:py-16">
+    <div class="grid gap-6 md:grid-cols-2">
+      {/* 주소·연락처 카드 — 시니어 친화 */}
+      <section class="rounded-2xl bg-green-50/40 ring-1 ring-green-200/60 p-6 md:p-8">
+        <h2 class="text-xl md:text-2xl font-bold text-green-950 mb-6 flex items-center gap-2">
+          <span aria-hidden="true">📍</span> 위치 & 연락처
+        </h2>
+        <dl class="space-y-5 text-[17px] md:text-lg">
+          <div>
+            <dt class="text-sm md:text-base font-bold text-stone-500 uppercase tracking-wide mb-1">주소</dt>
+            <dd class="text-stone-900 font-medium leading-[1.6]">
+              {CLINIC.address.addressLocality} {CLINIC.address.streetAddress || '(준비 중)'}
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm md:text-base font-bold text-stone-500 uppercase tracking-wide mb-1">전화</dt>
+            <dd>
+              {CLINIC.phone ? (
+                <a href={`tel:${CLINIC.phone}`} class="text-green-800 font-bold text-xl md:text-2xl hover:underline tabular-nums">{CLINIC.phone}</a>
+              ) : (
+                <span class="text-stone-400">준비 중</span>
+              )}
+            </dd>
+          </div>
+          <div>
+            <dt class="text-sm md:text-base font-bold text-stone-500 uppercase tracking-wide mb-2">예약·상담 · SNS</dt>
+            <dd class="flex flex-wrap gap-2">
+              {CLINIC.naverPlaceUrl && (
+                <a href={CLINIC.naverPlaceUrl} target="_blank" rel="noopener" style="color:#ffffff;background-color:#15803d;" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-base font-bold hover:bg-green-900">
+                  네이버 플레이스 →
+                </a>
+              )}
+              {CLINIC.kakaoChannelUrl && (
+                <a href={CLINIC.kakaoChannelUrl} target="_blank" rel="noopener" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full bg-yellow-400 text-yellow-900 text-base font-bold hover:bg-yellow-500">
+                  카카오 채널 →
+                </a>
+              )}
+              {CLINIC.blogUrl && (
+                <a href={CLINIC.blogUrl} target="_blank" rel="noopener" style="color:#ffffff;background-color:#16a34a;" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-base font-bold hover:bg-green-700">
+                  네이버 블로그 →
+                </a>
+              )}
+              {CLINIC.instagramUrl && (
+                <a href={CLINIC.instagramUrl} target="_blank" rel="noopener" style="color:#ffffff;background-image:linear-gradient(135deg,#d946ef,#16a34a);" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-base font-bold hover:opacity-90">
+                  인스타그램 →
+                </a>
+              )}
+              {CLINIC.threadsUrl && (
+                <a href={CLINIC.threadsUrl} target="_blank" rel="noopener" style="color:#ffffff;background-color:#000000;" class="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-full text-base font-bold hover:bg-stone-800">
+                  스레드 →
+                </a>
+              )}
+            </dd>
+          </div>
+        </dl>
+      </section>
+
+      {/* 진료시간 카드 — 시니어 친화 */}
+      <section class="rounded-2xl bg-stone-50 ring-1 ring-stone-200 p-6 md:p-8">
+        <h2 class="text-xl md:text-2xl font-bold text-stone-800 mb-6 flex items-center gap-2">
+          <span aria-hidden="true">🕘</span> 진료시간
+        </h2>
+        <dl class="space-y-3 text-[17px] md:text-lg">
+          <div class="flex justify-between border-b border-stone-200 pb-3">
+            <dt class="font-bold text-stone-700">평일 (월~금)</dt>
+            <dd class="text-stone-900 font-medium tabular-nums">09:30 – 19:00</dd>
+          </div>
+          <div class="flex justify-between border-b border-stone-200 pb-3">
+            <dt class="font-bold text-stone-700">토요일</dt>
+            <dd class="text-stone-900 font-medium tabular-nums">09:30 – 13:00</dd>
+          </div>
+          <div class="flex justify-between border-b border-stone-200 pb-3">
+            <dt class="font-bold text-stone-700">일요일·공휴일</dt>
+            <dd class="text-stone-400">휴진</dd>
+          </div>
+          <div class="flex justify-between pt-1">
+            <dt class="font-bold text-stone-700">점심시간</dt>
+            <dd class="text-stone-600 text-base">진료 예약 시 확인</dd>
+          </div>
+        </dl>
+        <p class="mt-5 text-sm md:text-base text-stone-500 leading-relaxed">
+          공휴일·임시 휴진은 네이버 플레이스에서 최신 정보를 확인해주세요.
+        </p>
+      </section>
+    </div>
+
+    {/* 교통·주차 안내 — 시니어 친화 */}
+    <section class="mt-8 rounded-2xl bg-white ring-1 ring-stone-200 p-6 md:p-8">
+      <h2 class="text-xl md:text-2xl font-bold text-stone-900 mb-6 flex items-center gap-2">
+        <span aria-hidden="true">🚗</span> 교통·주차
+      </h2>
+      <ul class="space-y-4 text-[17px] md:text-lg text-stone-800 leading-[1.7]">
+        <li><strong class="text-green-900">자가용</strong> · 한의원 인근 주차 가능 (상세 안내 준비 중)</li>
+        <li><strong class="text-green-900">대중교통</strong> · {CLINIC.address.addressLocality} 일대 — 버스·지하철 노선 안내 준비 중</li>
+        <li><strong class="text-green-900">대구 시내·인근 지역에서</strong> · 달서구 대천동 위치, 인근 주거 지역에서 5~15분 거리</li>
+      </ul>
+    </section>
+
+    {/* 지도 placeholder */}
+    <section class="mt-8 rounded-2xl bg-gradient-to-br from-green-50 to-stone-50 ring-1 ring-green-200/60 p-8 md:p-10 text-center">
+      <p class="text-base md:text-lg text-stone-600">
+        지도는 도메인 확정 후 네이버 지도 / Google 지도 임베드로 연결됩니다.
+      </p>
+      {CLINIC.naverPlaceUrl && (
+        <a href={CLINIC.naverPlaceUrl} target="_blank" rel="noopener" style="color:#ffffff;background-color:#15803d;" class="mt-5 inline-flex items-center gap-2 px-6 py-3.5 rounded-full text-[16px] md:text-lg font-bold hover:bg-green-900">
+          네이버 플레이스에서 길찾기 →
+        </a>
+      )}
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

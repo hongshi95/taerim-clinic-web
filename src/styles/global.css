@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/* ──────────────────────────────────────
+   Design Tokens
+   ────────────────────────────────────── */
+@theme {
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
+    system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", sans-serif;
+
+  /* 태림한의원 메인 톤 — forest green */
+  /* 太林(큰 숲) 컨셉. 한방 약초 잎 톤으로 사이트 전체 일관 */
+  /* deok-* 변수명은 인프라 호환성 위해 유지, 값은 forest green */
+  --color-deok-50: oklch(0.97 0.02 150);
+  --color-deok-100: oklch(0.93 0.05 148);
+  --color-deok-200: oklch(0.85 0.10 148);
+  --color-deok-300: oklch(0.72 0.14 145);
+  --color-deok-400: oklch(0.60 0.16 145);
+  --color-deok-500: oklch(0.50 0.16 145);
+  --color-deok-600: oklch(0.42 0.14 145);
+  --color-deok-700: oklch(0.35 0.12 145);
+  --color-deok-800: oklch(0.27 0.09 145);
+  --color-deok-900: oklch(0.20 0.07 145);
+  --color-deok-950: oklch(0.13 0.05 145);
+}
+
+/* ──────────────────────────────────────
+   Base
+   ────────────────────────────────────── */
+html {
+  font-family: var(--font-sans);
+  text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  scroll-behavior: smooth;
+  word-break: keep-all;
+}
+
+body {
+  @apply bg-white text-gray-900 antialiased;
+}
+
+/* 링크 기본 스타일 제거 (컴포넌트에서 제어) */
+a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+/* ──────────────────────────────────────
+   Prose (글 상세 페이지)
+   ────────────────────────────────────── */
+.v-prose {
+  @apply max-w-[680px] mx-auto text-[17px] leading-[1.8] text-gray-800;
+}
+
+.v-prose h1 {
+  @apply text-3xl md:text-4xl font-bold text-gray-900 leading-tight mt-12 mb-6;
+}
+
+.v-prose h2 {
+  @apply text-2xl md:text-3xl font-bold text-gray-900 leading-tight mt-14 mb-4 pb-2 border-b-2 border-deok-200;
+}
+
+.v-prose h3 {
+  @apply text-xl md:text-2xl font-semibold text-gray-900 leading-snug mt-10 mb-3;
+}
+
+.v-prose p {
+  @apply my-5;
+}
+
+.v-prose ul,
+.v-prose ol {
+  @apply my-5 pl-6;
+}
+
+.v-prose li {
+  @apply my-2 leading-[1.75];
+}
+
+.v-prose ul > li {
+  @apply list-disc marker:text-deok-500;
+}
+
+.v-prose ol > li {
+  @apply list-decimal marker:text-deok-500 marker:font-semibold;
+}
+
+.v-prose blockquote {
+  @apply my-6 pl-5 border-l-4 border-deok-300 text-gray-700 italic;
+}
+
+.v-prose a {
+  @apply text-deok-600 underline underline-offset-4 decoration-deok-300 hover:decoration-deok-600 transition-colors;
+}
+
+.v-prose strong {
+  @apply font-bold text-gray-900;
+}
+
+.v-prose code {
+  @apply px-1.5 py-0.5 rounded bg-gray-100 text-deok-700 text-[0.9em] font-mono;
+}
+
+.v-prose pre {
+  @apply my-6 p-4 rounded-lg bg-gray-900 text-gray-100 overflow-x-auto text-[0.9em] leading-relaxed;
+}
+
+.v-prose pre code {
+  @apply bg-transparent text-gray-100 p-0;
+}
+
+.v-prose img {
+  @apply my-6 rounded-lg w-full;
+}
+
+.v-prose table {
+  @apply my-6 w-full border-collapse;
+}
+
+.v-prose th,
+.v-prose td {
+  @apply px-3 py-2 border border-gray-200 text-left;
+}
+
+.v-prose th {
+  @apply bg-gray-50 font-semibold;
+}
+
+.v-prose hr {
+  @apply my-10 border-gray-200;
+}
+
+/* ──────────────────────────────────────
+   Utility Components
+   ────────────────────────────────────── */
+.v-container {
+  @apply max-w-6xl mx-auto px-4 sm:px-6 lg:px-8;
+}
+
+.v-btn {
+  @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-medium transition-colors;
+}
+
+.v-btn-primary {
+  @apply bg-deok-600 text-white hover:bg-deok-700;
+}
+
+.v-btn-ghost {
+  @apply text-deok-600 hover:bg-deok-50;
+}

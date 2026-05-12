@@ -1,0 +1,58 @@
+---
+import { SITE } from '~/consts';
+
+interface Props {
+  title: string;
+  description: string;
+  url: string;
+  type?: 'website' | 'article';
+  image?: string;
+  publishedAt?: string;
+  modifiedAt?: string;
+  author?: string;
+}
+
+const {
+  title,
+  description,
+  url,
+  type = 'website',
+  image,
+  publishedAt,
+  modifiedAt,
+  author,
+} = Astro.props;
+
+const ogImage = image ?? `${SITE.url}${SITE.defaultOgImage}`;
+const absoluteUrl = url.startsWith('http') ? url : `${SITE.url}${url}`;
+---
+
+<!-- Open Graph -->
+<meta property="og:type" content={type} />
+<meta property="og:site_name" content={SITE.name} />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:url" content={absoluteUrl} />
+<meta property="og:image" content={ogImage} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="ko_KR" />
+
+{type === 'article' && publishedAt && (
+  <meta property="article:published_time" content={publishedAt} />
+)}
+{type === 'article' && modifiedAt && (
+  <meta property="article:modified_time" content={modifiedAt} />
+)}
+{type === 'article' && author && (
+  <meta property="article:author" content={author} />
+)}
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={ogImage} />
+
+<!-- Naver/Daum 대응 meta (Open Graph 기반이라 위 OG로 커버됨) -->
+<meta name="author" content={author ?? SITE.name} />

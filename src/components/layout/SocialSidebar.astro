@@ -1,0 +1,95 @@
+---
+// 우측 fixed SNS 사이드바 — 벤치마크 디자인 (진한 녹색 카드 + 흰 아이콘 + 라벨)
+// 모바일에서는 숨김 (lg 이상에서만 노출). 모바일 환자는 footer 또는 hero CTA 사용.
+// URL이 빈 값이면 해당 카드는 비활성 (회색).
+import { CLINIC } from '~/consts';
+
+const channels = [
+  {
+    key: 'instagram',
+    label: '인스타그램',
+    url: CLINIC.instagramUrl,
+    icon: 'instagram',
+    bgClass: 'bg-gradient-to-br from-fuchsia-500 to-green-500 hover:from-fuchsia-600 hover:to-green-600',
+    bgColor: '',
+  },
+  {
+    key: 'blog',
+    label: '네이버블로그',
+    url: CLINIC.blogUrl,
+    icon: 'blog',
+    bgClass: 'bg-green-600 hover:bg-green-700',
+    bgColor: '#16a34a',
+  },
+  {
+    key: 'threads',
+    label: '스레드',
+    url: CLINIC.threadsUrl,
+    icon: 'threads',
+    bgClass: 'bg-black hover:bg-stone-800',
+    bgColor: '#000000',
+  },
+  {
+    key: 'kakao',
+    label: '카카오 상담',
+    url: CLINIC.kakaoChannelUrl,
+    icon: 'kakao',
+    bgClass: 'bg-yellow-400 hover:bg-yellow-500',
+    bgColor: '#facc15',
+  },
+];
+
+const visible = channels.filter((c) => c.url);
+const placeholders = channels.filter((c) => !c.url);
+---
+
+{/* 데스크탑 — 우측 fixed sticky 카드 stack */}
+{(visible.length > 0 || placeholders.length > 0) && (
+  <aside
+    class="hidden lg:flex fixed right-3 top-1/2 -translate-y-1/2 z-40 flex-col gap-2"
+    aria-label="태림한의원 SNS 채널"
+  >
+    {channels.map((c) => {
+      const inactive = !c.url;
+      const href = c.url || '#';
+      const target = c.url ? '_blank' : undefined;
+      const rel = c.url ? 'noopener' : undefined;
+      const inactiveStyle = inactive ? 'opacity:0.4;cursor:not-allowed;background-color:#78716c;' : `background-color:${c.bgColor};`;
+
+      return (
+        <a
+          href={href}
+          target={target}
+          rel={rel}
+          aria-label={`${c.label}${inactive ? ' (준비 중)' : ''}`}
+          aria-disabled={inactive ? 'true' : undefined}
+          tabindex={inactive ? -1 : 0}
+          style={`${inactiveStyle};color:#ffffff;`}
+          class={`group flex flex-col items-center justify-center gap-1.5 w-16 h-16 rounded-sm shadow-lg shadow-green-950/30 ring-1 ring-white/10 transition-all ${!inactive ? 'hover:scale-105 hover:shadow-xl ' + (c.bgColor ? '' : c.bgClass) : ''}`}
+        >
+          {/* 아이콘 — SVG inline */}
+          <span aria-hidden="true" style="color:#ffffff;" class="block">
+            {c.icon === 'threads' && (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.55 11.43c-.08-.04-.16-.08-.24-.11-.14-2.57-1.55-4.04-3.91-4.06-1.43-.01-2.61.6-3.34 1.73l1.32.9c.54-.83 1.4-1 2.02-1 .75.01 1.31.22 1.66.65.26.31.43.74.51 1.28-.6-.1-1.25-.13-1.94-.09-1.95.11-3.2 1.25-3.12 2.83.04.8.45 1.5 1.13 1.95.58.38 1.33.56 2.11.52 1.03-.06 1.84-.45 2.4-1.17.43-.54.7-1.25.82-2.13.5.3.87.7 1.07 1.18.34.81.36 2.15-.73 3.24-.95.95-2.1 1.36-3.83 1.37-1.92-.01-3.37-.63-4.32-1.83-.89-1.13-1.35-2.76-1.37-4.86.02-2.1.48-3.73 1.37-4.86.95-1.2 2.4-1.82 4.32-1.83 1.93.01 3.41.63 4.39 1.85.48.6.84 1.36 1.07 2.24l1.58-.42c-.28-1.08-.73-2.02-1.32-2.77-1.26-1.57-3.1-2.38-5.47-2.39-1.74 0-3.25.44-4.48 1.31-1.04.74-1.86 1.81-2.43 3.17-.62 1.46-.92 3.18-.93 5.11.01 1.93.31 3.65.93 5.11.57 1.36 1.39 2.43 2.43 3.17 1.23.87 2.74 1.31 4.48 1.31 1.94-.01 3.31-.52 4.43-1.65 1.47-1.47 1.42-3.32.94-4.45-.34-.82-1-1.48-1.91-1.93zm-3.95 2.97c-.86.05-1.76-.34-1.8-1.18-.03-.62.45-1.32 1.85-1.4l.4-.01c.42 0 .82.04 1.18.12-.13 1.6-.89 2.42-1.63 2.47z"/></svg>
+            )}
+            {c.icon === 'instagram' && (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zm0 10.162a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            )}
+            {c.icon === 'blog' && (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M3 4h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1h-6.5l-3.5 3v-3H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm4 4v6h2v-2.5l1.5 2.5h2L10.5 11l2-3h-2L9 10.5V8H7zm7 0v6h2v-2h.5l1.5 2h2l-1.8-2.4c.5-.3.8-.9.8-1.6 0-1.1-.9-2-2-2H14zm2 1.5h.5c.3 0 .5.2.5.5s-.2.5-.5.5H16v-1z"/></svg>
+            )}
+            {c.icon === 'kakao' && (
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3C6.477 3 2 6.477 2 10.8c0 2.802 1.85 5.262 4.629 6.654L5.4 21.6c-.1.3.25.55.5.4l4.6-3.05c.5.05 1 .075 1.5.075 5.523 0 10-3.477 10-7.8S17.523 3 12 3z"/></svg>
+            )}
+          </span>
+          <span
+            style="color:#ffffff;"
+            class="text-[10px] font-bold tracking-tight leading-none"
+          >
+            {c.label}
+          </span>
+        </a>
+      );
+    })}
+  </aside>
+)}

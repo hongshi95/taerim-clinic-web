@@ -1,0 +1,3 @@
+# sitemap.xml 별칭 → sitemap-index.xml (Astro @astrojs/sitemap이 sitemap-index.xml만 생성)
+# 검색엔진(GSC/Bing/Naver)이 표준 /sitemap.xml 요청 시 정확한 sitemap-index.xml로 자동 리디렉션
+/sitemap.xml /sitemap-index.xml 301

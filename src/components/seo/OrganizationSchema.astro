@@ -1,0 +1,30 @@
+---
+import { SITE, ORGANIZATION } from '~/consts';
+
+// 사이트 전체 공통 — 루트 페이지에서 1회 포함
+const schema = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    ORGANIZATION,
+    {
+      '@type': 'WebSite',
+      '@id': `${SITE.url}/#website`,
+      url: SITE.url,
+      name: SITE.name,
+      description: SITE.description,
+      inLanguage: SITE.locale,
+      publisher: { '@id': `${SITE.url}/#organization` },
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: {
+          '@type': 'EntryPoint',
+          urlTemplate: `${SITE.url}/search?q={search_term_string}`,
+        },
+        'query-input': 'required name=search_term_string',
+      },
+    },
+  ],
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

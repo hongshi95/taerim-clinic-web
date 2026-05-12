@@ -1,0 +1,116 @@
+---
+import { SITE, SITE_NAVIGATION, CLINIC } from '~/consts';
+
+const year = new Date().getFullYear();
+const categoryNav = SITE_NAVIGATION.filter((item) =>
+  ['/pain', '/diet', '/accident', '/pediatric', '/beauty', '/constitution'].includes(item.href)
+);
+
+// 활성 SNS만 footer에 표시
+const sns = [
+  { label: '네이버 블로그', url: CLINIC.blogUrl, key: 'blog' },
+  { label: '인스타그램', url: CLINIC.instagramUrl, key: 'insta' },
+  { label: '스레드', url: CLINIC.threadsUrl, key: 'threads' },
+  { label: '유튜브', url: CLINIC.youtubeUrl, key: 'youtube' },
+  { label: '카카오 채널', url: CLINIC.kakaoChannelUrl, key: 'kakao' },
+  { label: '네이버 플레이스', url: CLINIC.naverPlaceUrl, key: 'place' },
+].filter((s) => s.url);
+---
+
+<footer class="bg-green-950 text-white/85 mt-20">
+  <div class="v-container py-14 md:py-20">
+    {/* 상단 4단 grid */}
+    <div class="grid gap-10 md:grid-cols-4">
+      {/* 1. 한의원 정보 (2 cols) */}
+      <div class="md:col-span-2">
+        <a href="/" style="color:#ffffff;" class="text-2xl font-bold tracking-tight">
+          {SITE.name} <span style="color:#86efac;" class="font-serif italic text-lg ml-1">太林</span>
+        </a>
+        <p style="color:rgba(255,255,255,0.7);" class="mt-4 text-[15px] leading-[1.85] max-w-md">
+          {SITE.description}
+        </p>
+
+        {/* 의료기관 정보 dl */}
+        <dl class="mt-7 grid grid-cols-[max-content_1fr] gap-x-6 gap-y-2.5 text-[14px] md:text-[15px]">
+          <dt style="color:rgba(255,255,255,0.5);" class="font-medium">상호</dt>
+          <dd style="color:rgba(255,255,255,0.92);">{CLINIC.legalName}</dd>
+          <dt style="color:rgba(255,255,255,0.5);" class="font-medium">대표</dt>
+          <dd style="color:rgba(255,255,255,0.92);">{CLINIC.doctorName} {CLINIC.doctorTitle}</dd>
+          <dt style="color:rgba(255,255,255,0.5);" class="font-medium">주소</dt>
+          <dd style="color:rgba(255,255,255,0.92);">
+            {CLINIC.address.addressLocality} {CLINIC.address.streetAddress || '(상세 주소 준비 중)'}
+          </dd>
+          {CLINIC.phone && (
+            <>
+              <dt style="color:rgba(255,255,255,0.5);" class="font-medium">전화</dt>
+              <dd>
+                <a href={`tel:${CLINIC.phone}`} style="color:#86efac;" class="font-bold tabular-nums hover:underline">{CLINIC.phone}</a>
+              </dd>
+            </>
+          )}
+        </dl>
+      </div>
+
+      {/* 2. 진료과목 */}
+      <div>
+        <h4 style="color:#ffffff;" class="text-[13px] md:text-sm font-bold tracking-[0.25em] uppercase mb-5">진료과목</h4>
+        <ul class="space-y-3 text-[15px] md:text-base">
+          {categoryNav.map((item) => (
+            <li><a href={item.href} style="color:rgba(255,255,255,0.75);" class="hover:!text-white transition-colors">{item.label}</a></li>
+          ))}
+        </ul>
+      </div>
+
+      {/* 3. 한의원 안내 + SNS */}
+      <div>
+        <h4 style="color:#ffffff;" class="text-[13px] md:text-sm font-bold tracking-[0.25em] uppercase mb-5">한의원 안내</h4>
+        <ul class="space-y-3 text-[15px] md:text-base">
+          <li><a href="/about/" style="color:rgba(255,255,255,0.75);" class="hover:!text-white transition-colors">원장 소개</a></li>
+          <li><a href="/about/#philosophy" style="color:rgba(255,255,255,0.75);" class="hover:!text-white transition-colors">진료 철학</a></li>
+          <li><a href="/visit/" style="color:rgba(255,255,255,0.75);" class="hover:!text-white transition-colors">오시는길 · 진료시간</a></li>
+          <li><a href="/posts/" style="color:rgba(255,255,255,0.75);" class="hover:!text-white transition-colors">진료 가이드</a></li>
+        </ul>
+
+        {sns.length > 0 && (
+          <>
+            <h4 style="color:#ffffff;" class="text-[13px] md:text-sm font-bold tracking-[0.25em] uppercase mt-8 mb-5">SNS · 채널</h4>
+            <ul class="space-y-3 text-[15px] md:text-base">
+              {sns.map((s) => (
+                <li>
+                  <a href={s.url} target="_blank" rel="noopener" style="color:rgba(255,255,255,0.75);" class="hover:!text-white transition-colors inline-flex items-center gap-1.5">
+                    {s.label}
+                    <span aria-hidden="true" class="text-xs">↗</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
+    </div>
+
+    {/* 하단 — 저작권 + 의료법 디스클레이머 */}
+    <div class="mt-14 pt-8 border-t border-white/10">
+      <p style="color:rgba(255,255,255,0.5);" class="text-[13px] md:text-sm leading-[1.85]">
+        본 사이트의 정보는 일반적인 안내이며, 진단·처방은 반드시 진료를 통해 이뤄집니다. 치료 효과는 환자분의 체질과 상태에 따라 다를 수 있습니다.
+        <br />
+        의료광고 사전심의 대상 — 대한한의사협회 의료광고심의위원회 (의료법 제57조).
+      </p>
+
+      <div class="mt-6 flex flex-wrap items-center justify-between gap-4 text-[13px]">
+        <p style="color:rgba(255,255,255,0.5);">© {year} {CLINIC.legalName}. All rights reserved.</p>
+        <div class="flex items-center gap-5">
+          <a href="/privacy/" style="color:rgba(255,255,255,0.6);" class="hover:!text-white transition-colors">개인정보처리방침</a>
+          <a href="/disclosure/" style="color:rgba(255,255,255,0.6);" class="hover:!text-white transition-colors">정책</a>
+          <a href="/rss.xml" style="color:rgba(255,255,255,0.6);" class="hover:!text-white transition-colors inline-flex items-center gap-1">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M6.18 15.64a2.18 2.18 0 012.18 2.18A2.18 2.18 0 016.18 20a2.18 2.18 0 01-2.18-2.18 2.18 2.18 0 012.18-2.18M4 4.44A15.56 15.56 0 0119.56 20h-2.83A12.73 12.73 0 004 7.27V4.44m0 5.66a9.9 9.9 0 019.9 9.9h-2.83A7.07 7.07 0 004 12.93V10.1z"/>
+            </svg>
+            RSS
+          </a>
+          <a href="/sitemap-index.xml" style="color:rgba(255,255,255,0.6);" class="hover:!text-white transition-colors">Sitemap</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>

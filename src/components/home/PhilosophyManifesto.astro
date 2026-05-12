@@ -1,0 +1,150 @@
+---
+// 진료 철학 매니페스토 — 요약 카드 4개 + 클릭 시 상세 페이지로
+// 풀 디테일은 /about/philosophy/{slug}/ 에서
+import { PHILOSOPHY_PRINCIPLES } from '~/data/philosophy';
+---
+
+<section class="bg-white">
+  {/* 인트로 — 풀 너비, 가운데 정렬, 큰 활자 */}
+  <div class="border-b border-stone-100">
+    <div class="v-container py-20 sm:py-28 md:py-36 lg:py-44 text-center">
+      <div class="reveal max-w-4xl mx-auto">
+        <div class="text-[13px] md:text-sm font-bold tracking-[0.3em] uppercase text-green-900 mb-7">
+          진료 철학
+        </div>
+        <h2 class="text-[2.1rem] sm:text-4xl md:text-6xl lg:text-[4.5rem] font-bold text-stone-900 tracking-tight leading-[1.2]">
+          <span class="font-serif italic text-green-900">듣고</span>, 찾고,
+          <br />
+          <span class="font-serif italic text-green-900">함께</span> 결정합니다.
+        </h2>
+        <p class="mt-10 md:mt-12 text-lg md:text-xl text-stone-600 leading-[1.85] max-w-2xl mx-auto">
+          태림한의원이 진료실에서 지켜온 4가지 약속입니다.<br />
+          빠르고 강한 치료보다, 끝까지 함께 가는 치료를 합니다.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  {/* 4 원칙 카드 grid — 클릭 시 상세 페이지 */}
+  <div class="bg-stone-50 border-b border-stone-100">
+    <div class="v-container py-16 sm:py-20 md:py-28">
+      <ul class="grid sm:grid-cols-2 gap-5 sm:gap-6 md:gap-8 max-w-5xl mx-auto">
+        {PHILOSOPHY_PRINCIPLES.map((p) => (
+          <li class="reveal">
+            <a
+              href={`/about/philosophy/${p.slug}/`}
+              class="group relative block h-full bg-white border border-stone-200 hover:border-green-700 overflow-hidden transition-all hover:shadow-2xl hover:shadow-green-900/10 hover:-translate-y-1"
+            >
+              {/* 사진 (위쪽) */}
+              <div class="aspect-[16/10] overflow-hidden bg-stone-100">
+                <img
+                  src={p.image}
+                  alt={p.imageAlt}
+                  class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
+                  loading="lazy"
+                  decoding="async"
+                  width="600"
+                  height="375"
+                />
+              </div>
+
+              {/* 텍스트 */}
+              <div class="p-7 sm:p-8 md:p-10">
+                <div class="flex items-baseline gap-3 mb-5">
+                  <span style="color:#15803d;" class="font-serif italic text-2xl md:text-3xl font-bold tabular-nums">{p.number}</span>
+                  <span class="text-[13px] md:text-sm font-bold tracking-[0.25em] uppercase text-green-900">
+                    {p.label}
+                  </span>
+                </div>
+
+                <h3 class="text-2xl md:text-3xl font-bold text-stone-900 tracking-tight leading-[1.25]">
+                  {p.headline}{' '}
+                  <span class="font-serif italic text-green-900">{p.headlineEm}</span>
+                  {p.headlineTail && ` ${p.headlineTail}`}
+                </h3>
+
+                <p class="mt-5 text-[17px] md:text-lg text-stone-700 leading-[1.75]">
+                  {p.summary}
+                </p>
+
+                <div class="mt-7 inline-flex items-center gap-2 text-[15px] md:text-base font-bold text-green-900 group-hover:text-green-700 transition-colors">
+                  자세히 보기
+                  <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
+                </div>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+
+  {/* 마무리 manifesto — 가운데 큰 인용 */}
+  <div class="bg-green-900 relative overflow-hidden">
+    <div aria-hidden="true" class="absolute inset-0 opacity-30 pointer-events-none">
+      <div class="absolute -right-40 -top-40 w-[600px] h-[600px] rounded-full bg-green-700/40 blur-3xl"></div>
+      <div class="absolute -left-32 bottom-0 w-[500px] h-[500px] rounded-full bg-green-800/40 blur-3xl"></div>
+    </div>
+
+    <div class="relative v-container py-24 sm:py-32 md:py-40 lg:py-48 text-center">
+      <div class="reveal max-w-4xl mx-auto">
+        <div style="color:#86efac;" class="text-[13px] md:text-sm font-bold tracking-[0.3em] uppercase mb-8">
+          서조혁 원장의 약속
+        </div>
+        <blockquote style="color:#ffffff;" class="text-[1.9rem] sm:text-4xl md:text-5xl lg:text-[3.4rem] font-bold tracking-tight leading-[1.4]">
+          <span class="font-serif italic text-7xl md:text-8xl leading-none align-top mr-2" style="color:rgba(134,239,172,0.5);">"</span>
+          이 세상 모든 병을 100% 치료할 수 있는 한의사는 없습니다.
+          <br class="hidden md:inline" />
+          <span style="color:#86efac;" class="font-serif italic"> 다만</span> 환자의 상태에 맞게 다각도로 접근해
+          <br class="hidden md:inline" />
+          <span style="color:#86efac;" class="font-serif italic">최선을 다할 뿐</span>입니다.
+        </blockquote>
+        <footer style="color:rgba(255,255,255,0.6);" class="mt-10 md:mt-12 text-sm md:text-base tracking-[0.2em] uppercase">
+          — 서조혁 원장
+        </footer>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    if (typeof window === 'undefined') return;
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+    if (reduce) {
+      document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in-view'));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add('in-view');
+            io.unobserve(e.target);
+          }
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  })();
+</script>

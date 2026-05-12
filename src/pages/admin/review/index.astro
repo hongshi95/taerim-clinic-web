@@ -1,0 +1,214 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { SITE } from '~/consts';
+---
+
+<BaseLayout title="팩트체크 리뷰" noIndex={true}>
+  <div class="min-h-screen bg-gray-50">
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <a href="/admin/dashboard/" class="text-lg font-bold text-deok-700">{SITE.name}</a>
+          <span class="text-xs px-2 py-0.5 rounded bg-amber-100 text-amber-800 font-medium">FACT CHECK</span>
+        </div>
+        <nav class="flex items-center gap-4 text-sm">
+          <a href="/admin/dashboard/" class="text-gray-500 hover:text-deok-700">← 대시보드</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 py-8">
+      <div id="loading" class="p-8 text-center text-gray-500">로딩 중...</div>
+
+      <div id="error" class="hidden p-6 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm"></div>
+
+      <div id="review" class="hidden space-y-8">
+        <header>
+          <h1 id="post-title" class="text-2xl font-bold text-gray-900 mb-2"></h1>
+          <div class="flex items-center gap-3 text-sm text-gray-500">
+            <span id="post-slug" class="font-mono"></span>
+            <span>·</span>
+            <span id="post-status"></span>
+          </div>
+        </header>
+
+        <!-- 요약 카드 -->
+        <section class="p-5 bg-white rounded-xl border border-gray-200">
+          <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-2">팩트체크 요약</h2>
+          <p id="fact-summary" class="text-gray-900"></p>
+          <div class="mt-3 flex items-center gap-3 text-xs">
+            <span>신뢰도: <strong id="fact-confidence"></strong></span>
+            <span>소요: <strong id="fact-elapsed"></strong></span>
+          </div>
+        </section>
+
+        <!-- L1 규칙 -->
+        <section class="p-5 bg-white rounded-xl border border-gray-200">
+          <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">L1 코드 규칙</h2>
+          <div id="l1-content"></div>
+        </section>
+
+        <!-- L2 엔티티 -->
+        <section class="p-5 bg-white rounded-xl border border-gray-200">
+          <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">L2 엔티티 실증</h2>
+          <div id="l2-content"></div>
+        </section>
+
+        <!-- L3 크로스 모델 -->
+        <section class="p-5 bg-white rounded-xl border border-gray-200">
+          <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">L3 Gemini × Claude 교차</h2>
+          <div id="l3-content"></div>
+        </section>
+
+        <!-- 액션 -->
+        <section class="flex gap-3">
+          <button id="approve-btn" class="px-6 py-3 bg-green-600 text-white rounded-xl font-medium hover:bg-green-700">
+            ✅ 승인 (published로 전환)
+          </button>
+          <button id="reject-btn" class="px-6 py-3 bg-red-600 text-white rounded-xl font-medium hover:bg-red-700">
+            ❌ 거부 (blocked)
+          </button>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script is:inline>
+    fetch('/api/admin-check').then((r) => {
+      if (!r.ok) window.location.href = '/admin/';
+    });
+
+    const params = new URLSearchParams(location.search);
+    const slug = params.get('slug');
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/[&<>"']/g, (c) =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
+      );
+    }
+
+    async function load() {
+      if (!slug) {
+        showError('slug 쿼리 파라미터 필요');
+        return;
+      }
+      try {
+        const res = await fetch(`/api/review?slug=${encodeURIComponent(slug)}`);
+        const data = await res.json();
+        if (!res.ok) {
+          showError(data.error || 'load failed');
+          return;
+        }
+        render(data.post);
+      } catch (e) {
+        showError(String(e));
+      }
+    }
+
+    function showError(msg) {
+      document.getElementById('loading').classList.add('hidden');
+      const el = document.getElementById('error');
+      el.textContent = msg;
+      el.classList.remove('hidden');
+    }
+
+    function render(post) {
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('review').classList.remove('hidden');
+
+      document.getElementById('post-title').textContent = post.title;
+      document.getElementById('post-slug').textContent = post.slug;
+      document.getElementById('post-status').textContent = `${post.fact_check_status || '—'}`;
+
+      const report = post.fact_check_report_parsed;
+      if (!report) {
+        document.getElementById('fact-summary').textContent = post.fact_check_summary || '팩트체크 보고서 없음';
+        document.getElementById('fact-confidence').textContent = post.fact_check_confidence || '—';
+        document.getElementById('fact-elapsed').textContent = '—';
+        ['l1-content','l2-content','l3-content'].forEach((id) => {
+          document.getElementById(id).innerHTML = '<p class="text-sm text-gray-400">보고서 JSON 없음</p>';
+        });
+        return;
+      }
+
+      document.getElementById('fact-summary').textContent = report.summary || '';
+      document.getElementById('fact-confidence').textContent = report.confidence || '—';
+      document.getElementById('fact-elapsed').textContent = report.elapsedMs ? (report.elapsedMs + 'ms') : '—';
+
+      // L1
+      const l1 = report.layers?.l1_rules;
+      if (l1) {
+        const violations = (l1.violations || []).map((v) => `
+          <li class="py-1.5 border-b border-gray-100 last:border-0">
+            <span class="text-xs px-1.5 py-0.5 rounded ${v.severity === 'error' ? 'bg-red-100 text-red-800' : 'bg-amber-100 text-amber-800'}">${v.severity}</span>
+            <span class="text-sm text-gray-900">${escapeHtml(v.rule)}</span>
+            <div class="text-xs text-gray-500 mt-0.5">${escapeHtml(v.message)}</div>
+            <code class="block text-xs bg-gray-50 px-2 py-1 rounded mt-1 text-gray-700">${escapeHtml(v.snippet)}</code>
+          </li>
+        `).join('');
+        document.getElementById('l1-content').innerHTML = `
+          <p class="text-sm text-gray-600 mb-2">에러 ${l1.errorCount} · 경고 ${l1.warningCount}</p>
+          ${violations ? `<ul class="divide-y divide-gray-100">${violations}</ul>` : '<p class="text-sm text-gray-400">위반 없음</p>'}
+        `;
+      }
+
+      // L2
+      const l2 = report.layers?.l2_entities;
+      if (l2) {
+        const unverified = (l2.unverifiedList || []).map((e) => `<li class="text-sm text-red-700">❌ ${escapeHtml(e)}</li>`).join('');
+        const verified = (l2.checks || []).filter((c) => c.verified).map((c) => `<li class="text-sm text-green-700">✅ ${escapeHtml(c.entity)} <span class="text-xs text-gray-500">(${c.source})</span></li>`).join('');
+        document.getElementById('l2-content').innerHTML = `
+          <p class="text-sm text-gray-600 mb-2">검증률 ${Math.round((l2.verifiedRatio ?? 0) * 100)}% (${l2.verified}/${l2.verified + l2.unverified})</p>
+          <ul class="space-y-1">${unverified}${verified}</ul>
+        `;
+      }
+
+      // L3
+      const l3 = report.layers?.l3_cross_model;
+      if (l3) {
+        if (l3.skipped) {
+          document.getElementById('l3-content').innerHTML = '<p class="text-sm text-gray-400">크로스 모델 스킵 (CLI 미가동)</p>';
+        } else {
+          document.getElementById('l3-content').innerHTML = `
+            <div class="grid grid-cols-3 gap-3 text-center">
+              <div class="p-3 bg-green-50 rounded-lg">
+                <p class="text-xs text-gray-600">합의 (high-confidence)</p>
+                <p class="text-2xl font-bold text-green-700">${l3.consensusCount}</p>
+              </div>
+              <div class="p-3 bg-amber-50 rounded-lg">
+                <p class="text-xs text-gray-600">Gemini 단독</p>
+                <p class="text-2xl font-bold text-amber-700">${l3.geminiOnlyCount}</p>
+              </div>
+              <div class="p-3 bg-amber-50 rounded-lg">
+                <p class="text-xs text-gray-600">Claude 단독</p>
+                <p class="text-2xl font-bold text-amber-700">${l3.claudeOnlyCount}</p>
+              </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-2">신뢰도: ${l3.confidence}</p>
+          `;
+        }
+      }
+    }
+
+    async function decide(decision) {
+      const reviewer = prompt('리뷰어 식별자 (이름/닉):') || 'admin';
+      const res = await fetch('/api/review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ slug, decision, reviewer }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        alert(`${decision === 'approve' ? '승인' : '거부'} 완료: ${data.status}`);
+        location.href = '/admin/dashboard/';
+      } else {
+        alert('실패: ' + (data.error || res.status));
+      }
+    }
+
+    document.getElementById('approve-btn')?.addEventListener('click', () => decide('approve'));
+    document.getElementById('reject-btn')?.addEventListener('click', () => decide('reject'));
+
+    load();
+  </script>
+</BaseLayout>

@@ -1,0 +1,72 @@
+---
+import { SITE, SITE_NAVIGATION } from '~/consts';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100">
+  <div class="v-container flex items-center justify-between h-16">
+    <a href="/" class="flex items-center gap-2">
+      <span class="text-xl font-bold text-deok-700 tracking-tight">{SITE.name}</span>
+      <span class="hidden sm:inline text-xs text-gray-400 font-medium tracking-widest uppercase">
+        {SITE.nameEn}
+      </span>
+    </a>
+
+    <nav class="hidden md:flex items-center gap-1 text-sm">
+      {SITE_NAVIGATION.map((item) => {
+        const isActive =
+          item.href === '/'
+            ? currentPath === '/'
+            : currentPath.startsWith(item.href);
+        return (
+          <a
+            href={item.href}
+            class:list={[
+              'px-3 py-2 rounded-md font-medium transition-colors',
+              isActive
+                ? 'text-deok-700 bg-deok-50'
+                : 'text-gray-600 hover:text-deok-700 hover:bg-gray-50',
+            ]}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </nav>
+
+    <button
+      id="mobile-menu-btn"
+      class="md:hidden p-2 rounded-md hover:bg-gray-100"
+      aria-label="메뉴 열기"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="3" x2="21" y1="6" y2="6"></line>
+        <line x1="3" x2="21" y1="12" y2="12"></line>
+        <line x1="3" x2="21" y1="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+
+  <nav
+    id="mobile-menu"
+    class="md:hidden hidden border-t border-gray-100 bg-white"
+  >
+    <div class="v-container py-3 flex flex-col gap-1">
+      {SITE_NAVIGATION.map((item) => (
+        <a
+          href={item.href}
+          class="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-deok-50 hover:text-deok-700"
+        >
+          {item.label}
+        </a>
+      ))}
+    </div>
+  </nav>
+</header>
+
+<script is:inline>
+  document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
+    document.getElementById('mobile-menu')?.classList.toggle('hidden');
+  });
+</script>

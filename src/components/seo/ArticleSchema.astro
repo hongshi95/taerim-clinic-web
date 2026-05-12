@@ -1,0 +1,61 @@
+---
+import { SITE } from '~/consts';
+
+interface Props {
+  title: string;
+  description: string;
+  slug: string;
+  coverImage?: string;
+  publishedAt: string;
+  modifiedAt: string;
+  authorName: string;
+  authorSlug: string;
+  categoryName: string;
+  categorySlug: string;
+  wordCount?: number;
+}
+
+const {
+  title,
+  description,
+  slug,
+  coverImage,
+  publishedAt,
+  modifiedAt,
+  authorName,
+  authorSlug,
+  categoryName,
+  categorySlug,
+  wordCount,
+} = Astro.props;
+
+const url = `${SITE.url}/${categorySlug}/${slug}`;
+const image = coverImage ?? `${SITE.url}${SITE.defaultOgImage}`;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  '@id': `${url}#article`,
+  headline: title,
+  description,
+  image: [image],
+  datePublished: publishedAt,
+  dateModified: modifiedAt,
+  author: {
+    '@type': 'Person',
+    '@id': `${SITE.url}/about/author/${authorSlug}#person`,
+    name: authorName,
+    url: `${SITE.url}/about/author/${authorSlug}`,
+  },
+  publisher: { '@id': `${SITE.url}/#organization` },
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': url,
+  },
+  articleSection: categoryName,
+  inLanguage: SITE.locale,
+  ...(wordCount ? { wordCount } : {}),
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

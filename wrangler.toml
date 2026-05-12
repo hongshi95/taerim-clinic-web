@@ -1,0 +1,18 @@
+name = "taerim-clinic-web"
+compatibility_date = "2026-04-17"
+compatibility_flags = ["nodejs_compat"]
+pages_build_output_dir = "./dist"
+
+# D1 database — 사용자 도메인 구매 후 `wrangler d1 create taerimhan_db` 실행 → database_id 채우기
+[[d1_databases]]
+binding = "DB"
+database_name = "taerimhan_db"
+database_id = "REPLACE_AFTER_DOMAIN_PURCHASE"
+preview_database_id = "REPLACE_AFTER_DOMAIN_PURCHASE"
+
+[[r2_buckets]]
+binding = "MEDIA"
+bucket_name = "taerimhan-media"
+
+[vars]
+SITE_URL = "https://taerimclinic.com"

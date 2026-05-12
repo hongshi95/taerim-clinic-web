@@ -1,0 +1,29 @@
+---
+import { SITE } from '~/consts';
+
+interface Props {
+  slug: string;
+  name: string;
+  bio: string;
+  avatarUrl?: string;
+  knowsAbout?: string[];
+  sameAs?: string[];
+}
+
+const { slug, name, bio, avatarUrl, knowsAbout, sameAs } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@id': `${SITE.url}/about/author/${slug}#person`,
+  name,
+  description: bio,
+  url: `${SITE.url}/about/author/${slug}`,
+  ...(avatarUrl ? { image: avatarUrl } : {}),
+  ...(knowsAbout && knowsAbout.length > 0 ? { knowsAbout } : {}),
+  ...(sameAs && sameAs.length > 0 ? { sameAs } : {}),
+  worksFor: { '@id': `${SITE.url}/#organization` },
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(schema)} />

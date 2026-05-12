@@ -1,0 +1,213 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { SITE } from '~/consts';
+import { RULE_CATEGORIES } from '~/consts/rules';
+
+const automation = RULE_CATEGORIES.find((c) => c.id === 'automation');
+const triggers = automation?.rules ?? [];
+---
+
+<BaseLayout title="시스템 아키텍처" noIndex={true}>
+  <div class="min-h-screen bg-gray-50">
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <a href="/admin/dashboard/" class="text-lg font-bold text-deok-700">{SITE.name}</a>
+          <span class="text-xs px-2 py-0.5 rounded bg-indigo-100 text-indigo-800 font-medium">ARCHITECTURE</span>
+        </div>
+        <nav class="flex items-center gap-4 text-sm">
+          <a href="/admin/dashboard/" class="text-gray-500 hover:text-deok-700">← 대시보드</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-8 space-y-10">
+      <header>
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">⚡ 시스템 아키텍처</h1>
+        <p class="text-gray-600">덕계 + vivid-blog 전체 파이프라인 — 트리거 · 데이터 흐름 · 컴포넌트</p>
+      </header>
+
+      <!-- 구성 요소 -->
+      <section>
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">🧩 핵심 컴포넌트</h2>
+        <div class="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+          <div class="p-4 bg-white rounded-xl border border-indigo-200">
+            <div class="text-xs text-indigo-600 font-medium mb-1">GENERATION</div>
+            <div class="font-bold text-gray-900">vivid-blog (로컬)</div>
+            <ul class="mt-2 text-xs text-gray-600 space-y-1">
+              <li>• Claude CLI (Opus 4.6 Max)</li>
+              <li>• factCheckPipeline (L1~L3)</li>
+              <li>• deokgyeValidator (14 rules)</li>
+            </ul>
+          </div>
+          <div class="p-4 bg-white rounded-xl border border-orange-200">
+            <div class="text-xs text-orange-600 font-medium mb-1">COLLECTION</div>
+            <div class="font-bold text-gray-900">vivid-blog-proxy Worker</div>
+            <ul class="mt-2 text-xs text-gray-600 space-y-1">
+              <li>• 14개 소스 Cron */10분</li>
+              <li>• Naver · Google · 커뮤니티</li>
+              <li>• D1 keyword_cache</li>
+            </ul>
+          </div>
+          <div class="p-4 bg-white rounded-xl border border-pink-200">
+            <div class="text-xs text-pink-600 font-medium mb-1">IMAGE</div>
+            <div class="font-bold text-gray-900">vivid-blog-us-image Worker</div>
+            <ul class="mt-2 text-xs text-gray-600 space-y-1">
+              <li>• US 리전 (aws:us-east-1)</li>
+              <li>• Gemini Flash Image</li>
+              <li>• Imagen 4 · FLUX 폴백</li>
+            </ul>
+          </div>
+          <div class="p-4 bg-white rounded-xl border border-green-200">
+            <div class="text-xs text-green-600 font-medium mb-1">STORAGE</div>
+            <div class="font-bold text-gray-900">Cloudflare D1 + R2</div>
+            <ul class="mt-2 text-xs text-gray-600 space-y-1">
+              <li>• D1 deokgye_db (posts)</li>
+              <li>• R2 media bucket</li>
+              <li>• KV for cache</li>
+            </ul>
+          </div>
+          <div class="p-4 bg-white rounded-xl border border-blue-200">
+            <div class="text-xs text-blue-600 font-medium mb-1">PUBLISH</div>
+            <div class="font-bold text-gray-900">deokgye-web Pages</div>
+            <ul class="mt-2 text-xs text-gray-600 space-y-1">
+              <li>• Astro SSG</li>
+              <li>• Pages Functions (API)</li>
+              <li>• IndexNow 자동 통보</li>
+            </ul>
+          </div>
+          <div class="p-4 bg-white rounded-xl border border-purple-200">
+            <div class="text-xs text-purple-600 font-medium mb-1">DEPLOY</div>
+            <div class="font-bold text-gray-900">pre-push + GitHub</div>
+            <ul class="mt-2 text-xs text-gray-600 space-y-1">
+              <li>• git push → 자동 배포</li>
+              <li>• 토큰 불필요</li>
+              <li>• GitHub private repo</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- 데이터 흐름 -->
+      <section>
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">🔄 데이터 흐름</h2>
+        <div class="p-6 bg-white rounded-xl border border-gray-200 overflow-x-auto">
+          <pre class="text-xs font-mono leading-relaxed text-gray-800 whitespace-pre">
+┌─────────────────────────────────────────────────────────────────┐
+│                      TRENDS (14 sources)                         │
+│  Naver · Google · YouTube · News · Community × 9                 │
+└────────────────────────┬────────────────────────────────────────┘
+                         │ CF Cron */10min
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                   vivid-blog-proxy Worker                        │
+│          → D1 keyword_cache (score + evergreen)                  │
+└────────────────────────┬────────────────────────────────────────┘
+                         │ autoPublisher or manual
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                    vivid-blog (LOCAL)                            │
+│  • Claude Opus CLI → 글 생성                                      │
+│  • deokgyeValidator (14 규칙 강제 · 재시도 2회)                    │
+│  • factCheckPipeline (L1 규칙 → L2 엔티티 → L3 크로스모델)          │
+│  • US Worker → 이미지 생성                                        │
+└────────────────────────┬────────────────────────────────────────┘
+                         │ POST /api/publish
+                         │ (PUBLISH_TOKEN 인증)
+                         ▼
+┌─────────────────────────────────────────────────────────────────┐
+│                 deokgye-web Pages Functions                      │
+│  • R2 이미지 업로드 + 해시 dedup                                   │
+│  • D1 posts INSERT/UPDATE (fact_check_* 포함)                    │
+│  • IndexNow → Bing/Yandex                                        │
+└────────────────────────┬────────────────────────────────────────┘
+                         │
+                  ┌──────┴──────┐
+                  ▼             ▼
+         ┌────────────┐   ┌──────────────┐
+         │ deokgye.com│   │ /admin/      │
+         │  (public)  │   │  rules       │
+         │            │   │  review      │
+         │            │   │  metrics     │
+         │            │   │  webmaster   │
+         └────────────┘   │  audit-log   │
+                          │  docs        │
+                          └──────────────┘
+          </pre>
+        </div>
+      </section>
+
+      <!-- 트리거 체계 -->
+      <section>
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">
+          ⚡ 자동화 트리거 {triggers.length}개
+        </h2>
+        <div class="space-y-3">
+          {triggers.map((t) => (
+            <div class={`p-4 bg-white rounded-xl border ${t.critical ? 'border-red-200' : 'border-gray-200'}`}>
+              <div class="flex items-baseline gap-2 mb-2">
+                <h3 class="font-semibold text-gray-900">{t.title}</h3>
+                {t.critical && (
+                  <span class="text-xs px-1.5 py-0.5 bg-red-100 text-red-800 rounded">핵심</span>
+                )}
+              </div>
+              {t.description && <p class="text-sm text-gray-600 mb-2">{t.description}</p>}
+              {t.details && (
+                <ul class="text-xs text-gray-600 space-y-1 mt-2">
+                  {t.details.map((d) => (
+                    <li class="flex gap-2">
+                      <span class="text-deok-400 flex-shrink-0">▸</span>
+                      <span>{d}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {t.source && (
+                <p class="text-xs text-gray-400 mt-2">📎 {t.source}</p>
+              )}
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <!-- 관련 파일 위치 -->
+      <section>
+        <h2 class="text-lg font-semibold text-gray-900 mb-4">📁 주요 파일 위치</h2>
+        <div class="grid gap-4 md:grid-cols-2">
+          <div class="p-4 bg-white rounded-xl border border-gray-200">
+            <h3 class="font-semibold text-gray-900 mb-2 text-sm">deokgye-web (이 리포)</h3>
+            <ul class="text-xs font-mono text-gray-700 space-y-1">
+              <li>functions/api/publish.ts</li>
+              <li>functions/api/review.ts</li>
+              <li>functions/api/stats.ts</li>
+              <li>functions/api/audit-log.ts</li>
+              <li>src/consts/rules.ts (122+ 규칙)</li>
+              <li>src/pages/admin/*</li>
+              <li>migrations/0003_factcheck.sql</li>
+              <li>.git/hooks/pre-push</li>
+            </ul>
+          </div>
+          <div class="p-4 bg-white rounded-xl border border-gray-200">
+            <h3 class="font-semibold text-gray-900 mb-2 text-sm">vivid-blog (별도 리포)</h3>
+            <ul class="text-xs font-mono text-gray-700 space-y-1">
+              <li>src/services/deokgyeWriter.ts</li>
+              <li>src/services/deokgyeValidator.ts</li>
+              <li>src/services/factCheckPipeline.ts</li>
+              <li>src/services/factCheckRules.ts</li>
+              <li>src/services/entityVerifier.ts</li>
+              <li>src/services/crossModelFactChecker.ts</li>
+              <li>src/services/claudeCliClient.ts</li>
+              <li>worker/src/api/autoPublisher.ts</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script is:inline>
+    fetch('/api/admin-check').then((r) => {
+      if (!r.ok) window.location.href = '/admin/';
+    });
+  </script>
+</BaseLayout>

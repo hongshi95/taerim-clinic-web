@@ -1,0 +1,34 @@
+---
+// Citations Schema — E-E-A-T 출처 명시
+// GEO: 출처 있는 글이 인용될 확률 3.2배 (2026 Gemini 연구)
+
+interface Citation {
+  claim: string;
+  source: string;
+  url?: string;
+}
+
+interface Props {
+  citations: Citation[];
+  articleUrl: string;
+  articleTitle: string;
+}
+
+const { citations, articleUrl, articleTitle } = Astro.props;
+
+// schema.org Citation 형태로 ScholarlyArticle의 citation 속성 활용
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: articleTitle,
+  url: articleUrl,
+  citation: citations.map((c) => ({
+    '@type': 'CreativeWork',
+    name: c.source,
+    ...(c.url ? { url: c.url } : {}),
+    description: c.claim,
+  })),
+};
+---
+
+{citations.length > 0 && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}

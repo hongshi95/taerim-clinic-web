@@ -1,0 +1,21 @@
+---
+// 정의 박스 — AEO Featured Snippet 발췌 대상
+// "X는 ~이다" 형태의 정의를 명확히 제시
+
+interface Props {
+  term: string;
+  definition: string;
+}
+
+const { term, definition } = Astro.props;
+---
+
+<dl class="not-prose my-6 p-5 rounded-xl bg-gray-50 border-l-4 border-deok-500">
+  <dt class="text-xs font-bold text-deok-600 uppercase tracking-wider mb-2">
+    정의
+  </dt>
+  <dd class="m-0">
+    <strong class="text-gray-900 font-bold">{term}</strong>
+    <span class="text-gray-700">은(는) {definition}</span>
+  </dd>
+</dl>

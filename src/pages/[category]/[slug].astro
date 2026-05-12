@@ -1,0 +1,62 @@
+---
+import { getCollection, getEntry, render } from 'astro:content';
+import readingTime from 'reading-time';
+import PostLayout from '~/layouts/PostLayout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('posts', (post) => !post.data.draft);
+  return posts.map((post) => {
+    const slug = post.id.replace(/\.mdx?$/, '').split('/').pop() ?? post.id;
+    return {
+      params: { category: post.data.category, slug },
+      props: { post },
+    };
+  });
+}
+
+const { post } = Astro.props;
+const { slug } = Astro.params;
+
+const category = await getEntry('categories', post.data.category);
+const author = await getEntry('authors', post.data.author);
+
+if (!category || !author) {
+  return Astro.redirect('/404');
+}
+
+const { Content } = await render(post);
+
+// 읽기 시간 계산 (본문 body 기준)
+const body = post.body ?? '';
+const stats = readingTime(body);
+const wordCount = stats.words;
+const readingMinutes = Math.max(1, Math.ceil(stats.minutes));
+---
+
+<PostLayout
+  title={post.data.title}
+  description={post.data.description}
+  slug={slug!}
+  coverImage={post.data.coverImage}
+  coverImageAlt={post.data.coverImageAlt}
+  publishedAt={post.data.publishedAt.toISOString()}
+  modifiedAt={(post.data.modifiedAt ?? post.data.publishedAt).toISOString()}
+  authorName={author.data.name}
+  authorSlug={author.id}
+  authorBio={author.data.bio}
+  authorAvatarUrl={author.data.avatarUrl}
+  authorExpertise={author.data.expertise}
+  categoryName={category.data.name}
+  categorySlug={category.id}
+  readingMinutes={readingMinutes}
+  quickAnswer={post.data.quickAnswer}
+  quickAnswerBullets={post.data.quickAnswerBullets}
+  faqs={post.data.faqs}
+  wordCount={wordCount}
+  schemaType={post.data.schemaType}
+  howtoSteps={post.data.howtoSteps}
+  howtoTotalTime={post.data.howtoTotalTime}
+  citations={post.data.citations}
+>
+  <Content />
+</PostLayout>

@@ -1,0 +1,127 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/layout/Header.astro';
+import Footer from '~/components/layout/Footer.astro';
+import Breadcrumb from '~/components/layout/Breadcrumb.astro';
+import PersonSchema from '~/components/seo/PersonSchema.astro';
+import { SITE } from '~/consts';
+
+export async function getStaticPaths() {
+  const authors = await getCollection('authors');
+  return authors.map((author) => ({
+    params: { id: author.id },
+    props: { author },
+  }));
+}
+
+const { author } = Astro.props;
+const { id } = Astro.params;
+
+const allPosts = await getCollection('posts', (post) => !post.data.draft);
+const authorPosts = allPosts
+  .filter((p) => p.data.author === id)
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+---
+
+<BaseLayout
+  title={`${author.data.name} 소개`}
+  description={author.data.bio}
+  type="website"
+  canonicalPath={`/about/author/${id}/`}
+>
+  <slot name="head" slot="head">
+    <PersonSchema
+      slug={id!}
+      name={author.data.name}
+      bio={author.data.bio}
+      avatarUrl={author.data.avatarUrl}
+      knowsAbout={author.data.knowsAbout}
+      sameAs={author.data.sameAs}
+    />
+  </slot>
+
+  <Header />
+
+  <Breadcrumb
+    items={[
+      { name: 'About', href: '/about/' },
+      { name: author.data.name, href: `/about/author/${id}/` },
+    ]}
+  />
+
+  <main class="v-container py-8">
+    <!-- 저자 헤더 -->
+    <header class="max-w-2xl mx-auto text-center py-10">
+      {author.data.avatarUrl ? (
+        <img
+          src={author.data.avatarUrl}
+          alt={`${author.data.name} 프로필`}
+          class="w-24 h-24 rounded-full object-cover mx-auto mb-4"
+          loading="eager"
+        />
+      ) : (
+        <div class="w-24 h-24 rounded-full bg-deok-100 mx-auto mb-4 flex items-center justify-center text-deok-700 font-bold text-3xl">
+          {author.data.name.charAt(0)}
+        </div>
+      )}
+
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900">
+        {author.data.name}
+      </h1>
+      <p class="mt-4 text-gray-600 leading-relaxed">
+        {author.data.bio}
+      </p>
+
+      {author.data.expertise.length > 0 && (
+        <div class="mt-6 flex flex-wrap justify-center gap-2">
+          {author.data.expertise.map((tag) => (
+            <span class="px-3 py-1 text-sm rounded-full bg-deok-50 text-deok-700 border border-deok-100">
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+    </header>
+
+    <!-- 저자 글 목록 -->
+    <section class="mt-16">
+      <h2 class="text-2xl font-bold text-gray-900 mb-6">
+        {author.data.name}의 글 ({authorPosts.length})
+      </h2>
+
+      {authorPosts.length > 0 ? (
+        <ul class="grid gap-4 md:grid-cols-2">
+          {authorPosts.map(async (post) => {
+            const category = await getEntry('categories', post.data.category);
+            const slug = post.id.replace(/\.mdx?$/, '').split('/').pop();
+            return (
+              <li>
+                <a
+                  href={`/${post.data.category}/${slug}/`}
+                  class="group block p-5 rounded-xl border border-gray-200 hover:border-deok-300 hover:shadow-md transition-all"
+                >
+                  {category && (
+                    <span class="inline-block text-xs font-medium text-deok-600 mb-2">
+                      {category.data.name}
+                    </span>
+                  )}
+                  <h3 class="font-semibold text-gray-900 group-hover:text-deok-700 leading-snug">
+                    {post.data.title}
+                  </h3>
+                  <p class="mt-2 text-sm text-gray-600 line-clamp-2">
+                    {post.data.description}
+                  </p>
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      ) : (
+        <p class="text-gray-500">아직 글이 없습니다.</p>
+      )}
+    </section>
+  </main>
+
+  <Footer />
+</BaseLayout>

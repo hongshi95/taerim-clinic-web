@@ -1,0 +1,227 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { SITE } from '~/consts';
+---
+
+<BaseLayout title="운영 지표" noIndex={true}>
+  <div class="min-h-screen bg-gray-50">
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <a href="/admin/dashboard/" class="text-lg font-bold text-deok-700">{SITE.name}</a>
+          <span class="text-xs px-2 py-0.5 rounded bg-blue-100 text-blue-800 font-medium">METRICS</span>
+        </div>
+        <nav class="flex items-center gap-4 text-sm">
+          <a href="/admin/dashboard/" class="text-gray-500 hover:text-deok-700">← 대시보드</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-8">
+      <header class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">📊 운영 지표</h1>
+        <p class="text-gray-600">D1 실시간 집계 — 매 1분 캐시 (no-cache 시 강제 refresh)</p>
+      </header>
+
+      <div id="loading" class="p-8 text-center text-gray-500">통계 로딩 중...</div>
+      <div id="error" class="hidden p-6 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm"></div>
+      <div id="content" class="hidden space-y-8"></div>
+    </main>
+  </div>
+
+  <script is:inline>
+    fetch('/api/admin-check').then((r) => {
+      if (!r.ok) window.location.href = '/admin/';
+    });
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/[&<>"']/g, (c) =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
+      );
+    }
+
+    function formatDate(iso) {
+      if (!iso) return '—';
+      return new Date(iso).toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' });
+    }
+
+    function statusBadge(s) {
+      const map = {
+        'auto-approved': 'bg-green-100 text-green-800',
+        'needs-review': 'bg-amber-100 text-amber-800',
+        'blocked': 'bg-red-100 text-red-800',
+        'reviewed': 'bg-blue-100 text-blue-800',
+        'pending': 'bg-gray-100 text-gray-700',
+      };
+      return `<span class="px-2 py-0.5 rounded text-xs ${map[s] || 'bg-gray-100'}">${escapeHtml(s || '-')}</span>`;
+    }
+
+    async function load() {
+      try {
+        const res = await fetch('/api/stats');
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.error || 'load failed');
+        render(data);
+      } catch (e) {
+        document.getElementById('loading').classList.add('hidden');
+        const err = document.getElementById('error');
+        err.classList.remove('hidden');
+        err.textContent = String(e);
+      }
+    }
+
+    function render(d) {
+      document.getElementById('loading').classList.add('hidden');
+      const c = document.getElementById('content');
+      c.classList.remove('hidden');
+
+      const totalByStatus = Object.fromEntries(
+        (d.byStatus || []).map((r) => [r.status, r.n])
+      );
+      const fcMap = Object.fromEntries(
+        (d.byFactCheck || []).map((r) => [r.fact_check_status, r.n])
+      );
+      const confMap = Object.fromEntries(
+        (d.byConfidence || []).map((r) => [r.fact_check_confidence, r.n])
+      );
+
+      c.innerHTML = `
+        <!-- 상단 카드 -->
+        <section class="grid gap-4 md:grid-cols-4">
+          <div class="p-5 bg-white rounded-xl border border-gray-200">
+            <p class="text-xs uppercase tracking-wider text-gray-500">전체 글</p>
+            <p class="text-3xl font-bold text-gray-900 mt-1">${d.total}</p>
+          </div>
+          <div class="p-5 bg-white rounded-xl border border-gray-200">
+            <p class="text-xs uppercase tracking-wider text-gray-500">Published</p>
+            <p class="text-3xl font-bold text-green-700 mt-1">${totalByStatus.published ?? 0}</p>
+          </div>
+          <div class="p-5 bg-white rounded-xl border border-gray-200">
+            <p class="text-xs uppercase tracking-wider text-gray-500">Draft</p>
+            <p class="text-3xl font-bold text-gray-600 mt-1">${totalByStatus.draft ?? 0}</p>
+          </div>
+          <div class="p-5 bg-white rounded-xl border border-gray-200">
+            <p class="text-xs uppercase tracking-wider text-gray-500">갱신 대기 (90d+)</p>
+            <p class="text-3xl font-bold ${d.staleCandidates.length > 0 ? 'text-amber-700' : 'text-gray-400'} mt-1">${d.staleCandidates.length}</p>
+          </div>
+        </section>
+
+        <!-- 카테고리 -->
+        <section class="p-5 bg-white rounded-xl border border-gray-200">
+          <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">카테고리별 분포</h2>
+          <div class="space-y-3">
+            ${(d.byCategory || []).map((c) => {
+              const max = Math.max(...d.byCategory.map((x) => x.n), 1);
+              const pct = Math.round((c.n / max) * 100);
+              return `
+                <div>
+                  <div class="flex justify-between text-sm mb-1">
+                    <span class="font-medium text-gray-900">${escapeHtml(c.name || c.slug)}</span>
+                    <span class="text-gray-500">${c.n}개</span>
+                  </div>
+                  <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div class="h-full bg-deok-500 rounded-full" style="width:${pct}%"></div>
+                  </div>
+                </div>
+              `;
+            }).join('')}
+          </div>
+        </section>
+
+        <!-- 팩트체크 분포 -->
+        <section class="grid gap-4 md:grid-cols-2">
+          <div class="p-5 bg-white rounded-xl border border-gray-200">
+            <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">팩트체크 상태</h2>
+            <div class="space-y-2">
+              ${['auto-approved', 'needs-review', 'blocked', 'reviewed', 'pending'].map((s) => `
+                <div class="flex justify-between items-center text-sm">
+                  ${statusBadge(s)}
+                  <span class="text-gray-900 font-medium">${fcMap[s] ?? 0}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+          <div class="p-5 bg-white rounded-xl border border-gray-200">
+            <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">신뢰도</h2>
+            <div class="space-y-2">
+              ${['high', 'medium', 'low'].map((s) => {
+                const colors = { high: 'text-green-700', medium: 'text-amber-700', low: 'text-red-700' };
+                return `
+                  <div class="flex justify-between items-center text-sm">
+                    <span class="${colors[s]} font-medium">${s.toUpperCase()}</span>
+                    <span class="text-gray-900 font-medium">${confMap[s] ?? 0}</span>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+        </section>
+
+        <!-- 주간 발행 추이 -->
+        ${d.weeklyTrend && d.weeklyTrend.length > 0 ? `
+          <section class="p-5 bg-white rounded-xl border border-gray-200">
+            <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">최근 30일 발행 추이</h2>
+            <div class="flex items-end gap-1 h-32">
+              ${d.weeklyTrend.slice(0, 30).reverse().map((w) => {
+                const max = Math.max(...d.weeklyTrend.map((x) => x.n), 1);
+                const h = Math.round((w.n / max) * 100);
+                return `
+                  <div class="flex-1 flex flex-col items-center gap-1" title="${w.day}: ${w.n}개">
+                    <div class="w-full bg-deok-500 rounded-t" style="height:${h}%; min-height:2px"></div>
+                    <span class="text-[9px] text-gray-400 rotate-45 origin-left h-4">${w.day.slice(5)}</span>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </section>
+        ` : ''}
+
+        <!-- 갱신 대기 (stale) -->
+        ${d.staleCandidates.length > 0 ? `
+          <section class="p-5 bg-amber-50 rounded-xl border border-amber-200">
+            <h2 class="text-sm font-semibold text-amber-900 uppercase tracking-wider mb-4">
+              ⏰ 갱신 대기 (3개월+ 경과) — AI 인용률 저하 리스크
+            </h2>
+            <ul class="divide-y divide-amber-100">
+              ${d.staleCandidates.map((s) => `
+                <li class="py-2 flex justify-between items-center">
+                  <div>
+                    <a href="/${escapeHtml(s.category_slug)}/${escapeHtml(s.slug)}/" target="_blank" class="text-sm font-medium text-amber-900 hover:underline">
+                      ${escapeHtml(s.title)}
+                    </a>
+                    <div class="text-xs text-amber-700 mt-0.5">${formatDate(s.date_modified)} · ${escapeHtml(s.category_slug)}</div>
+                  </div>
+                </li>
+              `).join('')}
+            </ul>
+          </section>
+        ` : ''}
+
+        <!-- 최근 활동 -->
+        <section class="p-5 bg-white rounded-xl border border-gray-200">
+          <h2 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">최근 수정</h2>
+          <ul class="divide-y divide-gray-100">
+            ${(d.recent || []).map((r) => `
+              <li class="py-3 flex justify-between items-center gap-3">
+                <div class="flex-1 min-w-0">
+                  <p class="text-sm font-medium text-gray-900 truncate">${escapeHtml(r.title)}</p>
+                  <p class="text-xs text-gray-500 mt-0.5">${escapeHtml(r.category_slug)} · ${formatDate(r.date_modified)}</p>
+                </div>
+                <div class="flex gap-1 items-center">
+                  ${statusBadge(r.status)}
+                  ${r.fact_check_status ? statusBadge(r.fact_check_status) : ''}
+                </div>
+              </li>
+            `).join('')}
+          </ul>
+        </section>
+
+        <p class="text-xs text-gray-400 text-center">
+          생성: ${new Date(d.generatedAt).toLocaleString('ko-KR')} · 캐시 1분 · 강제 새로고침 ⌘+Shift+R
+        </p>
+      `;
+    }
+
+    load();
+  </script>
+</BaseLayout>

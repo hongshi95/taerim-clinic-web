@@ -1,0 +1,116 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/layout/Header.astro';
+import Footer from '~/components/layout/Footer.astro';
+import PhilosophyManifesto from '~/components/home/PhilosophyManifesto.astro';
+import { SITE, CLINIC, TREATMENTS } from '~/consts';
+
+const title = '원장 소개 — 서조혁 원장';
+const description = `${CLINIC.legalName} 서조혁 원장의 진료 철학과 진료 영역. 환자 경청, 통증 본질 추적, 과잉진료 X.`;
+---
+
+<BaseLayout title={title} description={description} type="website" canonicalPath="/about/">
+  <Header />
+
+  {/* Hero — 원장 사진 + 이름 + 간단 인용 */}
+  <section class="bg-stone-50 border-b border-stone-200">
+    <div class="v-container py-12 md:py-20 grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-16 items-center">
+      <figure class="relative max-w-md mx-auto lg:mx-0">
+        <div class="aspect-[4/5] overflow-hidden rounded-sm shadow-2xl shadow-stone-900/25 ring-1 ring-stone-900/5">
+          <img
+            src="/images/clinic/director-seo.png"
+            alt="태림한의원 서조혁 원장"
+            class="w-full h-full object-cover object-center"
+            loading="eager"
+            decoding="async"
+            width="540"
+            height="675"
+          />
+        </div>
+      </figure>
+
+      <div>
+        <div class="text-[13px] md:text-sm font-bold tracking-[0.2em] uppercase text-green-900 mb-5">
+          태림한의원 원장
+        </div>
+        <h1 class="text-[2.4rem] md:text-5xl lg:text-[3.4rem] font-bold text-stone-900 tracking-tight leading-[1.2]">
+          서조혁 <span class="text-stone-500 font-medium text-2xl md:text-3xl lg:text-4xl align-baseline">한의사</span>
+        </h1>
+        <p class="mt-6 text-lg md:text-xl text-stone-700 leading-[1.85] border-l-2 border-green-800/60 pl-5 italic">
+          "환자의 통증을 단순히 해결하는 것이 아니라, 환자분이 진정으로 원하는 것이 무엇인지를 듣는 것에서 진료가 시작됩니다."
+        </p>
+        <dl class="mt-8 grid grid-cols-[max-content_1fr] gap-x-6 md:gap-x-8 gap-y-4 text-[17px] md:text-lg border-t border-stone-200 pt-7">
+          <dt class="text-stone-500 font-medium">소속</dt>
+          <dd class="text-stone-900 font-medium">{CLINIC.legalName}</dd>
+          <dt class="text-stone-500 font-medium">병원명</dt>
+          <dd class="text-stone-900 font-medium leading-[1.6]">
+            <span class="font-serif italic text-green-900 text-xl md:text-2xl mr-1">太林</span>
+            <span class="text-stone-600">큰 숲</span> · 환자분의 고충을 품어 풀어드린다는 포용·힐링의 뜻
+          </dd>
+          <dt class="text-stone-500 font-medium">위치</dt>
+          <dd class="text-stone-900 font-medium">{CLINIC.address.addressLocality}</dd>
+          <dt class="text-stone-500 font-medium">주요 진료</dt>
+          <dd class="text-stone-900 font-medium leading-[1.6]">통증·다이어트·교통사고·소아성장·피부미용·체질개선</dd>
+          <dt class="text-stone-500 font-medium">시그니처</dt>
+          <dd class="text-stone-900 font-medium leading-[1.6]">골타요법·추나·매선·약침·한약</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  {/* 진료 철학 매니페스토 — 좌우 교차 + scroll reveal (emptyfill 패턴) */}
+  <PhilosophyManifesto />
+
+  {/* 진료 영역 + 콘텐츠 정책 — 압축된 정보 영역 */}
+  <section class="bg-stone-50 border-t border-stone-100 py-16 md:py-24">
+    <div class="v-container max-w-4xl">
+      {/* 진료 영역 */}
+      <div class="mb-16 md:mb-20">
+        <div class="text-[13px] md:text-sm font-bold tracking-[0.25em] uppercase text-green-900 mb-5">
+          진료 영역
+        </div>
+        <h2 class="text-3xl md:text-4xl font-bold text-stone-900 tracking-tight leading-[1.2]">
+          6가지 진료 영역, <span class="font-serif italic text-green-900">한방 통합</span>으로
+        </h2>
+
+        <ul class="mt-10 md:mt-12 grid sm:grid-cols-2 gap-x-10 gap-y-6">
+          {TREATMENTS.map((t) => (
+            <li class="border-b border-stone-200 pb-5">
+              <div class="flex items-baseline gap-3 mb-2">
+                <span class="text-2xl">{t.icon}</span>
+                <h3 class="text-xl md:text-2xl font-bold text-stone-900 tracking-tight">{t.name}</h3>
+              </div>
+              <p class="text-[16px] md:text-[17px] text-stone-700 leading-[1.7]">{t.shortDesc}</p>
+            </li>
+          ))}
+        </ul>
+
+        <div class="mt-10 text-center md:text-left">
+          <a href="/visit/" style="color:#ffffff;background-color:#15803d;" class="inline-flex items-center gap-2 px-7 py-4 text-[17px] md:text-lg font-bold hover:bg-green-900 shadow-lg shadow-green-950/15 transition-all">
+            오시는길·진료시간 보기 →
+          </a>
+        </div>
+      </div>
+
+      {/* 콘텐츠 정책 — 작게, 의료법 신뢰 */}
+      <details class="mt-16 border-t border-stone-200 pt-10 group">
+        <summary class="cursor-pointer text-[15px] md:text-base font-bold text-stone-700 hover:text-green-900 list-none flex items-center gap-2">
+          <span aria-hidden="true" class="text-green-800 transition-transform group-open:rotate-90">▸</span>
+          이 사이트의 콘텐츠 정책 — 의료법 광고 가이드라인
+        </summary>
+        <div class="mt-5 text-[15px] md:text-base text-stone-600 leading-[1.85] space-y-3 pl-6">
+          <p>태림한의원 사이트의 모든 진료 가이드 글은 다음을 따릅니다.</p>
+          <ul class="space-y-2 list-disc pl-5">
+            <li>대한한의사협회·한국한의학연구원·식약처 등 공신력 있는 출처를 우선 인용합니다.</li>
+            <li>"완치", "100%", "부작용 없음" 같은 단정적 표현을 사용하지 않습니다. 치료 효과는 개인차가 있습니다.</li>
+            <li>환자 사례는 환자분의 동의를 받은 경우에 한해 일반화 없이 인용합니다. 개별 경과는 다를 수 있습니다.</li>
+            <li>사이트의 정보는 일반적인 안내이며, 진단·처방은 반드시 진료를 통해 이뤄집니다.</li>
+            <li>의료법 광고 사전심의 대상임을 인지하고, 비교 우위·치료 보장·과장 표현을 회피합니다.</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>

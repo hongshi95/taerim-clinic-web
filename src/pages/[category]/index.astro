@@ -1,0 +1,113 @@
+---
+import { getCollection, getEntry } from 'astro:content';
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/layout/Header.astro';
+import Footer from '~/components/layout/Footer.astro';
+import Breadcrumb from '~/components/layout/Breadcrumb.astro';
+import { SITE } from '~/consts';
+
+export async function getStaticPaths() {
+  const categories = await getCollection('categories');
+  return categories.map((cat) => ({
+    params: { category: cat.id },
+    props: { category: cat },
+  }));
+}
+
+const { category } = Astro.props;
+const { category: categorySlug } = Astro.params;
+
+const allPosts = await getCollection('posts', (post) => !post.data.draft);
+const posts = allPosts
+  .filter((p) => p.data.category === categorySlug)
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime());
+
+const authorMap = new Map();
+for (const post of posts) {
+  if (!authorMap.has(post.data.author)) {
+    const author = await getEntry('authors', post.data.author);
+    if (author) authorMap.set(post.data.author, author);
+  }
+}
+---
+
+<BaseLayout
+  title={category.data.name}
+  description={category.data.description}
+  type="website"
+  canonicalPath={`/${categorySlug}/`}
+>
+  <Header />
+
+  <Breadcrumb items={[{ name: category.data.name, href: `/${categorySlug}/` }]} />
+
+  <main class="v-container py-8">
+    <!-- 카테고리 헤더 -->
+    <header class="py-8 md:py-12 mb-8 border-b border-gray-100">
+      <div class="text-4xl mb-3">{category.data.emoji ?? ''}</div>
+      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight">
+        {category.data.name}
+      </h1>
+      <p class="mt-4 text-lg text-gray-600 max-w-2xl leading-relaxed">
+        {category.data.description}
+      </p>
+      <p class="mt-4 text-sm text-gray-500">
+        총 {posts.length}개 글
+      </p>
+    </header>
+
+    <!-- 글 목록 -->
+    {posts.length > 0 ? (
+      <ul class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {posts.map((post) => {
+          const author = authorMap.get(post.data.author);
+          return (
+            <li>
+              <a
+                href={`/${categorySlug}/${post.id.replace(/\.mdx?$/, '').split('/').pop()}/`}
+                class="group block h-full rounded-2xl border border-gray-200 bg-white overflow-hidden transition-all hover:border-deok-300 hover:shadow-lg"
+              >
+                {post.data.coverImage && (
+                  <div class="aspect-video bg-gray-100 overflow-hidden">
+                    <img
+                      src={post.data.coverImage}
+                      alt={post.data.title}
+                      class="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </div>
+                )}
+                <div class="p-5">
+                  <h2 class="font-bold text-gray-900 leading-snug group-hover:text-deok-700 transition-colors line-clamp-2">
+                    {post.data.title}
+                  </h2>
+                  <p class="mt-2 text-sm text-gray-600 line-clamp-3 leading-relaxed">
+                    {post.data.description}
+                  </p>
+                  <div class="mt-4 flex items-center gap-2 text-xs text-gray-500">
+                    {author && <span>{author.data.name}</span>}
+                    <span aria-hidden="true">·</span>
+                    <time datetime={post.data.publishedAt.toISOString()}>
+                      {post.data.publishedAt.toLocaleDateString('ko-KR', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                      })}
+                    </time>
+                  </div>
+                </div>
+              </a>
+            </li>
+          );
+        })}
+      </ul>
+    ) : (
+      <div class="py-20 text-center text-gray-500">
+        <p>아직 발행된 글이 없습니다.</p>
+      </div>
+    )}
+  </main>
+
+  <Footer />
+</BaseLayout>

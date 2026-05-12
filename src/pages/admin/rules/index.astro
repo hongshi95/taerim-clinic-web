@@ -1,0 +1,164 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { SITE } from '~/consts';
+import { RULE_CATEGORIES, countRules, criticalRules } from '~/consts/rules';
+
+const totalRules = countRules();
+const critical = criticalRules();
+---
+
+<BaseLayout title="운영 규칙" noIndex={true}>
+  <div class="min-h-screen bg-gray-50">
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <div class="max-w-6xl mx-auto px-6 h-14 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <a href="/admin/dashboard/" class="text-lg font-bold text-deok-700">{SITE.name}</a>
+          <span class="text-xs px-2 py-0.5 rounded bg-purple-100 text-purple-800 font-medium">RULES</span>
+        </div>
+        <nav class="flex items-center gap-4 text-sm">
+          <a href="/admin/dashboard/" class="text-gray-500 hover:text-deok-700">← 대시보드</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-8">
+      <header class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">📋 운영 규칙</h1>
+        <p class="text-gray-600">
+          SEO / AEO / GEO / LLMO / AIO / 네이버 / AdSense / 포맷 / 검증 규칙을 한 곳에 모았습니다.
+          총 <strong>{totalRules}개 규칙</strong> · <strong>{critical.length}개 필수</strong> (critical).
+        </p>
+        <p class="text-xs text-gray-500 mt-1">
+          수정: <code class="px-1.5 py-0.5 rounded bg-gray-100">src/consts/rules.ts</code> 편집 후 git push → 자동 배포
+        </p>
+      </header>
+
+      <!-- 목차 -->
+      <nav class="mb-8 p-4 bg-white rounded-xl border border-gray-200">
+        <h2 class="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">카테고리</h2>
+        <ul class="flex flex-wrap gap-2">
+          {RULE_CATEGORIES.map((c) => (
+            <li>
+              <a
+                href={`#${c.id}`}
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-100 hover:bg-deok-100 rounded-lg text-sm text-gray-700 hover:text-deok-700 transition-colors"
+              >
+                <span>{c.icon}</span>
+                <span>{c.label}</span>
+                <span class="text-xs text-gray-500">({c.rules.length})</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      <!-- 각 카테고리 섹션 -->
+      <div class="space-y-8">
+        {RULE_CATEGORIES.map((c) => (
+          <section id={c.id} class="scroll-mt-20 bg-white rounded-xl border border-gray-200 overflow-hidden">
+            <div class="p-5 bg-gradient-to-r from-gray-50 to-transparent border-b border-gray-100">
+              <div class="flex items-baseline gap-3">
+                <span class="text-2xl">{c.icon}</span>
+                <h2 class="text-xl font-bold text-gray-900">{c.label}</h2>
+                <span class="text-xs text-gray-500">{c.rules.length}개 규칙</span>
+              </div>
+              <p class="text-sm text-gray-700 mt-2 ml-11 font-medium">{c.summary}</p>
+              {c.background && (
+                <p class="text-xs text-gray-500 mt-2 ml-11 leading-relaxed">{c.background}</p>
+              )}
+            </div>
+            <ul class="divide-y divide-gray-100">
+              {c.rules.map((rule) => (
+                <li class="p-5 hover:bg-gray-50/50 transition-colors">
+                  <div class="flex items-start gap-3">
+                    <div class="flex-shrink-0 mt-1">
+                      {rule.critical ? (
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-red-100 text-red-800">
+                          필수
+                        </span>
+                      ) : (
+                        <span class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-blue-50 text-blue-700">
+                          권장
+                        </span>
+                      )}
+                    </div>
+                    <div class="flex-1 min-w-0">
+                      <p class="font-semibold text-gray-900">{rule.title}</p>
+                      {rule.description && (
+                        <p class="text-sm text-gray-600 mt-1">{rule.description}</p>
+                      )}
+
+                      {rule.details && rule.details.length > 0 && (
+                        <ul class="mt-3 space-y-1.5 text-sm text-gray-700">
+                          {rule.details.map((d) => (
+                            <li class="flex gap-2">
+                              <span class="text-deok-400 flex-shrink-0">•</span>
+                              <span>{d}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      )}
+
+                      {rule.examples && rule.examples.length > 0 && (
+                        <div class="mt-3 space-y-2">
+                          {rule.examples.map((ex) => (
+                            <div class="grid gap-2 md:grid-cols-2">
+                              {ex.bad && (
+                                <div class="p-2.5 bg-red-50 border border-red-100 rounded text-xs">
+                                  <div class="text-red-700 font-semibold mb-1">❌ 나쁨</div>
+                                  <code class="block text-red-900 whitespace-pre-wrap break-words">{ex.bad}</code>
+                                </div>
+                              )}
+                              {ex.good && (
+                                <div class="p-2.5 bg-green-50 border border-green-100 rounded text-xs">
+                                  <div class="text-green-700 font-semibold mb-1">✅ 좋음</div>
+                                  <code class="block text-green-900 whitespace-pre-wrap break-words">{ex.good}</code>
+                                </div>
+                              )}
+                              {ex.note && (
+                                <div class="md:col-span-2 text-xs text-gray-500 italic">💭 {ex.note}</div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {rule.source && (
+                        <p class="text-xs text-gray-400 mt-2.5 flex items-center gap-1">
+                          <span>📎</span>
+                          <span>{rule.source}</span>
+                        </p>
+                      )}
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+
+      <!-- 푸터 안내 -->
+      <section class="mt-10 p-6 bg-deok-50 rounded-xl border border-deok-100">
+        <h3 class="font-bold text-deok-900 mb-3">💡 규칙 관리 방법</h3>
+        <ol class="text-sm text-gray-700 space-y-2 list-decimal pl-5">
+          <li><code class="px-1.5 py-0.5 rounded bg-white">src/consts/rules.ts</code> 파일 직접 편집</li>
+          <li>git commit + git push</li>
+          <li>pre-push 훅이 자동으로 build + Cloudflare 배포</li>
+          <li>이 페이지 새로고침 → 반영 확인</li>
+        </ol>
+        <p class="text-xs text-gray-500 mt-4">
+          💬 이 규칙들은 <code class="px-1 rounded bg-white">deokgyeValidator.ts</code> (코드 enforce)와
+          <code class="px-1 rounded bg-white">factCheckRules.ts</code> (L1 팩트체크)에 일부 구현되어 있습니다.
+          규칙과 코드가 동기화되지 않으면 발행 실패할 수 있습니다.
+        </p>
+      </section>
+    </main>
+  </div>
+
+  <script is:inline>
+    fetch('/api/admin-check').then((r) => {
+      if (!r.ok) window.location.href = '/admin/';
+    });
+  </script>
+</BaseLayout>

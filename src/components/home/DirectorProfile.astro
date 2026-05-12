@@ -1,0 +1,85 @@
+---
+// 의료진 소개 — 벤치마크 스타일 (진한 녹색 배경 + 사진 + 학력 bullet + 인용문)
+// 학력/경력은 placeholder. 원장님께 확정 받은 항목만 표시되도록.
+
+const credentials = [
+  { text: '한의사 면허 — 한의대·면허 번호 추가 예정', placeholder: true },
+  { text: '대한한의사협회 회원', placeholder: true },
+  { text: '대한추나의학회 정회원', placeholder: true },
+  { text: '대한약침학회 정회원', placeholder: true },
+  { text: '척추신경추나의학회 아카데미 수료', placeholder: true },
+  { text: '매주 일요일 서울 — 새 치료법 연구·연수', placeholder: false },
+  { text: '現 태림한의원 원장 (2023~)', placeholder: false },
+  { text: '대구 달서구 대천동 한의원 개원', placeholder: false },
+];
+---
+
+<section class="bg-green-900 text-white py-16 sm:py-20 md:py-28 relative overflow-hidden">
+  {/* 옅은 텍스처 — 우상단 글로우 */}
+  <div aria-hidden="true" class="absolute inset-0 opacity-30 pointer-events-none">
+    <div class="absolute -right-40 -top-40 w-[600px] h-[600px] rounded-full bg-green-700/40 blur-3xl"></div>
+    <div class="absolute -left-32 bottom-0 w-[400px] h-[400px] rounded-full bg-green-800/40 blur-3xl"></div>
+  </div>
+
+  <div class="v-container relative">
+    {/* 헤더 */}
+    <header class="text-center mb-12 md:mb-16">
+      <div style="color:#86efac;" class="text-[11px] sm:text-xs font-bold tracking-[0.3em] uppercase mb-3">
+        ABOUT
+      </div>
+      <h2 style="color:#ffffff;" class="text-[1.9rem] sm:text-3xl md:text-5xl font-bold tracking-tight">
+        의료진 소개
+      </h2>
+    </header>
+
+    {/* 본문 — 사진 좌 + 텍스트 우 */}
+    <div class="grid lg:grid-cols-[1fr_1.15fr] gap-10 lg:gap-16 items-center max-w-5xl mx-auto">
+      {/* 좌측: 원장 사진 */}
+      <figure class="max-w-sm mx-auto lg:max-w-none w-full">
+        <div class="aspect-[4/5] overflow-hidden rounded-sm shadow-2xl shadow-green-950/50 ring-1 ring-white/10">
+          <img
+            src="/images/clinic/director-seo.png"
+            alt="태림한의원 서조혁 원장"
+            class="w-full h-full object-cover object-center"
+            loading="lazy"
+            decoding="async"
+            width="500"
+            height="625"
+          />
+        </div>
+      </figure>
+
+      {/* 우측: 학력/경력 + 인용문 */}
+      <div>
+        <h3 style="color:#ffffff;" class="text-3xl sm:text-4xl md:text-[2.6rem] font-bold tracking-tight leading-[1.2]">
+          서조혁 <span style="color:#86efac;" class="text-2xl sm:text-3xl md:text-4xl font-medium align-baseline">원장</span>
+        </h3>
+
+        <ul class="mt-8 md:mt-10 space-y-4 text-[17px] md:text-lg leading-[1.7]">
+          {credentials.map((c) => (
+            <li class="flex items-start gap-3">
+              <span aria-hidden="true" style={c.placeholder ? 'color:#65a30d;' : 'color:#86efac;'} class="select-none mt-1.5 text-lg">●</span>
+              <span style={c.placeholder ? 'color:rgba(255,255,255,0.6);' : 'color:rgba(255,255,255,0.95);'}>
+                {c.text}
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        <blockquote style="color:#bbf7d0;border-color:rgba(134,239,172,0.5);" class="mt-10 md:mt-12 text-lg md:text-xl italic leading-[1.85] border-l-2 pl-5">
+          "환자의 통증을 단순히 해결하는 것이 아니라, 환자분이 진정으로 원하는 것이 무엇인지를 듣는 것에서 진료가 시작됩니다."
+          <footer style="color:rgba(255,255,255,0.7);" class="mt-3 text-sm not-italic tracking-wider">
+            — 서조혁 원장
+          </footer>
+        </blockquote>
+
+        <div class="mt-10 md:mt-12">
+          <a href="/about/" style="color:#ffffff;" class="inline-flex items-center gap-2 border border-white/30 hover:bg-white/10 font-semibold px-7 py-3.5 text-[16px] md:text-[17px] transition-all">
+            <span style="color:#ffffff;">진료 철학 자세히 보기</span>
+            <span aria-hidden="true" style="color:#ffffff;">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

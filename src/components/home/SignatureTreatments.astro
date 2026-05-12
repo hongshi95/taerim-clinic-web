@@ -1,0 +1,92 @@
+---
+// 시그니처 진료 5종 갤러리 — 실제 진료 사진 grid
+const items = [
+  {
+    image: '/images/clinic/golta-treatment.jpg',
+    alt: '태림한의원 골타요법 진료 모습',
+    name: '골타요법',
+    nameEn: 'Golta',
+    body: '뼈와 근육에 일정한 자극을 가해 척추 정렬과 관절 가동범위를 회복합니다. 허리·목·어깨·골반 통증에 적용합니다.',
+  },
+  {
+    image: '/images/clinic/chuna-treatment.png',
+    alt: '서조혁 원장의 추나 치료',
+    name: '추나요법',
+    nameEn: 'Chuna',
+    body: '척추와 관절을 손기법으로 교정합니다. 2019년부터 건강보험 적용이 시작된 한방 표준 치료입니다.',
+  },
+  {
+    image: '/images/clinic/pharmacopuncture.png',
+    alt: '봉독 약침 등 약침 시술',
+    name: '약침',
+    nameEn: 'Pharmacopuncture',
+    body: '한약 성분을 정제해 경혈에 주입합니다. 봉독·PDRN·황련 등 환자의 체질과 증상에 맞춰 사용합니다.',
+  },
+  {
+    image: '/images/clinic/herbal-preparation.png',
+    alt: '태림한의원 한약 제조 모습',
+    name: '한약·보약',
+    nameEn: 'Herbal Medicine',
+    body: '체질·증상·생활을 함께 보고 처방합니다. 다이어트·산전산후·소아성장·갱년기·녹용·공진단까지.',
+  },
+  {
+    image: '/images/clinic/consultation.png',
+    alt: '환자 맞춤 상담 장면',
+    name: '맞춤 상담',
+    nameEn: 'Consultation',
+    body: '진료 시간의 상당 부분이 환자 대화에 들어갑니다. 체질·증상·일상 습관을 듣고 치료 방향을 정합니다.',
+  },
+];
+---
+
+<section class="bg-stone-50 py-12 sm:py-16 md:py-24 border-y border-stone-200/60">
+  <div class="v-container">
+    <header class="mb-10 md:mb-14 flex items-end justify-between gap-6 flex-wrap">
+      <div class="max-w-2xl">
+        <div class="text-[11px] font-bold tracking-[0.25em] uppercase text-green-900 mb-4">
+          시그니처 진료
+        </div>
+        <h2 class="text-[1.7rem] sm:text-3xl md:text-4xl font-bold text-stone-900 tracking-tight leading-[1.2]">
+          한방 통합 치료, <span class="font-serif italic text-green-900">5가지 도구</span>
+        </h2>
+        <p class="mt-4 text-base text-stone-600 leading-relaxed">
+          진단에 따라 단일 치료가 아니라 골타·추나·약침·한약·상담을 조합합니다.
+        </p>
+      </div>
+    </header>
+
+    {/* 5종 grid — 첫 항목 hero card (2x), 나머지 4종 */}
+    <div class="grid gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-3">
+      {items.map((item, idx) => (
+        <article class={`group relative overflow-hidden rounded-sm bg-white ring-1 ring-stone-200 shadow-md shadow-stone-900/10 ${idx === 0 ? 'md:col-span-2 md:row-span-1 lg:col-span-1' : ''}`}>
+          <div class="aspect-[4/3] overflow-hidden bg-stone-100">
+            <img
+              src={item.image}
+              alt={item.alt}
+              class="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-500"
+              loading="lazy"
+              decoding="async"
+              width="600"
+              height="450"
+            />
+          </div>
+          <div class="p-5 md:p-6">
+            <div class="text-[10px] font-bold tracking-[0.25em] uppercase text-green-900 mb-2">
+              {item.nameEn}
+            </div>
+            <h3 class="text-lg md:text-xl font-bold text-stone-900 tracking-tight">
+              {item.name}
+            </h3>
+            <p class="mt-2.5 text-[16px] text-stone-700 leading-[1.75]">
+              {item.body}
+            </p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <p class="mt-8 text-xs text-stone-500 leading-relaxed max-w-2xl">
+      ※ 치료 효과는 환자마다 다를 수 있습니다. 진단과 처방은 반드시 진료를 통해 이뤄지며, 사이트의 정보는 일반 안내입니다.
+    </p>
+  </div>
+</section>

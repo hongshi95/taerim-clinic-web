@@ -1,0 +1,33 @@
+---
+interface HowToStep {
+  name: string;
+  text: string;
+  image?: string;
+}
+
+interface Props {
+  name: string;
+  description: string;
+  totalTime?: string; // ISO 8601 duration e.g. "PT30M"
+  steps: HowToStep[];
+}
+
+const { name, description, totalTime, steps } = Astro.props;
+
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name,
+  description,
+  ...(totalTime ? { totalTime } : {}),
+  step: steps.map((s, i) => ({
+    '@type': 'HowToStep',
+    position: i + 1,
+    name: s.name,
+    text: s.text,
+    ...(s.image ? { image: s.image } : {}),
+  })),
+};
+---
+
+{steps.length > 0 && <script type="application/ld+json" set:html={JSON.stringify(schema)} />}

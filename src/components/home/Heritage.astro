@@ -1,0 +1,119 @@
+---
+// 한의원 둘러보기 + 연혁 (이력) — 신뢰감 강화
+import { CLINIC } from '~/consts';
+
+// 연혁 timeline — 자료 기반 (개원 2023, 매주 일요일 서울 연구)
+const timeline = [
+  {
+    year: '2023',
+    month: '중순',
+    title: '태림한의원 개원',
+    body: `${CLINIC.address.addressLocality}에서 진료 시작. 잘 보이지 않는 위치였지만, 소개와 재방문으로 자리를 잡았습니다.`,
+  },
+  {
+    year: '2024',
+    month: '',
+    title: '8~9번째 재방문 환자',
+    body: '한 분이 8번째, 9번째 다시 찾아주시는 분들이 생겼습니다. 통증 치료 + 진료 철학에 신뢰를 보내주신 결과입니다.',
+  },
+  {
+    year: '현재',
+    month: '진행 중',
+    title: '매주 일요일 서울 연구',
+    body: '유일하게 쉬는 일요일에도 서울로 다니며 새로운 치료법을 연구합니다. 환자분이 다음 방문에는 더 나은 진료를 받을 수 있도록.',
+  },
+];
+
+const facilities = [
+  {
+    image: '/images/clinic/clinic-exterior.jpg',
+    alt: '태림한의원 외관',
+    label: '외관',
+    title: '대구 달서구 대천동',
+  },
+  {
+    image: '/images/clinic/treatment-room.png',
+    alt: '태림한의원 치료실',
+    label: '치료실',
+    title: '추나·골타·약침이 이뤄지는 공간',
+  },
+  {
+    image: '/images/clinic/herbal-preparation.png',
+    alt: '태림한의원 한약 제조 공간',
+    label: '한약 제조',
+    title: '체질별 맞춤 한약',
+  },
+];
+---
+
+<section class="bg-white py-12 sm:py-16 md:py-24 border-b border-stone-100">
+  <div class="v-container">
+    {/* 1. 한의원 둘러보기 — 사진 3장 grid */}
+    <header class="mb-10">
+      <div class="text-[11px] font-bold tracking-[0.25em] uppercase text-green-900 mb-4">
+        한의원 둘러보기
+      </div>
+      <h2 class="text-[1.7rem] sm:text-3xl md:text-4xl font-bold text-stone-900 tracking-tight leading-[1.2]">
+        진료가 이루어지는 <span class="font-serif italic text-green-900">공간</span>
+      </h2>
+    </header>
+
+    <div class="grid gap-4 md:gap-6 md:grid-cols-3 mb-16 md:mb-24">
+      {facilities.map((f) => (
+        <figure class="group">
+          <div class="aspect-[4/3] overflow-hidden rounded-sm bg-stone-100 shadow-md shadow-stone-900/10">
+            <img
+              src={f.image}
+              alt={f.alt}
+              class="w-full h-full object-cover object-center group-hover:scale-[1.02] transition-transform duration-500"
+              loading="lazy"
+              decoding="async"
+              width="600"
+              height="450"
+            />
+          </div>
+          <figcaption class="mt-4">
+            <div class="text-[10px] font-bold tracking-[0.25em] uppercase text-green-900 mb-1.5">
+              {f.label}
+            </div>
+            <div class="text-base font-bold text-stone-900 tracking-tight">
+              {f.title}
+            </div>
+          </figcaption>
+        </figure>
+      ))}
+    </div>
+
+    {/* 2. 연혁 timeline */}
+    <header class="mb-10">
+      <div class="text-[11px] font-bold tracking-[0.25em] uppercase text-green-900 mb-4">
+        연혁
+      </div>
+      <h2 class="text-[1.7rem] sm:text-3xl md:text-4xl font-bold text-stone-900 tracking-tight leading-[1.2]">
+        걸어온 길, <span class="font-serif italic text-green-900">가고 있는 길</span>
+      </h2>
+    </header>
+
+    <ol class="relative border-l-2 border-stone-200 pl-8 md:pl-10 space-y-10 max-w-3xl">
+      {timeline.map((t) => (
+        <li class="relative">
+          <span aria-hidden="true" class="absolute -left-[37px] md:-left-[45px] top-1.5 w-3.5 h-3.5 rounded-full bg-green-800 ring-4 ring-white"></span>
+          <div class="flex items-baseline gap-3 mb-2">
+            <span class="text-green-900 font-bold tabular-nums text-xl tracking-tight">
+              {t.year}
+            </span>
+            {t.month && (
+              <span class="text-xs text-stone-500 tracking-wide">{t.month}</span>
+            )}
+          </div>
+          <h3 class="text-lg md:text-xl font-bold text-stone-900 tracking-tight">
+            {t.title}
+          </h3>
+          <p class="mt-2 text-[17px] text-stone-700 leading-[1.85] max-w-2xl">
+            {t.body}
+          </p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
