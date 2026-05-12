@@ -1,15 +1,24 @@
 import type { APIRoute } from 'astro';
+import { getCollection } from 'astro:content';
 import { SITE } from '~/consts';
 
 export const GET: APIRoute = async () => {
-  // TODO: D1에서 최신 발행 글 조회 (Phase 3에서 연동)
-  // 현재는 기본 RSS 스켈레톤
-  const items: Array<{
-    title: string;
-    link: string;
-    description: string;
-    pubDate: string;
-  }> = [];
+  // posts collection에서 최신 20개 (draft 제외, publishedAt 내림차순)
+  const allPosts = (await getCollection('posts', (p) => !p.data.draft)).sort(
+    (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
+  );
+  const posts = allPosts.slice(0, 20);
+
+  const items = posts.map((post) => {
+    const slug = post.id.replace(/\.mdx?$/, '').split('/').pop();
+    const link = `${SITE.url}/${post.data.category}/${slug}/`;
+    return {
+      title: post.data.title,
+      link,
+      description: post.data.description,
+      pubDate: post.data.publishedAt,
+    };
+  });
 
   const itemsXml = items
     .map(
@@ -19,8 +28,8 @@ export const GET: APIRoute = async () => {
       <link>${item.link}</link>
       <guid>${item.link}</guid>
       <description><![CDATA[${item.description}]]></description>
-      <pubDate>${new Date(item.pubDate).toUTCString()}</pubDate>
-    </item>`
+      <pubDate>${item.pubDate.toUTCString()}</pubDate>
+    </item>`,
     )
     .join('');
 
