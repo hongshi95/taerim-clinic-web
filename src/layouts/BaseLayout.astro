@@ -96,6 +96,10 @@ const canonical = `${SITE.url}${currentPath}`;
     <!-- Organization + WebSite schema (사이트 전체 공통) -->
     <OrganizationSchema />
 
+    <!-- Vivid Analytics (자체 측정, 봇/본인 IP 자동 제외) -->
+    <meta name="vivid-analytics-site" content="taerimclinic" />
+    <script async src="https://vivid-blog-proxy.vivid-blog.workers.dev/analytics.js"></script>
+
     <slot name="head" />
   </head>
 
