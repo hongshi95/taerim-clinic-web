@@ -1,0 +1,6 @@
+{
+  "version": 1,
+  "description": "/api/* 만 Pages Functions로 처리, /images/* 등 정적 파일은 직접 서빙",
+  "include": ["/api/*"],
+  "exclude": ["/images/*", "/_astro/*", "/fonts/*"]
+}

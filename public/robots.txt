@@ -1,4 +1,5 @@
 # 태림한의원 — 모든 크롤러 + AI 엔진 허용 (GEO 전략)
+# Last updated: 2026-05-12 (cache bust)
 # AI 크롤러 차단 시 2026년 AI 검색 인용 기회 상실
 
 User-agent: *
@@ -66,3 +67,4 @@ Allow: /
 Sitemap: https://taerimclinic.com/sitemap-index.xml
 Sitemap: https://taerimclinic.com/sitemap-0.xml
 Sitemap: https://taerimclinic.com/rss.xml
+
