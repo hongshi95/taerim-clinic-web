@@ -1,6 +1,6 @@
 ---
 // 의료진 소개 — 벤치마크 스타일 (진한 녹색 배경 + 사진 + 학력 bullet + 인용문)
-// 학력/경력은 placeholder. 원장님께 확정 받은 항목만 표시되도록.
+// 학력/경력은 placeholder=true 항목은 렌더링 시 숨김. 확정 후 placeholder=false 로 토글.
 
 const credentials = [
   { text: '한의사 면허 — 한의대·면허 번호 추가 예정', placeholder: true },
@@ -12,6 +12,8 @@ const credentials = [
   { text: '現 태림한의원 원장 (2023~)', placeholder: false },
   { text: '대구 달서구 대천동 한의원 개원', placeholder: false },
 ];
+
+const visibleCredentials = credentials.filter((c) => !c.placeholder);
 ---
 
 <section class="bg-green-900 text-white py-16 sm:py-20 md:py-28 relative overflow-hidden">
@@ -56,10 +58,10 @@ const credentials = [
         </h3>
 
         <ul class="mt-8 md:mt-10 space-y-4 text-[17px] md:text-lg leading-[1.7]">
-          {credentials.map((c) => (
+          {visibleCredentials.map((c) => (
             <li class="flex items-start gap-3">
-              <span aria-hidden="true" style={c.placeholder ? 'color:#65a30d;' : 'color:#86efac;'} class="select-none mt-1.5 text-lg">●</span>
-              <span style={c.placeholder ? 'color:rgba(255,255,255,0.6);' : 'color:rgba(255,255,255,0.95);'}>
+              <span aria-hidden="true" style="color:#86efac;" class="select-none mt-1.5 text-lg">●</span>
+              <span style="color:rgba(255,255,255,0.95);">
                 {c.text}
               </span>
             </li>
