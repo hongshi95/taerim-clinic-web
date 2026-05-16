@@ -41,7 +41,7 @@ const canonical = `${SITE.url}${currentPath}`;
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="color-scheme" content="light" />
-    <meta name="theme-color" content="#7c3aed" />
+    <meta name="theme-color" content="#1e4a32" />
 
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
@@ -93,6 +93,14 @@ const canonical = `${SITE.url}${currentPath}`;
       href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable.min.css"
     />
 
+    <!-- Poppins (영문 부제/nameEn 깊이감) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap"
+    />
+
     <!-- Organization + WebSite schema (사이트 전체 공통) -->
     <OrganizationSchema />
 
@@ -105,5 +113,45 @@ const canonical = `${SITE.url}${currentPath}`;
 
   <body>
     <slot />
+
+    <!-- Scroll Reveal — [data-reveal] 요소 자동 활성 (IntersectionObserver) -->
+    <script is:inline>
+      (() => {
+        if (typeof window === 'undefined') return;
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const targets = document.querySelectorAll('[data-reveal]');
+        if (!targets.length) return;
+        if (reduced || !('IntersectionObserver' in window)) {
+          targets.forEach((el) => el.classList.add('is-visible'));
+          return;
+        }
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
+        );
+        targets.forEach((el) => io.observe(el));
+      })();
+    </script>
+
+    <!-- Header overlay — scroll 12px 이상이면 is-scrolled 토글 -->
+    <script is:inline>
+      (() => {
+        const header = document.querySelector('.v-header-overlay');
+        if (!header) return;
+        const onScroll = () => {
+          if (window.scrollY > 12) header.classList.add('is-scrolled');
+          else header.classList.remove('is-scrolled');
+        };
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+      })();
+    </script>
   </body>
 </html>

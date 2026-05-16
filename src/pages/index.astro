@@ -56,39 +56,50 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
   type="website"
   canonicalPath="/"
 >
-  <Header />
+  <Header variant="overlay" />
   <SocialSidebar />
 
   <main>
-    {/* 1. Hero — 원장 portrait + 헤드라인 + 진료시간 */}
+    {/* 1. Hero — 원장 portrait + 헤드라인 + 진료시간 (자체 stagger reveal) */}
     <RotatingHero />
 
     {/* 2. 의료진 소개 — 진한 녹색 카드 (학력·경력·인용) */}
-    <DirectorProfile />
+    <div data-reveal>
+      <DirectorProfile />
+    </div>
 
     {/* 3. 진료 철학 3대 — 한의대 어머니 일화 / 체질 맞춤 / 과잉진료 X */}
-    <ClinicPhilosophy />
+    <div data-reveal>
+      <ClinicPhilosophy />
+    </div>
 
-    {/* 4. 시그니처 진료 5종 — 갤러리 */}
+    {/* 4. 시그니처 진료 5종 — 갤러리 (자체 stagger reveal) */}
     <SignatureTreatments />
 
     {/* 5. 한의원 둘러보기 + 연혁 — 신뢰감 */}
-    <Heritage />
+    <div data-reveal>
+      <Heritage />
+    </div>
 
     {/* 5. 대표 글 (글이 발행되면 표시) */}
     {featuredHero && (
-      <div id="quick-answers" class="scroll-mt-20">
+      <div id="quick-answers" class="scroll-mt-20" data-reveal>
         <FeaturedHero post={featuredHero} />
       </div>
     )}
 
     {/* 6. 태림한의원의 강점 — 3대 약속 (사진 카드) */}
-    <WhyTaerim />
+    <div data-reveal>
+      <WhyTaerim />
+    </div>
 
     {/* 4. 진료과목 5축 — anchor target #treatments */}
     <section id="treatments" class="v-container py-16 md:py-20 scroll-mt-20">
-      <header class="text-center mb-10">
-        <div class="inline-block px-3 py-1 rounded-full bg-stone-100 text-stone-700 text-[11px] font-bold tracking-wide mb-3">
+      <header data-reveal class="text-center mb-10">
+        <div
+          class="inline-block px-3 py-1 rounded-full bg-stone-100 text-stone-700 text-[11px] font-bold tracking-wide mb-3"
+          style="font-family: var(--font-display);"
+        >
           진료과목
         </div>
         <h2 class="text-2xl md:text-3xl font-bold text-gray-900 tracking-tight">
@@ -100,16 +111,20 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
       </header>
 
       <ul class="grid gap-4 md:gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {TREATMENTS.map((t) => (
-          <li>
-            <a href={`/${t.slug}/`} class="group block h-full rounded-2xl border border-stone-200 bg-white p-6 hover:border-green-300 hover:shadow-lg transition-all">
+        {TREATMENTS.map((t, idx) => (
+          <li data-reveal data-reveal-delay={Math.min(idx + 1, 5)}>
+            <a
+              href={`/${t.slug}/`}
+              class="v-card-lift group block h-full rounded-2xl border border-stone-200 bg-white p-6 hover:border-deok-300 hover:shadow-xl hover:shadow-deok-900/10"
+            >
               <div class="flex items-center gap-3 mb-3">
-                <span class="text-3xl">{t.icon}</span>
-                <h3 class="text-lg font-bold text-gray-900 group-hover:text-green-900 transition-colors">{t.name}</h3>
+                <span class="text-3xl transition-transform duration-500 group-hover:scale-110">{t.icon}</span>
+                <h3 class="text-lg font-bold text-gray-900 group-hover:text-deok-800 transition-colors">{t.name}</h3>
               </div>
               <p class="text-sm text-gray-700 leading-relaxed">{t.longDesc}</p>
-              <p class="mt-4 text-xs font-semibold text-green-800 group-hover:text-green-900">
-                자세히 보기 →
+              <p class="mt-4 text-xs font-semibold text-deok-700 group-hover:text-deok-800 inline-flex items-center gap-1">
+                자세히 보기
+                <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
               </p>
             </a>
           </li>
@@ -132,13 +147,15 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
 
     {/* 4. 카테고리별 큐레이션 — featured 제외 후 글 있을 때만 노출 (중복 방지) */}
     {showcaseHasContent && (
-      <CategoryShowcase categories={categories} postsByCategory={postsByCategoryExFeatured} />
+      <div data-reveal>
+        <CategoryShowcase categories={categories} postsByCategory={postsByCategoryExFeatured} />
+      </div>
     )}
 
     {/* 5. 최신 글 그리드 — 나머지 (featured + showcase 제외) */}
     {recentRest.length > 0 && (
       <section class="v-container py-12 md:py-16 border-t border-green-100/40">
-        <header class="flex items-baseline justify-between mb-8">
+        <header data-reveal class="flex items-baseline justify-between mb-8">
           <div>
             <h2 class="text-2xl md:text-3xl font-bold text-gray-900">
               더 최신 글
@@ -158,14 +175,14 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
         </header>
 
         <ul class="grid gap-6 md:grid-cols-3">
-          {recentRest.map(async (post) => {
+          {recentRest.map(async (post, idx) => {
             const category = await getEntry('categories', post.data.category);
             const slug = post.id.replace(/\.mdx?$/, '').split('/').pop();
             return (
-              <li>
+              <li data-reveal data-reveal-delay={Math.min(idx + 1, 5)}>
                 <a
                   href={`/${post.data.category}/${slug}/`}
-                  class="group block h-full rounded-2xl border border-gray-200 bg-white overflow-hidden transition-all hover:border-deok-300 hover:shadow-lg"
+                  class="v-card-lift group block h-full rounded-2xl border border-gray-200 bg-white overflow-hidden hover:border-deok-300 hover:shadow-xl hover:shadow-deok-900/10"
                 >
                   {post.data.coverImage ? (
                     <div class="aspect-video bg-gray-100 overflow-hidden">
@@ -208,7 +225,7 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
 
     {/* 6. 환자 안내 + RSS */}
     <section class="bg-gradient-to-br from-green-50 via-stone-50 to-green-50 py-16 md:py-20 mt-10">
-      <div class="v-container text-center">
+      <div data-reveal class="v-container text-center">
         <h2 class="text-2xl md:text-3xl font-bold text-gray-900">
           진료 전 궁금한 점이 있으신가요?
         </h2>

@@ -1,14 +1,56 @@
 ---
 import { SITE, SITE_NAVIGATION } from '~/consts';
 
+interface Props {
+  variant?: 'overlay' | 'solid';
+}
+
+const { variant = 'solid' } = Astro.props;
 const currentPath = Astro.url.pathname;
+
+const headerClass =
+  variant === 'overlay'
+    ? 'v-header-overlay'
+    : 'sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100';
+
+const brandClass = variant === 'overlay' ? 'v-header-brand' : 'text-deok-700';
+const subBrandClass =
+  variant === 'overlay'
+    ? 'v-header-link opacity-80'
+    : 'text-gray-400';
+const linkBaseClass =
+  variant === 'overlay' ? 'v-header-link' : 'text-gray-600';
+const linkHoverClass =
+  variant === 'overlay'
+    ? 'hover:opacity-80'
+    : 'hover:text-deok-700 hover:bg-gray-50';
+const linkActiveClass =
+  variant === 'overlay'
+    ? 'underline underline-offset-8 decoration-2'
+    : 'text-deok-700 bg-deok-50';
+const iconBtnClass =
+  variant === 'overlay' ? 'v-header-icon' : 'hover:bg-gray-100';
 ---
 
-<header class="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100">
+<header class={headerClass}>
   <div class="v-container flex items-center justify-between h-16">
     <a href="/" class="flex items-center gap-2">
-      <span class="text-xl font-bold text-deok-700 tracking-tight">{SITE.name}</span>
-      <span class="hidden sm:inline text-xs text-gray-400 font-medium tracking-widest uppercase">
+      <span
+        class:list={[
+          'text-xl font-bold tracking-tight',
+          brandClass,
+        ]}
+        style="font-family: var(--font-display);"
+      >
+        {SITE.name}
+      </span>
+      <span
+        class:list={[
+          'hidden sm:inline text-xs font-medium tracking-widest uppercase',
+          subBrandClass,
+        ]}
+        style="font-family: var(--font-display);"
+      >
         {SITE.nameEn}
       </span>
     </a>
@@ -24,9 +66,8 @@ const currentPath = Astro.url.pathname;
             href={item.href}
             class:list={[
               'px-3 py-2 rounded-md font-medium transition-colors',
-              isActive
-                ? 'text-deok-700 bg-deok-50'
-                : 'text-gray-600 hover:text-deok-700 hover:bg-gray-50',
+              linkBaseClass,
+              isActive ? linkActiveClass : linkHoverClass,
             ]}
           >
             {item.label}
@@ -37,7 +78,7 @@ const currentPath = Astro.url.pathname;
 
     <button
       id="mobile-menu-btn"
-      class="md:hidden p-2 rounded-md hover:bg-gray-100"
+      class:list={['md:hidden p-2 rounded-md', iconBtnClass]}
       aria-label="메뉴 열기"
     >
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

@@ -7,6 +7,7 @@
   --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont,
     system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo",
     "Noto Sans KR", "Malgun Gothic", sans-serif;
+  --font-display: "Poppins", "Pretendard Variable", Pretendard, sans-serif;
 
   /* 태림한의원 메인 톤 — forest green */
   /* 太林(큰 숲) 컨셉. 한방 약초 잎 톤으로 사이트 전체 일관 */
@@ -22,6 +23,9 @@
   --color-deok-800: oklch(0.27 0.09 145);
   --color-deok-900: oklch(0.20 0.07 145);
   --color-deok-950: oklch(0.13 0.05 145);
+
+  /* easing tokens — natural smoothness for reveal + hover */
+  --ease-out-smooth: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 /* ──────────────────────────────────────
@@ -147,4 +151,87 @@ a {
 
 .v-btn-ghost {
   @apply text-deok-600 hover:bg-deok-50;
+}
+
+/* ──────────────────────────────────────
+   Scroll Reveal — IntersectionObserver opt-in
+   element에 [data-reveal] 추가하면 자동 적용
+   ────────────────────────────────────── */
+[data-reveal] {
+  opacity: 0;
+  transform: translate3d(0, 24px, 0);
+  transition:
+    opacity 700ms var(--ease-out-smooth),
+    transform 700ms var(--ease-out-smooth);
+  will-change: opacity, transform;
+}
+
+[data-reveal].is-visible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* stagger: data-reveal-delay="1|2|3|4|5" */
+[data-reveal-delay="1"] { transition-delay: 80ms; }
+[data-reveal-delay="2"] { transition-delay: 160ms; }
+[data-reveal-delay="3"] { transition-delay: 240ms; }
+[data-reveal-delay="4"] { transition-delay: 320ms; }
+[data-reveal-delay="5"] { transition-delay: 400ms; }
+
+/* 사용자 motion preference 존중 — 모션 없이 바로 표시 */
+@media (prefers-reduced-motion: reduce) {
+  [data-reveal] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* ──────────────────────────────────────
+   Header overlay variant — 히어로 위 투명, 스크롤 시 흰배경 전환
+   ────────────────────────────────────── */
+.v-header-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background-color: transparent;
+  backdrop-filter: none;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 400ms var(--ease-out-smooth),
+    backdrop-filter 400ms var(--ease-out-smooth),
+    border-color 400ms var(--ease-out-smooth),
+    box-shadow 400ms var(--ease-out-smooth);
+}
+
+.v-header-overlay.is-scrolled {
+  background-color: rgb(255 255 255 / 0.92);
+  backdrop-filter: saturate(180%) blur(12px);
+  -webkit-backdrop-filter: saturate(180%) blur(12px);
+  border-bottom-color: rgb(0 0 0 / 0.06);
+  box-shadow: 0 1px 24px -8px rgb(0 0 0 / 0.08);
+}
+
+/* overlay 모드 — 항상 deok-700 텍스트 (stone-50 hero 위 가독성 우선) */
+.v-header-overlay .v-header-link,
+.v-header-overlay .v-header-brand,
+.v-header-overlay .v-header-icon {
+  color: oklch(0.35 0.12 145); /* deok-700 */
+  transition: color 300ms var(--ease-out-smooth);
+}
+
+/* ──────────────────────────────────────
+   Card lift hover — hyesung 카드 패턴 차용
+   ────────────────────────────────────── */
+.v-card-lift {
+  transition:
+    transform 400ms var(--ease-out-smooth),
+    box-shadow 400ms var(--ease-out-smooth),
+    border-color 400ms var(--ease-out-smooth);
+  will-change: transform, box-shadow;
+}
+.v-card-lift:hover {
+  transform: translate3d(0, -4px, 0);
 }

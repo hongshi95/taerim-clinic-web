@@ -4,30 +4,51 @@ import { CLINIC } from '~/consts';
 
 {/* 한의원 신뢰형 hero — 원장 portrait + 깊이 있는 활자. 모바일 우선 반응형. */}
 <section class="bg-stone-50 relative overflow-hidden">
-  {/* 옅은 종이 텍스처 — radial 1줄만 */}
-  <div aria-hidden="true" class="absolute inset-0 -z-10 opacity-[0.5]">
-    <div class="absolute -right-40 top-0 w-[600px] h-[600px] rounded-full bg-green-100/40 blur-3xl"></div>
+  {/* 다층 배경 — 우상단 + 좌하단 green halo + 미세 노이즈 */}
+  <div aria-hidden="true" class="absolute inset-0 -z-10 pointer-events-none">
+    <div class="absolute -right-40 -top-20 w-[640px] h-[640px] rounded-full bg-green-100/50 blur-3xl"></div>
+    <div class="absolute -left-32 bottom-[-180px] w-[520px] h-[520px] rounded-full bg-deok-100/40 blur-[120px]"></div>
+    <div class="absolute inset-0 opacity-[0.025] mix-blend-multiply"
+      style="background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.6) 1px, transparent 0); background-size: 24px 24px;">
+    </div>
   </div>
 
-  <div class="v-container py-10 sm:py-14 md:py-20 lg:py-28">
+  {/* fixed overlay header에 hero 첫 픽셀이 가려지지 않도록 상단 여유 */}
+  <div class="v-container pt-24 sm:pt-28 md:pt-32 lg:pt-36 pb-10 sm:pb-14 md:pb-20 lg:pb-28">
     {/* 단일 컬럼 — 원장 사진은 About 페이지에 위치, 메인은 활자 중심 */}
     <div class="max-w-3xl">
-      <div class="text-[10px] sm:text-[11px] font-bold tracking-[0.2em] sm:tracking-[0.25em] uppercase text-green-900 mb-4 sm:mb-6">
+      <div
+        data-reveal
+        class="text-[10px] sm:text-[11px] font-bold tracking-[0.2em] sm:tracking-[0.25em] uppercase text-green-900 mb-4 sm:mb-6"
+        style="font-family: var(--font-display);"
+      >
         {CLINIC.address.addressLocality} · 한의원
       </div>
 
-      <h1 class="text-[1.85rem] sm:text-[2.4rem] md:text-5xl lg:text-[3.6rem] font-bold text-stone-900 leading-[1.2] md:leading-[1.15] tracking-tight">
+      <h1
+        data-reveal
+        data-reveal-delay="1"
+        class="text-[1.85rem] sm:text-[2.4rem] md:text-5xl lg:text-[3.6rem] font-bold text-stone-900 leading-[1.2] md:leading-[1.15] tracking-tight"
+      >
         환자의 말을 듣고,
         <br />
         <span class="font-serif italic text-green-900 tracking-tight">통증의 본질</span>을 찾습니다.
       </h1>
 
-      <p class="mt-5 sm:mt-7 md:mt-9 text-[17px] md:text-xl text-stone-700 leading-[1.8] md:leading-[1.85] max-w-xl">
+      <p
+        data-reveal
+        data-reveal-delay="2"
+        class="mt-5 sm:mt-7 md:mt-9 text-[17px] md:text-xl text-stone-700 leading-[1.8] md:leading-[1.85] max-w-xl"
+      >
         서조혁 원장은 매주 일요일 서울로 새 치료법을 연구하러 다닙니다. 골타·추나·매선·약침·한약을 환자의 체질과 증상에 맞게 결합합니다.
       </p>
 
       {/* CTA — green-800 + inline color 명시 (Tailwind text-white 누락 방지) */}
-      <div class="mt-7 sm:mt-9 md:mt-10 flex flex-col sm:flex-row flex-wrap gap-3">
+      <div
+        data-reveal
+        data-reveal-delay="3"
+        class="mt-7 sm:mt-9 md:mt-10 flex flex-col sm:flex-row flex-wrap gap-3"
+      >
         {CLINIC.naverPlaceUrl ? (
           <a
             href={CLINIC.naverPlaceUrl}

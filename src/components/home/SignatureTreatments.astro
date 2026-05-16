@@ -41,9 +41,15 @@ const items = [
 
 <section class="bg-stone-50 py-12 sm:py-16 md:py-24 border-y border-stone-200/60">
   <div class="v-container">
-    <header class="mb-10 md:mb-14 flex items-end justify-between gap-6 flex-wrap">
+    <header
+      data-reveal
+      class="mb-10 md:mb-14 flex items-end justify-between gap-6 flex-wrap"
+    >
       <div class="max-w-2xl">
-        <div class="text-[11px] font-bold tracking-[0.25em] uppercase text-green-900 mb-4">
+        <div
+          class="text-[11px] font-bold tracking-[0.25em] uppercase text-green-900 mb-4"
+          style="font-family: var(--font-display);"
+        >
           시그니처 진료
         </div>
         <h2 class="text-[1.7rem] sm:text-3xl md:text-4xl font-bold text-stone-900 tracking-tight leading-[1.2]">
@@ -58,12 +64,16 @@ const items = [
     {/* 5종 grid — 첫 항목 hero card (2x), 나머지 4종 */}
     <div class="grid gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-3">
       {items.map((item, idx) => (
-        <article class={`group relative overflow-hidden rounded-sm bg-white ring-1 ring-stone-200 shadow-md shadow-stone-900/10 ${idx === 0 ? 'md:col-span-2 md:row-span-1 lg:col-span-1' : ''}`}>
+        <article
+          data-reveal
+          data-reveal-delay={Math.min(idx + 1, 5)}
+          class={`v-card-lift group relative overflow-hidden rounded-sm bg-white ring-1 ring-stone-200 shadow-md shadow-stone-900/10 hover:ring-deok-300 hover:shadow-xl hover:shadow-deok-900/15 ${idx === 0 ? 'md:col-span-2 md:row-span-1 lg:col-span-1' : ''}`}
+        >
           <div class="aspect-[4/3] overflow-hidden bg-stone-100">
             <img
               src={item.image}
               alt={item.alt}
-              class="w-full h-full object-cover object-center group-hover:scale-[1.03] transition-transform duration-500"
+              class="w-full h-full object-cover object-center group-hover:scale-[1.06] transition-transform duration-[700ms] ease-out"
               loading="lazy"
               decoding="async"
               width="600"
@@ -71,10 +81,13 @@ const items = [
             />
           </div>
           <div class="p-5 md:p-6">
-            <div class="text-[10px] font-bold tracking-[0.25em] uppercase text-green-900 mb-2">
+            <div
+              class="text-[10px] font-bold tracking-[0.25em] uppercase text-green-900 mb-2"
+              style="font-family: var(--font-display);"
+            >
               {item.nameEn}
             </div>
-            <h3 class="text-lg md:text-xl font-bold text-stone-900 tracking-tight">
+            <h3 class="text-lg md:text-xl font-bold text-stone-900 tracking-tight group-hover:text-deok-800 transition-colors">
               {item.name}
             </h3>
             <p class="mt-2.5 text-[16px] text-stone-700 leading-[1.75]">
