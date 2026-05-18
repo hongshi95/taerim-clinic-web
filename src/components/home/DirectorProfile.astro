@@ -1,19 +1,12 @@
 ---
-// 의료진 소개 — 벤치마크 스타일 (진한 녹색 배경 + 사진 + 학력 bullet + 인용문)
-// 학력/경력은 placeholder=true 항목은 렌더링 시 숨김. 확정 후 placeholder=false 로 토글.
-
+// 의료진 소개 — 자격/소속만 표시. 시간 기반 마일스톤(개원/연구 활동)은 Heritage 연혁으로 분리.
 const credentials = [
-  { text: '한의사 면허 — 한의대·면허 번호 추가 예정', placeholder: true },
-  { text: '대한한의사협회 회원', placeholder: true },
-  { text: '대한추나의학회 정회원', placeholder: true },
-  { text: '대한약침학회 정회원', placeholder: true },
-  { text: '척추신경추나의학회 아카데미 수료', placeholder: true },
-  { text: '매주 일요일 서울 — 새 치료법 연구·연수', placeholder: false },
-  { text: '現 태림한의원 원장 (2023~)', placeholder: false },
-  { text: '대구 달서구 대천동 한의원 개원', placeholder: false },
+  '한의사 면허 (한의대·면허 번호 추가 예정)',
+  '대한한의사협회 회원',
+  '대한추나의학회 정회원',
+  '대한약침학회 정회원',
+  '척추신경추나의학회 아카데미 수료',
 ];
-
-const visibleCredentials = credentials.filter((c) => !c.placeholder);
 ---
 
 <section class="bg-green-900 text-white py-16 sm:py-20 md:py-28 relative overflow-hidden">
@@ -58,11 +51,11 @@ const visibleCredentials = credentials.filter((c) => !c.placeholder);
         </h3>
 
         <ul class="mt-8 md:mt-10 space-y-4 text-[17px] md:text-lg leading-[1.7]">
-          {visibleCredentials.map((c) => (
+          {credentials.map((c) => (
             <li class="flex items-start gap-3">
               <span aria-hidden="true" style="color:#86efac;" class="select-none mt-1.5 text-lg">●</span>
               <span style="color:rgba(255,255,255,0.95);">
-                {c.text}
+                {c}
               </span>
             </li>
           ))}
