@@ -28,7 +28,7 @@ const {
   canonicalPath,
 } = Astro.props;
 
-const fullTitle = title === SITE.name ? title : `${title} | ${SITE.name}`;
+const fullTitle = title.includes(SITE.name) ? title : `${title} | ${SITE.name}`;
 const currentPath = canonicalPath ?? Astro.url.pathname;
 const canonical = `${SITE.url}${currentPath}`;
 ---
@@ -53,6 +53,8 @@ const canonical = `${SITE.url}${currentPath}`;
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/favicon.svg" />
+    <link rel="mask-icon" href="/favicon.svg" color="#1e4a32" />
 
     <!-- 웹마스터 도구 소유권 확인 (환경변수에서 주입) -->
     {SITE_VERIFICATIONS.google && (
