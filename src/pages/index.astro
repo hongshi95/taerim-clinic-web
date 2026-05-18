@@ -164,9 +164,6 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
             <a href="/posts/" class="text-sm text-deok-600 hover:text-deok-700 font-bold">
               📚 전체 {allPosts.length}편 →
             </a>
-            <a href="/rss.xml" class="text-xs text-gray-400 hover:text-deok-600">
-              📡 RSS
-            </a>
           </div>
         </header>
 
@@ -219,7 +216,7 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
       </section>
     )}
 
-    {/* 10. ACTION - 환자 안내 + RSS */}
+    {/* 10. ACTION - 환자 안내 (RSS는 사용자 친화 X라 제거, HTML <link rel=alternate>로 검색엔진 노출 유지) */}
     <section class="bg-gradient-to-br from-green-50 via-stone-50 to-green-50 py-16 md:py-20 mt-10">
       <div data-reveal class="v-container text-center">
         <h2 class="text-2xl md:text-3xl font-bold text-gray-900">
@@ -234,9 +231,6 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
           </a>
           <a href="/visit/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-green-900 text-sm font-semibold border border-green-200 hover:bg-green-50">
             🗺️ 오시는길·진료시간
-          </a>
-          <a href="/rss.xml" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-gray-700 text-sm border border-gray-200 hover:bg-gray-50">
-            📡 RSS
           </a>
         </div>
       </div>
