@@ -4,7 +4,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import Header from '~/components/layout/Header.astro';
 import Footer from '~/components/layout/Footer.astro';
 import Breadcrumb from '~/components/layout/Breadcrumb.astro';
-import { SITE } from '~/consts';
+import { SITE, CLINIC } from '~/consts';
 
 export async function getStaticPaths() {
   const categories = await getCollection('categories');
@@ -29,14 +29,44 @@ for (const post of posts) {
     if (author) authorMap.set(post.data.author, author);
   }
 }
+
+// SEO 강화: 지역 키워드 + 카테고리 명시 (예: '대구 달서구 통증치료 한의원 - 태림한의원')
+const seoTitle = `${CLINIC.address.addressLocality} ${category.data.name} 한의원 - ${CLINIC.legalName}`;
+const seoDescription = `${CLINIC.address.addressLocality} ${category.data.name} 진료. ${category.data.description} 추나·약침·한약 한방 통합 케어. 진천역 인근.`;
+
+// CollectionPage + ItemList schema (Google이 카테고리 페이지로 정확히 인식)
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': `${SITE.url}/${categorySlug}/#collection`,
+  name: seoTitle,
+  description: seoDescription,
+  url: `${SITE.url}/${categorySlug}/`,
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  about: { '@type': 'MedicalCondition', name: category.data.name },
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: posts.length,
+    itemListElement: posts.slice(0, 10).map((post, idx) => ({
+      '@type': 'ListItem',
+      position: idx + 1,
+      url: `${SITE.url}/${categorySlug}/${post.id.replace(/\.mdx?$/, '').split('/').pop()}/`,
+      name: post.data.title,
+    })),
+  },
+};
 ---
 
 <BaseLayout
-  title={category.data.name}
-  description={category.data.description}
+  title={seoTitle}
+  description={seoDescription}
   type="website"
   canonicalPath={`/${categorySlug}/`}
 >
+  <slot name="head" slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(collectionSchema)} />
+  </slot>
+
   <Header />
 
   <Breadcrumb items={[{ name: category.data.name, href: `/${categorySlug}/` }]} />

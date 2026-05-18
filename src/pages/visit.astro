@@ -31,11 +31,11 @@ const description = `${CLINIC.legalName} 위치, 진료시간, 주차, 전화번
           </p>
         )}
 
-        {/* 듀얼 길찾기 - 네이버 우선 (한국 환자 70%+ 사용), Google 보조 */}
+        {/* 듀얼 길찾기 + 예약 - 네이버 지도(naverMapUrl) vs 네이버 플레이스(naverPlaceUrl) 분리 */}
         <div class="mt-6 flex flex-wrap gap-2.5">
-          {CLINIC.naverPlaceUrl && (
+          {CLINIC.naverMapUrl && (
             <a
-              href={CLINIC.naverPlaceUrl}
+              href={CLINIC.naverMapUrl}
               target="_blank"
               rel="noopener"
               style="color:#ffffff;background-color:#15803d;"
@@ -54,6 +54,17 @@ const description = `${CLINIC.legalName} 위치, 진료시간, 주차, 전화번
             <span aria-hidden="true">🗺️</span> Google 길찾기
             <span aria-hidden="true">→</span>
           </a>
+          {CLINIC.naverPlaceUrl && (
+            <a
+              href={CLINIC.naverPlaceUrl}
+              target="_blank"
+              rel="noopener"
+              class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white text-green-900 text-[15px] md:text-base font-bold border border-green-300 hover:bg-green-50"
+            >
+              <span aria-hidden="true">📋</span> 네이버 플레이스 예약
+              <span aria-hidden="true">→</span>
+            </a>
+          )}
         </div>
       </div>
 

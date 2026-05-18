@@ -32,15 +32,24 @@ const {
 const url = `${SITE.url}/${categorySlug}/${slug}`;
 const image = coverImage ?? `${SITE.url}${SITE.defaultOgImage}`;
 
+// @type을 ['MedicalWebPage', 'Article'] 듀얼로 — 의료 콘텐츠 신뢰 신호 + 일반 Article SEO 모두 확보
+// Google 의료 콘텐츠 검수 정책에 부합 (자격자 author + 의료기관 publisher + lastReviewed)
 const schema = {
   '@context': 'https://schema.org',
-  '@type': 'Article',
+  '@type': ['MedicalWebPage', 'Article'],
   '@id': `${url}#article`,
   headline: title,
+  name: title,
   description,
   image: [image],
   datePublished: publishedAt,
   dateModified: modifiedAt,
+  lastReviewed: modifiedAt, // MedicalWebPage 전용 (자격자 마지막 검토일)
+  reviewedBy: {
+    '@type': 'Person',
+    '@id': `${SITE.url}/about/author/${authorSlug}#person`,
+    name: authorName,
+  },
   author: {
     '@type': 'Person',
     '@id': `${SITE.url}/about/author/${authorSlug}#person`,
@@ -52,6 +61,8 @@ const schema = {
     '@type': 'WebPage',
     '@id': url,
   },
+  about: { '@type': 'MedicalCondition', name: categoryName }, // 의료 주제
+  audience: { '@type': 'PatientsAudience' }, // 환자 대상 명시
   articleSection: categoryName,
   inLanguage: SITE.locale,
   ...(wordCount ? { wordCount } : {}),

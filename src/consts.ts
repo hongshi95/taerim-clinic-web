@@ -57,7 +57,9 @@ export const CLINIC = {
   ],
   closedDays: ['Su', 'PublicHolidays'],
   // 외부 채널 (CTA + sameAs용)
-  naverPlaceUrl: 'https://m.place.naver.com/hospital/1221424403', // 네이버 플레이스 (Place ID 1221424403)
+  // 플레이스(예약/소개) vs 지도(위치/길찾기) URL 분리
+  naverPlaceUrl: 'https://m.place.naver.com/hospital/1221424403', // 예약·소개 (Place ID 1221424403)
+  naverMapUrl: 'https://map.naver.com/p/entry/place/1221424403', // 지도·길찾기 (지도 + 마커 + 길찾기 버튼)
   kakaoChannelUrl: '', // 사용자 입력 대기
   instagramUrl: 'https://www.instagram.com/taerim_han',
   threadsUrl: 'https://www.threads.com/@taerim_han?hl=ko',
@@ -91,6 +93,51 @@ export const ORGANIZATION = {
     'PhysicalMedicineAndRehabilitation',
     'Pediatric',
   ],
+  // 시술별 medicalProcedure (Google 의료 검색이 시술명으로 매칭)
+  availableService: [
+    {
+      '@type': 'MedicalProcedure',
+      name: '추나요법',
+      procedureType: 'https://schema.org/PercutaneousProcedure',
+      bodyLocation: '척추·관절',
+    },
+    {
+      '@type': 'MedicalProcedure',
+      name: '골타요법',
+      procedureType: 'https://schema.org/TherapeuticProcedure',
+      bodyLocation: '뼈·근육',
+    },
+    {
+      '@type': 'MedicalProcedure',
+      name: '약침',
+      procedureType: 'https://schema.org/PercutaneousProcedure',
+    },
+    {
+      '@type': 'MedicalProcedure',
+      name: '매선요법',
+      procedureType: 'https://schema.org/SurgicalProcedure',
+    },
+    {
+      '@type': 'MedicalProcedure',
+      name: '한약 처방',
+      procedureType: 'https://schema.org/TherapeuticProcedure',
+    },
+  ],
+  // 진료 영역 catalog (AEO: "어떤 진료" 질문 답변 강화)
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: '태림한의원 진료 영역',
+    itemListElement: [
+      { '@type': 'Offer', itemOffered: { '@type': 'MedicalTherapy', name: '통증치료' }, url: `${SITE.url}/pain/` },
+      { '@type': 'Offer', itemOffered: { '@type': 'MedicalTherapy', name: '다이어트' }, url: `${SITE.url}/diet/` },
+      { '@type': 'Offer', itemOffered: { '@type': 'MedicalTherapy', name: '교통사고 후유증' }, url: `${SITE.url}/accident/` },
+      { '@type': 'Offer', itemOffered: { '@type': 'MedicalTherapy', name: '소아·성장' }, url: `${SITE.url}/pediatric/` },
+      { '@type': 'Offer', itemOffered: { '@type': 'MedicalTherapy', name: '피부미용' }, url: `${SITE.url}/beauty/` },
+      { '@type': 'Offer', itemOffered: { '@type': 'MedicalTherapy', name: '체질개선' }, url: `${SITE.url}/constitution/` },
+    ],
+  },
+  // 한국어 지원 (AEO/GEO 신호)
+  availableLanguage: ['ko', 'Korean'],
   priceRange: '₩₩',
   telephone: CLINIC.phone || undefined,
   address: {
