@@ -57,7 +57,7 @@ export const CLINIC = {
   ],
   closedDays: ['Su', 'PublicHolidays'],
   // 외부 채널 (CTA + sameAs용)
-  naverPlaceUrl: '', // 사용자 입력 대기
+  naverPlaceUrl: 'https://m.place.naver.com/hospital/1221424403', // 네이버 플레이스 (Place ID 1221424403)
   kakaoChannelUrl: '', // 사용자 입력 대기
   instagramUrl: 'https://www.instagram.com/taerim_han',
   threadsUrl: 'https://www.threads.com/@taerim_han?hl=ko',
