@@ -11,29 +11,27 @@ const description = `${CLINIC.legalName} 위치, 진료시간, 주차, 전화번
 <BaseLayout title={title} description={description} type="website" canonicalPath="/visit/">
   <Header />
 
-  {/* 한의원 외관 hero */}
-  <section class="relative bg-stone-900">
-    <div class="relative aspect-[16/9] md:aspect-[21/9] lg:aspect-[3/1] max-h-[420px] overflow-hidden">
-      <img
-        src="/images/clinic/clinic-exterior.jpg"
-        alt="태림한의원 외관"
-        class="w-full h-full object-cover object-center opacity-70"
-        loading="eager"
-        decoding="async"
-      />
-      <div class="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-stone-950/30 to-transparent"></div>
-      <div class="absolute inset-0 flex items-end">
-        <div class="v-container w-full pb-8 md:pb-12">
-          <div class="text-[13px] md:text-sm font-bold tracking-[0.2em] uppercase text-green-300 mb-3">
-            태림한의원 · {CLINIC.address.addressLocality}
-          </div>
-          <h1 class="text-3xl md:text-5xl font-bold text-white tracking-tight">
-            오시는길
-          </h1>
-          <p class="mt-4 text-white/90 text-lg md:text-xl max-w-xl">
-            {CLINIC.address.addressLocality} {CLINIC.address.streetAddress || '(상세 주소 준비 중)'}
-          </p>
+  {/* 한의원 외관 hero - height 절대값 사용 (aspect-ratio + max-h 충돌로 우측 letterbox 생기던 문제 fix) */}
+  <section class="relative bg-stone-900 w-full h-[280px] sm:h-[340px] md:h-[400px] lg:h-[440px] overflow-hidden">
+    <img
+      src="/images/clinic/clinic-exterior.jpg"
+      alt="태림한의원 접수 데스크"
+      class="absolute inset-0 w-full h-full object-cover object-center opacity-70"
+      loading="eager"
+      decoding="async"
+    />
+    <div class="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-stone-950/30 to-transparent"></div>
+    <div class="absolute inset-0 flex items-end">
+      <div class="v-container w-full pb-8 md:pb-12">
+        <div class="text-[13px] md:text-sm font-bold tracking-[0.2em] uppercase text-green-300 mb-3">
+          태림한의원 · {CLINIC.address.addressLocality}
         </div>
+        <h1 class="text-3xl md:text-5xl font-bold text-white tracking-tight">
+          오시는길
+        </h1>
+        <p class="mt-4 text-white/90 text-lg md:text-xl max-w-xl">
+          {CLINIC.address.addressLocality} {CLINIC.address.streetAddress || '(상세 주소 준비 중)'}
+        </p>
       </div>
     </div>
   </section>
