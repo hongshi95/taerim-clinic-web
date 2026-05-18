@@ -5,3 +5,6 @@
 # favicon.ico 브라우저 자동 요청 → 진짜 로고로 리다이렉트
 # (옛 favicon.ico 파일 삭제 + Cloudflare CDN 캐시 회피)
 /favicon.ico /logo.png 301
+# favicon.svg(임시 太 글자) 캐시 회피 → 진짜 로고로 redirect
+# mask-icon(Safari pinned tab)은 link href로 직접 참조라 redirect 영향 없음
+/favicon.svg /logo.png 301
