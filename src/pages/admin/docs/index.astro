@@ -17,13 +17,13 @@ function readSafe(p: string): string {
 const docs = [
   {
     id: 'spec',
-    label: 'SPEC.md — 프로젝트 사양서',
+    label: 'SPEC.md - 프로젝트 사양서',
     icon: '📋',
     content: readSafe('SPEC.md'),
   },
   {
     id: 'webmaster',
-    label: 'WEBMASTER-SETUP.md — 웹마스터 등록',
+    label: 'WEBMASTER-SETUP.md - 웹마스터 등록',
     icon: '🌐',
     content: readSafe('WEBMASTER-SETUP.md'),
   },
@@ -66,7 +66,7 @@ const docs = [
                 <li>
                   <a href={`#${d.id}`} class="flex items-center gap-2 text-sm text-gray-700 hover:text-deok-700 py-1.5 px-2 rounded hover:bg-gray-50">
                     <span>{d.icon}</span>
-                    <span class="truncate">{d.label.split(' — ')[0]}</span>
+                    <span class="truncate">{d.label.split(' - ')[0]}</span>
                   </a>
                 </li>
               ))}

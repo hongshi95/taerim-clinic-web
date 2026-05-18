@@ -20,7 +20,7 @@ import { SITE } from '~/consts';
     <main class="max-w-6xl mx-auto px-6 py-8">
       <header class="mb-8">
         <h1 class="text-3xl font-bold text-gray-900 mb-2">📊 운영 지표</h1>
-        <p class="text-gray-600">D1 실시간 집계 — 매 1분 캐시 (no-cache 시 강제 refresh)</p>
+        <p class="text-gray-600">D1 실시간 집계 - 매 1분 캐시 (no-cache 시 강제 refresh)</p>
       </header>
 
       <div id="loading" class="p-8 text-center text-gray-500">통계 로딩 중...</div>
@@ -41,7 +41,7 @@ import { SITE } from '~/consts';
     }
 
     function formatDate(iso) {
-      if (!iso) return '—';
+      if (!iso) return '-';
       return new Date(iso).toLocaleDateString('ko-KR', { month: '2-digit', day: '2-digit' });
     }
 
@@ -180,7 +180,7 @@ import { SITE } from '~/consts';
         ${d.staleCandidates.length > 0 ? `
           <section class="p-5 bg-amber-50 rounded-xl border border-amber-200">
             <h2 class="text-sm font-semibold text-amber-900 uppercase tracking-wider mb-4">
-              ⏰ 갱신 대기 (3개월+ 경과) — AI 인용률 저하 리스크
+              ⏰ 갱신 대기 (3개월+ 경과) - AI 인용률 저하 리스크
             </h2>
             <ul class="divide-y divide-amber-100">
               ${d.staleCandidates.map((s) => `

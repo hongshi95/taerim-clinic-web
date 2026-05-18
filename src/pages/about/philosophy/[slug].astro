@@ -15,12 +15,12 @@ export function getStaticPaths() {
 const { principle } = Astro.props;
 const { prev, next } = getAdjacentPrinciples(principle.slug);
 
-const title = `${principle.headline} ${principle.headlineEm}${principle.headlineTail ? ' ' + principle.headlineTail : ''} — 진료 철학 ${principle.number}`;
+const title = `${principle.headline} ${principle.headlineEm}${principle.headlineTail ? ' ' + principle.headlineTail : ''} - 진료 철학 ${principle.number}`;
 const description = principle.summary;
 ---
 
 <BaseLayout
-  title={`${title} — ${CLINIC.legalName}`}
+  title={`${title} - ${CLINIC.legalName}`}
   description={description}
   type="article"
   canonicalPath={`/about/philosophy/${principle.slug}/`}
@@ -42,7 +42,7 @@ const description = principle.summary;
     </div>
   </nav>
 
-  {/* Hero — 큰 헤드라인 + 사진 */}
+  {/* Hero - 큰 헤드라인 + 사진 */}
   <section class="bg-white">
     <div class="v-container py-16 sm:py-20 md:py-28 lg:py-36">
       <div class={`grid lg:grid-cols-[1.1fr_1fr] gap-10 sm:gap-12 lg:gap-20 items-center ${principle.align === 'left' ? 'lg:[&>figure]:order-1 lg:[&>div]:order-2' : ''}`}>
@@ -87,7 +87,7 @@ const description = principle.summary;
     </div>
   </section>
 
-  {/* 본문 — lead + main */}
+  {/* 본문 - lead + main */}
   <section class="bg-stone-50 border-y border-stone-200">
     <div class="v-container py-16 sm:py-20 md:py-28">
       <div class="reveal max-w-3xl mx-auto">
@@ -95,7 +95,7 @@ const description = principle.summary;
           {principle.bodyLead}
         </p>
 
-        {/* sections — 각 section: 선택적 sub-heading + 단락 */}
+        {/* sections - 각 section: 선택적 sub-heading + 단락 */}
         <div class="mt-10 md:mt-14 space-y-10 md:space-y-14">
           {principle.sections.map((section) => (
             <div>
@@ -119,7 +119,7 @@ const description = principle.summary;
               {principle.quote}
             </p>
             <footer class="mt-4 text-sm md:text-base text-stone-500 tracking-[0.15em] uppercase">
-              — {principle.quoteSource || '서조혁 원장'}
+              - {principle.quoteSource || '서조혁 원장'}
             </footer>
           </blockquote>
         )}
@@ -174,7 +174,7 @@ const description = principle.summary;
         </a>
       </div>
 
-      {/* 의료법 디스클레이머 — 모든 진료 철학 페이지 공통 */}
+      {/* 의료법 디스클레이머 - 모든 진료 철학 페이지 공통 */}
       <aside class="mt-12 md:mt-16 max-w-3xl mx-auto bg-stone-50 border border-stone-200 p-6 md:p-7 text-[14px] md:text-[15px] text-stone-600 leading-[1.85]">
         <div class="text-[11px] md:text-xs font-bold tracking-[0.25em] uppercase text-stone-500 mb-3">
           알려드립니다

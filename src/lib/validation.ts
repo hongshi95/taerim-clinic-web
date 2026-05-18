@@ -75,14 +75,14 @@ export function validatePublishPayload(data: PublishPayload): ValidationResult {
   // 제목
   if (!data.title?.trim()) errors.push('title 필수');
   if (data.title && data.title.length > 60)
-    warnings.push(`title ${data.title.length}자 — 60자 이내 권장 (SEO)`);
+    warnings.push(`title ${data.title.length}자 - 60자 이내 권장 (SEO)`);
 
   // 메타 디스크립션
   if (!data.meta_description?.trim()) errors.push('meta_description 필수');
   if (data.meta_description && data.meta_description.length < 50)
-    warnings.push(`meta_description ${data.meta_description.length}자 — 50자 이상 권장`);
+    warnings.push(`meta_description ${data.meta_description.length}자 - 50자 이상 권장`);
   if (data.meta_description && data.meta_description.length > 160)
-    warnings.push(`meta_description ${data.meta_description.length}자 — 160자 이내 권장`);
+    warnings.push(`meta_description ${data.meta_description.length}자 - 160자 이내 권장`);
 
   // 슬러그
   if (!data.slug || !/^[a-z0-9-]+$/.test(data.slug))
@@ -103,28 +103,28 @@ export function validatePublishPayload(data: PublishPayload): ValidationResult {
     errors.push(...h2Errors);
 
     const h2Count = [...data.content_md.matchAll(H2_REGEX)].length;
-    if (h2Count < 2) warnings.push(`H2 섹션 수 ${h2Count}개 — 2개 이상 권장`);
+    if (h2Count < 2) warnings.push(`H2 섹션 수 ${h2Count}개 - 2개 이상 권장`);
   }
 
   // Quick Answer (AEO 핵심)
   if (!data.quick_answer?.trim())
-    errors.push('quick_answer 필수 — 첫 문단 직답');
+    errors.push('quick_answer 필수 - 첫 문단 직답');
   if (data.quick_answer && data.quick_answer.length < 20)
-    errors.push(`quick_answer ${data.quick_answer.length}자 — 최소 20자`);
+    errors.push(`quick_answer ${data.quick_answer.length}자 - 최소 20자`);
   if (data.quick_answer && data.quick_answer.length > 300)
-    warnings.push(`quick_answer ${data.quick_answer.length}자 — 300자 이내 권장`);
+    warnings.push(`quick_answer ${data.quick_answer.length}자 - 300자 이내 권장`);
 
   // FAQ (AEO)
   const faqs = data.faqs ?? [];
   if (faqs.length < 3)
-    errors.push(`FAQ ${faqs.length}개 — 최소 3개 (AEO/GEO 요건)`);
+    errors.push(`FAQ ${faqs.length}개 - 최소 3개 (AEO/GEO 요건)`);
 
-  // 엔티티 (GEO — 4.8배 인용 확률)
+  // 엔티티 (GEO - 4.8배 인용 확률)
   const entities = data.entities ?? [];
   if (entities.length < 5)
-    errors.push(`엔티티 ${entities.length}개 — 최소 5개 (15+ 이상적)`);
+    errors.push(`엔티티 ${entities.length}개 - 최소 5개 (15+ 이상적)`);
   if (entities.length < 15 && entities.length >= 5)
-    warnings.push(`엔티티 ${entities.length}개 — 15개 이상 권장 (4.8배 인용 확률)`);
+    warnings.push(`엔티티 ${entities.length}개 - 15개 이상 권장 (4.8배 인용 확률)`);
 
   return {
     ok: errors.length === 0,

@@ -1,5 +1,5 @@
 ---
-// 대표 글 — 풀 콘텐츠 카드 (좌측 빈 그라데이션 영역 제거, 콘텐츠가 메인)
+// 대표 글 - 풀 콘텐츠 카드 (좌측 빈 그라데이션 영역 제거, 콘텐츠가 메인)
 // 전환·체류 최적화: Quick Answer 풀 노출 + 출처 + 읽기 시간 + 강한 CTA
 import type { CollectionEntry } from 'astro:content';
 import { getEntry } from 'astro:content';
@@ -14,7 +14,7 @@ const href = `/${post.data.category}/${slug}/`;
 const bullets = post.data.quickAnswerBullets ?? [];
 const hasCover = Boolean(post.data.coverImage);
 
-// 출처 (신뢰 신호) — 첫 1~2개 source 표시
+// 출처 (신뢰 신호) - 첫 1~2개 source 표시
 const citations = post.data.citations ?? [];
 const sourceLabel = citations.length > 0
   ? Array.from(new Set(citations.slice(0, 3).map(c => c.source))).slice(0, 2).join(' · ')
@@ -28,7 +28,7 @@ const readMinutes = Math.max(2, Math.round(bodyLen / 600));
 ---
 
 <section class="v-container pt-4 pb-12 md:pb-16">
-  {/* 상단 메타 띠 — 대표 + 읽기시간 + 날짜 */}
+  {/* 상단 메타 띠 - 대표 + 읽기시간 + 날짜 */}
   <div class="mb-5 flex items-center gap-3 flex-wrap">
     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 text-green-900 text-xs font-bold ring-1 ring-green-300/70 shadow-sm">
       ⭐ 이번 주 대표 글
@@ -71,7 +71,7 @@ const readMinutes = Math.max(2, Math.round(bodyLen / 600));
         </div>
       )}
 
-      {/* 제목 — 큼직, 가독성 */}
+      {/* 제목 - 큼직, 가독성 */}
       <h2 class="text-2xl md:text-3xl lg:text-4xl font-bold text-gray-900 leading-tight group-hover:text-deok-700 transition-colors tracking-tight">
         {post.data.title}
       </h2>
@@ -81,7 +81,7 @@ const readMinutes = Math.max(2, Math.round(bodyLen / 600));
         {post.data.description}
       </p>
 
-      {/* Quick Answer 박스 — 4개 풀 노출 (체류 ↑, 전환 ↑) */}
+      {/* Quick Answer 박스 - 4개 풀 노출 (체류 ↑, 전환 ↑) */}
       {bullets.length > 0 && (
         <div class="mt-6 rounded-2xl bg-gradient-to-br from-green-50/80 via-green-50/60 to-green-50/40 border border-green-200/70 p-5 md:p-6">
           <div class="flex items-center gap-2 mb-3">
@@ -111,10 +111,10 @@ const readMinutes = Math.max(2, Math.round(bodyLen / 600));
         </div>
       )}
 
-      {/* CTA — 강한 가치 제안 + 단계 안내 */}
+      {/* CTA - 강한 가치 제안 + 단계 안내 */}
       <div class="mt-7 md:mt-8 flex items-center justify-between gap-4 pt-5 border-t border-gray-100">
         <span class="text-xs md:text-sm text-gray-500 hidden sm:inline">
-          처음부터 끝까지 — 신청 절차·서류·비용까지
+          처음부터 끝까지 - 신청 절차·서류·비용까지
         </span>
         <span class="ml-auto inline-flex items-center gap-1.5 text-base font-bold text-deok-600 group-hover:text-deok-700 group-hover:gap-2.5 transition-all">
           전문 읽기

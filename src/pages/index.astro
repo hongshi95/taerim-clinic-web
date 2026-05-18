@@ -22,14 +22,14 @@ const allPosts = (await getCollection('posts', (p) => !p.data.draft)).sort(
   (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
 );
 
-// 대표 글 — featured + coverImage 우선
+// 대표 글 - featured + coverImage 우선
 const featuredHero: CollectionEntry<'posts'> | undefined =
   allPosts.find((p) => p.data.featured && p.data.coverImage) ??
   allPosts.find((p) => p.data.featured) ??
   allPosts[0];
 const featuredId = featuredHero?.id;
 
-// CategoryShowcase용 — featured 글 제외한 카테고리별 분류 (중복 방지)
+// CategoryShowcase용 - featured 글 제외한 카테고리별 분류 (중복 방지)
 const postsByCategoryExFeatured: Record<string, CollectionEntry<'posts'>[]> = {};
 for (const p of allPosts) {
   if (p.id === featuredId) continue;
@@ -37,7 +37,7 @@ for (const p of allPosts) {
 }
 const showcaseHasContent = Object.values(postsByCategoryExFeatured).some(arr => arr.length > 0);
 
-// 최신 글 그리드용 — featured + showcase에 쓰인 글 제외
+// 최신 글 그리드용 - featured + showcase에 쓰인 글 제외
 const usedIds = new Set<string>();
 if (featuredId) usedIds.add(featuredId);
 for (const cat of categories) {
@@ -61,20 +61,20 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
   <main>
     {/* IA: HERO → WHO → WHY → WHAT(증상) → HOW(치료) → WHERE/WHEN → PROOF → ACTION */}
 
-    {/* 1. HERO — 첫인상 + 헤드라인 + 진료시간 */}
+    {/* 1. HERO - 첫인상 + 헤드라인 + 진료시간 */}
     <RotatingHero />
 
-    {/* 2. WHO — 의료진 (서조혁 원장) */}
+    {/* 2. WHO - 의료진 (서조혁 원장) */}
     <div data-reveal>
       <DirectorProfile />
     </div>
 
-    {/* 3. WHY — 진료 철학 3대 (듣기·체질·과잉진료 X) */}
+    {/* 3. WHY - 진료 철학 3대 (듣기·체질·과잉진료 X) */}
     <div data-reveal>
       <ClinicPhilosophy />
     </div>
 
-    {/* 4. WHAT — 진료 영역 6축 (환자가 자기 증상으로 진입) */}
+    {/* 4. WHAT - 진료 영역 6축 (환자가 자기 증상으로 진입) */}
     <section id="treatments" class="v-container py-16 md:py-20 scroll-mt-20">
       <header data-reveal class="text-center mb-10">
         <div
@@ -126,29 +126,29 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
       </div>
     </section>
 
-    {/* 5. HOW — 치료 방법 5종 (어떻게 치료하나요?) */}
+    {/* 5. HOW - 치료 방법 5종 (어떻게 치료하나요?) */}
     <SignatureTreatments />
 
-    {/* 6. WHERE/WHEN — 한의원 둘러보기 + 연혁 */}
+    {/* 6. WHERE/WHEN - 한의원 둘러보기 + 연혁 */}
     <div data-reveal>
       <Heritage />
     </div>
 
-    {/* 7. PROOF — 대표 글 (글이 발행되면 표시) */}
+    {/* 7. PROOF - 대표 글 (글이 발행되면 표시) */}
     {featuredHero && (
       <div id="quick-answers" class="scroll-mt-20" data-reveal>
         <FeaturedHero post={featuredHero} />
       </div>
     )}
 
-    {/* 8. PROOF — 카테고리별 큐레이션 (featured 제외 후 글 있을 때만) */}
+    {/* 8. PROOF - 카테고리별 큐레이션 (featured 제외 후 글 있을 때만) */}
     {showcaseHasContent && (
       <div data-reveal>
         <CategoryShowcase categories={categories} postsByCategory={postsByCategoryExFeatured} />
       </div>
     )}
 
-    {/* 9. PROOF — 최신 글 그리드 (나머지) */}
+    {/* 9. PROOF - 최신 글 그리드 (나머지) */}
     {recentRest.length > 0 && (
       <section class="v-container py-12 md:py-16 border-t border-green-100/40">
         <header data-reveal class="flex items-baseline justify-between mb-8">
@@ -219,7 +219,7 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
       </section>
     )}
 
-    {/* 10. ACTION — 환자 안내 + RSS */}
+    {/* 10. ACTION - 환자 안내 + RSS */}
     <section class="bg-gradient-to-br from-green-50 via-stone-50 to-green-50 py-16 md:py-20 mt-10">
       <div data-reveal class="v-container text-center">
         <h2 class="text-2xl md:text-3xl font-bold text-gray-900">

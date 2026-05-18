@@ -6,7 +6,7 @@ import Footer from '~/components/layout/Footer.astro';
 import Breadcrumb from '~/components/layout/Breadcrumb.astro';
 import { SITE } from '~/consts';
 
-// 전체 글 아카이브 — 날짜 역순. 누락 없이 전부 표시.
+// 전체 글 아카이브 - 날짜 역순. 누락 없이 전부 표시.
 const categories = (await getCollection('categories')).sort(
   (a, b) => a.data.order - b.data.order
 );
@@ -33,7 +33,7 @@ const slugOf = (p: PostEntry) => p.id.replace(/\.mdx?$/, '').split('/').pop();
 ---
 
 <BaseLayout
-  title={`전체 글 (${allPosts.length}편) — ${SITE.name}`}
+  title={`전체 글 (${allPosts.length}편) - ${SITE.name}`}
   description={`${SITE.name}에서 발행한 모든 실측 리뷰 ${allPosts.length}편. 자동차·연애·자기관리 카테고리별 전체 글을 날짜순으로 모았습니다.`}
   type="website"
   canonicalPath="/posts/"

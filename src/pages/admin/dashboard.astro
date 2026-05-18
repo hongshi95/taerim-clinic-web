@@ -29,11 +29,11 @@ import { SITE } from '~/consts';
       <div id="stats" class="grid gap-4 md:grid-cols-4 mb-10">
         <div class="p-5 bg-white rounded-xl border border-gray-200">
           <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Published</p>
-          <p class="text-2xl font-bold text-gray-900 mt-1" id="stat-published">—</p>
+          <p class="text-2xl font-bold text-gray-900 mt-1" id="stat-published">-</p>
         </div>
         <div class="p-5 bg-white rounded-xl border border-gray-200">
           <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Draft</p>
-          <p class="text-2xl font-bold text-gray-900 mt-1" id="stat-draft">—</p>
+          <p class="text-2xl font-bold text-gray-900 mt-1" id="stat-draft">-</p>
         </div>
         <div class="p-5 bg-white rounded-xl border border-gray-200">
           <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">카테고리</p>
@@ -202,7 +202,7 @@ import { SITE } from '~/consts';
                     ${factCheckBadge(p)}
                   </td>
                   <td class="px-4 py-3 text-gray-500 text-xs">
-                    ${p.published_at ? new Date(p.published_at).toLocaleDateString('ko-KR') : '—'}
+                    ${p.published_at ? new Date(p.published_at).toLocaleDateString('ko-KR') : '-'}
                   </td>
                   <td class="px-4 py-3 text-right space-x-2">
                     ${p.fact_check_status && p.fact_check_status !== 'auto-approved' ? `
@@ -240,7 +240,7 @@ import { SITE } from '~/consts';
       const s = p.fact_check_status;
       const c = p.fact_check_confidence;
       if (!s || s === 'pending') {
-        return '<span class="text-xs text-gray-400">—</span>';
+        return '<span class="text-xs text-gray-400">-</span>';
       }
       const conf = c ? ` (${c})` : '';
       if (s === 'auto-approved') {

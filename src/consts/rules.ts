@@ -1,4 +1,4 @@
-// 덕계 운영 규칙 — SEO/AEO/GEO/LLMO/AIO + 네이버 + AdSense + 자동 검증
+// 덕계 운영 규칙 - SEO/AEO/GEO/LLMO/AIO + 네이버 + AdSense + 자동 검증
 // 이 파일이 single source of truth. admin rules 페이지에서 표시되고,
 // validator/writer가 향후 import해서 사용할 수 있음.
 //
@@ -39,7 +39,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
     rules: [
       {
         title: 'LCP ≤ 2.5초',
-        description: 'Largest Contentful Paint — 메인 콘텐츠 로딩 속도',
+        description: 'Largest Contentful Paint - 메인 콘텐츠 로딩 속도',
         critical: true,
         details: [
           '페이지에서 가장 큰 요소(보통 히어로 이미지·제목)가 화면에 나타나기까지의 시간',
@@ -50,7 +50,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
       },
       {
         title: 'FCP ≤ 0.4초 (AI 인용 최적)',
-        description: 'First Contentful Paint — 2026 AI Overview 핵심',
+        description: 'First Contentful Paint - 2026 AI Overview 핵심',
         critical: true,
         source: '2026 데이터: FCP <0.4s = 평균 6.7 인용, >1.13s = 2.1 인용 (3x 차이)',
         details: [
@@ -62,7 +62,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
       },
       {
         title: 'CLS ≤ 0.1',
-        description: 'Cumulative Layout Shift — 레이아웃 흔들림',
+        description: 'Cumulative Layout Shift - 레이아웃 흔들림',
         details: [
           '페이지 로드 중 UI가 갑자기 움직이면 사용자 클릭 실수 → UX 저하',
           '이미지·광고·폰트에 반드시 width/height 또는 aspect-ratio 지정',
@@ -75,14 +75,14 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         description: 'Interaction to Next Paint (2024~ Google 신규 지표)',
         details: [
           '사용자의 클릭/탭/키 입력 후 다음 paint까지의 시간',
-          'FID(First Input Delay) 대체 지표 — 모든 상호작용 측정',
+          'FID(First Input Delay) 대체 지표 - 모든 상호작용 측정',
           'JS 번들 크기 절감, main thread blocking 최소화',
           'React lazy loading, Astro Islands 패턴 활용',
         ],
       },
       {
         title: 'TBT ≤ 200ms',
-        description: 'Total Blocking Time — 메인 스레드 점유',
+        description: 'Total Blocking Time - 메인 스레드 점유',
         details: [
           'FCP와 TTI 사이 50ms 이상 blocking한 작업들의 총합',
           '빌드 시 번들 분리 + tree shaking 필수',
@@ -131,7 +131,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         critical: true,
         details: [
           'Google은 2021년부터 모바일 버전만으로 색인',
-          '반응형 디자인 필수 — 뷰포트 메타 태그 포함',
+          '반응형 디자인 필수 - 뷰포트 메타 태그 포함',
           '터치 타겟 최소 44×44px (손가락 누르기 쉽게)',
           '가로 스크롤 절대 금지',
         ],
@@ -148,13 +148,13 @@ export const RULE_CATEGORIES: RuleCategory[] = [
       },
       {
         title: 'meta_description 50-160자',
-        description: 'SERP 설명문 — 클릭률 결정',
+        description: 'SERP 설명문 - 클릭률 결정',
         critical: true,
         details: [
           '50자 미만: Google이 자동으로 본문에서 추출 (통제 불가)',
           '160자 초과: 잘림',
           '핵심 키워드 + 행동 유도(CTA) 포함',
-          '매 페이지 unique — 템플릿 복붙 금지',
+          '매 페이지 unique - 템플릿 복붙 금지',
         ],
       },
       {
@@ -162,7 +162,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         description: 'SNS 공유 시 카드 이미지',
         details: [
           'og:title, og:description, og:image, og:url, og:type 필수',
-          'og:image 1200×630 (1.91:1) — Facebook/Twitter 표준',
+          'og:image 1200×630 (1.91:1) - Facebook/Twitter 표준',
           '네이버는 1:1 정사각형도 지원',
           'Twitter Card (twitter:card) 별도 필요',
         ],
@@ -185,7 +185,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
           'H2는 질문형 ("연차는 언제 발생하나요?")',
           '바로 이어지는 첫 문단 = 그 질문의 완전한 답 (60단어 이내)',
           'Featured Snippet이 여기를 잘라가서 SERP에 그대로 표시',
-          '60단어 초과하면 잘림 — 너무 짧아도 안 됨 (10단어 미만은 가치 없음)',
+          '60단어 초과하면 잘림 - 너무 짧아도 안 됨 (10단어 미만은 가치 없음)',
         ],
         examples: [
           {
@@ -248,7 +248,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
     id: 'geo',
     label: 'GEO (생성형 AI)',
     icon: '🤖',
-    summary: 'ChatGPT · Perplexity · Gemini · Claude 인용 최적화 — 2026 신지표 반영',
+    summary: 'ChatGPT · Perplexity · Gemini · Claude 인용 최적화 - 2026 신지표 반영',
     background:
       '2026년 4월 기준 실증: 제로클릭 검색 69% (2024년 56% → 2025년 69%). Gartner 예측 2026년까지 커머셜 검색 25% 감소. 딥서치: 인용 페이지 38%만 top-10 랭크 / 첫 30% 서론이 인용의 44.2% 결정 / 15+ 엔티티 = 4.8배 인용 / E-E-A-T = 96% 상관. 2026 신규: ChatGPT는 Sentiment + Citation Velocity 도입. Perplexity는 78% 모든 claim에 인용 연결.',
     rules: [
@@ -257,7 +257,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         critical: true,
         source: '첫 30%에서 44.2% 인용 발생',
         details: [
-          '서론에 결론 요약 포함 — "inverted pyramid" 구조',
+          '서론에 결론 요약 포함 - "inverted pyramid" 구조',
           '도입부 장황하게 쓰지 말고 핵심 답변을 1-2문장으로 먼저',
           'LLM은 긴 글에서 앞부분을 가중 평가',
           'RAG 시스템도 앞 청크를 우선 검색',
@@ -269,7 +269,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         source: '15+ 엔티티 = 4.8배 인용 확률',
         details: [
           '고유명사: 기관·법령·인명·제품·장소',
-          '엔티티는 LLM이 신뢰할 근거 — Wikipedia 검증 가능한 게 좋음',
+          '엔티티는 LLM이 신뢰할 근거 - Wikipedia 검증 가능한 게 좋음',
           'deokgyeValidator가 엔티티 수 + Wikipedia 매칭률 체크',
           '예: "근로기준법", "고용노동부", "제23조", "통상임금"',
         ],
@@ -288,7 +288,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         critical: true,
         source: '2026 실증: 3개월 초과 시 AI 인용 급락 (GenOptima)',
         details: [
-          '"AI는 recency bias가 큼" — 3개월 지나면 인용 drop off sharply',
+          '"AI는 recency bias가 큼" - 3개월 지나면 인용 drop off sharply',
           '기존 12개월 기준은 2024년 수치, 2026은 3개월로 단축',
           'D1 trigger: posts.date_modified 자동 갱신',
           '감사 자동화: 주 1회 스캔 → 90일 경과 글 admin 큐에 추가',
@@ -315,7 +315,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         details: [
           '제목: "X가지 방법", "N단계", "Top 5" 형식 강력 선호',
           '본문: 번호 리스트(<ol>) + 각 항목 굵은 제목 + 2-3줄 설명',
-          'AI 파싱 최적 — 구조화된 데이터처럼 작동',
+          'AI 파싱 최적 - 구조화된 데이터처럼 작동',
           '덕계 deokgyeValidator 확장 대상 (listicle 구조 체크 추가)',
         ],
         examples: [
@@ -344,7 +344,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
       },
       {
         title: 'Citation Velocity (ChatGPT 2026 신규)',
-        source: 'ChatGPT 2026 알고리즘 업데이트 — 신규 랭킹 요인',
+        source: 'ChatGPT 2026 알고리즘 업데이트 - 신규 랭킹 요인',
         details: [
           '짧은 기간 내 여러 플랫폼에서 집중 인용되는 속도 측정',
           '브랜드 멘션 + 리뷰 + 백링크가 시기 집중되면 가중치 상승',
@@ -430,7 +430,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         title: '/llms.txt 파일',
         description: 'Anthropic 제안 2024 신표준',
         details: [
-          '루트 URL에 llms.txt — 사이트 요약 + 주요 링크',
+          '루트 URL에 llms.txt - 사이트 요약 + 주요 링크',
           '형식: Markdown, 단순한 계층 구조',
           'LLM이 사이트 전체 맥락 빠르게 파악',
           'robots.txt의 LLM 버전',
@@ -480,7 +480,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         title: '이미지 alt 상세 기술',
         critical: true,
         details: [
-          '단순 "사진" 금지 — 맥락·상황·키워드 포함',
+          '단순 "사진" 금지 - 맥락·상황·키워드 포함',
           'Google Image Search + AI Overview 이미지 발췌 대상',
           '접근성(스크린리더) 향상',
           '예: "2026년 4월 서울 광화문 일대 퇴근길 시위 군중"',
@@ -504,14 +504,14 @@ export const RULE_CATEGORIES: RuleCategory[] = [
     icon: '🇰🇷',
     summary: 'C-Rank + D.I.A. + P-Rank + SmartBlock + VIEW + AI 브리핑 2배 확대 예정',
     background:
-      '한국 검색 시장 네이버 56%, 구글 30%, 다음 4%. 네이버 알고리즘은 자체 생태계 우대 (blog.naver.com) — 외부 사이트 불리. 극복 전략 = 크로스 포스팅 + 네이버 기준 최적화. 2026 실증: 네이버 AEO 최적화 시 AI 인용률 37% ↑. 네이버 공식 발표(2026-02): AI 브리핑 적용 범위 2026년 말까지 2배 확대 + 상반기 "AI 탭" 출시 예정 + 쇼핑/로컬 영역으로 확장.',
+      '한국 검색 시장 네이버 56%, 구글 30%, 다음 4%. 네이버 알고리즘은 자체 생태계 우대 (blog.naver.com) - 외부 사이트 불리. 극복 전략 = 크로스 포스팅 + 네이버 기준 최적화. 2026 실증: 네이버 AEO 최적화 시 AI 인용률 37% ↑. 네이버 공식 발표(2026-02): AI 브리핑 적용 범위 2026년 말까지 2배 확대 + 상반기 "AI 탭" 출시 예정 + 쇼핑/로컬 영역으로 확장.',
     rules: [
       {
         title: 'Naver Search Advisor 등록',
         critical: true,
         source: 'https://searchadvisor.naver.com',
         details: [
-          '네이버 웹마스터 도구 — 소유권 확인 + sitemap 제출',
+          '네이버 웹마스터 도구 - 소유권 확인 + sitemap 제출',
           'Google Search Console의 네이버 버전',
           '등록 후 수집 요청 가능 (indexing 가속)',
         ],
@@ -539,7 +539,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         description: '개별 문서 정보성 + 쿼리 관련성',
         critical: true,
         details: [
-          '2019년 도입 — 글 하나의 품질을 정밀 분석',
+          '2019년 도입 - 글 하나의 품질을 정밀 분석',
           '정보성 밀도 = 숫자·통계·시간·출처의 밀도',
           '실제 체험기 + 상세 의견이 높은 가중',
           'deokgyeValidator가 정보성 밀도 30점+ 강제',
@@ -590,7 +590,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
           '문법 + 맞춤법 정확',
           '자연스러운 한국어 문장 (번역투 금지)',
           '한국 문화 컨텍스트 반영',
-          'Gemini/Claude로 번역한 글은 티가 남 — 반드시 한국어로 생성',
+          'Gemini/Claude로 번역한 글은 티가 남 - 반드시 한국어로 생성',
         ],
       },
       {
@@ -621,7 +621,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
     icon: '🎯',
     summary: 'Constitutional AI 감점 회피 + Bing 전용 IndexNow',
     background:
-      'Claude는 Constitutional AI 원칙으로 판매 지향·과장된 콘텐츠를 감점. Bing은 IndexNow 프로토콜을 공식 지원 — 즉시 인덱싱 가능.',
+      'Claude는 Constitutional AI 원칙으로 판매 지향·과장된 콘텐츠를 감점. Bing은 IndexNow 프로토콜을 공식 지원 - 즉시 인덱싱 가능.',
     rules: [
       {
         title: '겸손하고 nuanced한 톤',
@@ -659,7 +659,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
           '글 발행 시 POST /indexnow로 Bing에 즉시 통보',
           '크롤러 방문을 기다리지 않고 초 단위 반영',
           'Cloudflare Pages Function에 구현 (publish.ts)',
-          'Google은 미지원 — Google은 sitemap ping만',
+          'Google은 미지원 - Google은 sitemap ping만',
         ],
       },
     ],
@@ -670,7 +670,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
     icon: '💰',
     summary: '승인 조건 + 게재 후 CLS 방어 + 수익 극대화',
     background:
-      '덕계 주 수익원. 2020년 이후 승인 심사 강화 — E-E-A-T + 양질 콘텐츠 + 필수 페이지가 없으면 거절. 승인 후에도 광고 배치 실수로 CLS 악화 → 랭킹 하락 악순환.',
+      '덕계 주 수익원. 2020년 이후 승인 심사 강화 - E-E-A-T + 양질 콘텐츠 + 필수 페이지가 없으면 거절. 승인 후에도 광고 배치 실수로 CLS 악화 → 랭킹 하락 악순환.',
     rules: [
       {
         title: '루트 도메인 랜딩 페이지',
@@ -691,7 +691,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
           'AdSense 심사자가 "충분한 콘텐츠" 확인',
           '각 글 1,000자+ 양질',
           '카테고리별 최소 3글 이상 권장',
-          '덕계 현재 10글 발행 — 신청 가능 상태',
+          '덕계 현재 10글 발행 - 신청 가능 상태',
         ],
       },
       {
@@ -719,9 +719,9 @@ export const RULE_CATEGORIES: RuleCategory[] = [
     id: 'format',
     label: '콘텐츠 템플릿 포맷 (강제)',
     icon: '📐',
-    summary: '글 1편의 구조 — 제목/서론/H2·H3/FAQ/빠른답/이미지',
+    summary: '글 1편의 구조 - 제목/서론/H2·H3/FAQ/빠른답/이미지',
     background:
-      '매 글마다 구조가 달라지면 LLM·검색엔진이 학습 못함. 덕계는 강제 템플릿 적용 — deokgyeWriter가 구조 생성, deokgyeValidator가 강제.',
+      '매 글마다 구조가 달라지면 LLM·검색엔진이 학습 못함. 덕계는 강제 템플릿 적용 - deokgyeWriter가 구조 생성, deokgyeValidator가 강제.',
     rules: [
       {
         title: '제목 60자 이내 + Listicle 숫자',
@@ -729,9 +729,9 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         source: '2026: Listicle이 AI 인용의 74.2% 차지',
         details: [
           '60자: 구글 SERP 잘림 방지',
-          '숫자 필수: "N가지", "5단계", "Top 3" — AI 인용 폭발',
+          '숫자 필수: "N가지", "5단계", "Top 3" - AI 인용 폭발',
           'SmartBlock + Featured Snippet + Google AIO 모두 선호',
-          '예: "연차휴가 발생기준 2026 총정리 — 근속연수별 일수·계산법 5단계"',
+          '예: "연차휴가 발생기준 2026 총정리 - 근속연수별 일수·계산법 5단계"',
         ],
       },
       {
@@ -757,7 +757,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         details: [
           'H2 아래 구체 단계·옵션·케이스',
           '각 H3 아래 3-7문장',
-          'H4 이하는 가독성 저하 — 지양',
+          'H4 이하는 가독성 저하 - 지양',
         ],
       },
       {
@@ -783,7 +783,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         examples: [
           {
             bad: 'alt="이미지"',
-            good: 'alt="2026년 4월 근로기준법 개정안 조문 비교표 — 제23조 부당해고 조항"',
+            good: 'alt="2026년 4월 근로기준법 개정안 조문 비교표 - 제23조 부당해고 조항"',
           },
         ],
       },
@@ -802,7 +802,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
     id: 'validation',
     label: '자동 검증 규칙 (코드 enforce)',
     icon: '✅',
-    summary: 'deokgyeValidator.ts에 코드 레벨로 강제 — 위반 시 재시도 또는 차단',
+    summary: 'deokgyeValidator.ts에 코드 레벨로 강제 - 위반 시 재시도 또는 차단',
     background:
       '프롬프트로 품질을 지시하면 Gemini/Claude가 편차를 보임. 코드로 강제하면 결정적. 14개 규칙을 validator가 검사 → 위반 시 최대 2회 재시도 → 그래도 실패하면 발행 차단.',
     rules: [
@@ -966,7 +966,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
     id: 'image-strategy',
     label: '이미지 전략 (키워드별 분기)',
     icon: '📸',
-    summary: 'AI생성 일색 지양 — 키워드 유형별 이미지 소스 달리',
+    summary: 'AI생성 일색 지양 - 키워드 유형별 이미지 소스 달리',
     background:
       '"고용24 신청 방법" 같은 실사용 키워드에 AI 생성 추상 이미지는 의미 없음. 독자가 보고 따라할 수 있는 실제 스크린샷이 필요. 이미지 유형을 키워드 의도에 맞게 분기.',
     rules: [
@@ -1037,7 +1037,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
     id: 'tone-experience',
     label: '톤 & 경험담',
     icon: '🗣️',
-    summary: '자연스러운 필자 톤 — 출처·인용 티 나면 신뢰 하락',
+    summary: '자연스러운 필자 톤 - 출처·인용 티 나면 신뢰 하락',
     background:
       '블로그 글은 필자가 직접 조사·경험한 느낌이 필요. "커뮤니티 후기" 같은 출처 명시는 복붙 감각 줌 → 신뢰도 하락 → 체류시간 감소.',
     rules: [
@@ -1047,7 +1047,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         source: 'feedback_experience_tone.md',
         examples: [
           {
-            bad: '<span class="v-card-source">— 커뮤니티 후기 (2026.02)</span>',
+            bad: '<span class="v-card-source">- 커뮤니티 후기 (2026.02)</span>',
             good: '서류 내고 3일 동안 연락 없어서 좀 불안했는데, 알고 보니 담당자가 바뀐 거였어요.',
             note: '직접 경험한 것처럼 자연스럽게',
           },
@@ -1063,7 +1063,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         details: [
           '"제가 직접 써보니", "3개월 써본 후기"',
           'E-E-A-T의 E(Experience) 시그널',
-          '허위 경험 금지 — 팩트체크에 잡힘',
+          '허위 경험 금지 - 팩트체크에 잡힘',
         ],
       },
       {
@@ -1098,9 +1098,9 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         description: 'stability × volume_factor × health',
         source: 'project_evergreen_system.md',
         details: [
-          'stability = max(0, 100 - CV%) — 변동계수 낮을수록 안정',
+          'stability = max(0, 100 - CV%) - 변동계수 낮을수록 안정',
           'volume_factor = min(1, log10(월검색량) / 5)',
-          'health = peakRatio / 100 — 하락세 페널티',
+          'health = peakRatio / 100 - 하락세 페널티',
           '60+ = 에버그린 / 50-59 = 준에버그린',
           'DataLab 시계열 2년(730일) 기준',
         ],
@@ -1131,7 +1131,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         source: 'MEMORY.md 플랫폼 전략',
         details: [
           '네이버 블로그 경유 시 상업 키워드 진입 금지',
-          '홈판(홈피드) 노출이 수익 핵심 — 검색 노출보다 큼',
+          '홈판(홈피드) 노출이 수익 핵심 - 검색 노출보다 큼',
           '정보성 키워드 위주',
           'Blogger에서만 고CPC 키워드 공략',
         ],
@@ -1169,7 +1169,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         details: [
           '우산 도메인: cars/dating/life 3개 카테고리',
           '모든 SEO 시그널이 한 도메인에 누적',
-          '최고 우선순위 — 먼저 여기 발행',
+          '최고 우선순위 - 먼저 여기 발행',
         ],
       },
       {
@@ -1209,7 +1209,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
           'Blogger 다중 계정 발행은 반드시 순차',
           'User Data 공유 때문에 병렬 불가',
           '동시 실행 시 로그인 세션 충돌',
-          'Promise.all 금지 — 순차 await',
+          'Promise.all 금지 - 순차 await',
         ],
       },
     ],
@@ -1302,7 +1302,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
     id: 'automation',
     label: '자동화 트리거 (n8n식 체계)',
     icon: '⚡',
-    summary: '이벤트 기반 파이프라인 — 규칙을 문서가 아닌 시스템으로 enforce',
+    summary: '이벤트 기반 파이프라인 - 규칙을 문서가 아닌 시스템으로 enforce',
     background:
       '규칙이 프롬프트/문서에만 있으면 무용. 시스템이 자동 트리거 → 검증 → 재시도 → 배포까지 체계적으로 돌아야 함 (n8n 워크플로우 자동화 철학). 현재 덕계 + vivid-blog 파이프라인은 7개 트리거 체인으로 구성. 향후 추가할 3개 트리거로 완결.',
     rules: [
@@ -1363,7 +1363,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         source: 'project_audit_automation.md',
         details: [
           'Cron 주 1회 (Gemini CLI OAuth Secret 복원)',
-          'Phase 5 발행 후 감사 — 인덱싱 + 성과 + 문제 감지',
+          'Phase 5 발행 후 감사 - 인덱싱 + 성과 + 문제 감지',
           '덕계에도 동일 패턴 적용 가능',
         ],
       },
@@ -1403,7 +1403,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
       },
       {
         title: '[T10 신규] AI 인용 모니터링',
-        description: '향후 추가 예정 — 장기',
+        description: '향후 추가 예정 - 장기',
         details: [
           '이벤트: CF Cron (주 1회)',
           '체인: Perplexity/ChatGPT API로 자기 브랜드 멘션 체크',
@@ -1461,7 +1461,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         source: 'https://www.bing.com/webmasters',
         details: [
           'Bing + Yahoo + DuckDuckGo 통합',
-          'GSC import 기능 — Google Search Console 설정 복사',
+          'GSC import 기능 - Google Search Console 설정 복사',
           'IndexNow 자동 통합',
         ],
       },
@@ -1470,7 +1470,7 @@ export const RULE_CATEGORIES: RuleCategory[] = [
         critical: true,
         source: 'https://register.search.daum.net',
         details: [
-          '다음은 자체 웹마스터 도구 없음 — 단순 사이트 등록만',
+          '다음은 자체 웹마스터 도구 없음 - 단순 사이트 등록만',
           '등록 후 크롤링 시작',
           'Daum은 카카오 검색과 동일 인덱스 공유',
         ],

@@ -1,4 +1,4 @@
-// IndexNow 프로토콜 — Bing, Yandex, Naver(일부) 즉시 인덱싱 통보
+// IndexNow 프로토콜 - Bing, Yandex, Naver(일부) 즉시 인덱싱 통보
 // 공식 문서: https://www.indexnow.org/documentation
 
 export const INDEXNOW_KEY = '0e0828f8e02e1a84268bf2cc0bfca3f5';

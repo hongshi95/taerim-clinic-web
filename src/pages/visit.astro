@@ -4,7 +4,7 @@ import Header from '~/components/layout/Header.astro';
 import Footer from '~/components/layout/Footer.astro';
 import { SITE, CLINIC } from '~/consts';
 
-const title = '오시는길 — 진료시간·주차·전화';
+const title = '오시는길 - 진료시간·주차·전화';
 const description = `${CLINIC.legalName} 위치, 진료시간, 주차, 전화번호 안내. ${CLINIC.address.addressLocality}.`;
 ---
 
@@ -40,7 +40,7 @@ const description = `${CLINIC.legalName} 위치, 진료시간, 주차, 전화번
 
   <main class="v-container py-12 md:py-16">
     <div class="grid gap-6 md:grid-cols-2">
-      {/* 주소·연락처 카드 — 시니어 친화 */}
+      {/* 주소·연락처 카드 - 시니어 친화 */}
       <section class="rounded-2xl bg-green-50/40 ring-1 ring-green-200/60 p-6 md:p-8">
         <h2 class="text-xl md:text-2xl font-bold text-green-950 mb-6 flex items-center gap-2">
           <span aria-hidden="true">📍</span> 위치 & 연락처
@@ -95,7 +95,7 @@ const description = `${CLINIC.legalName} 위치, 진료시간, 주차, 전화번
         </dl>
       </section>
 
-      {/* 진료시간 카드 — 시니어 친화 */}
+      {/* 진료시간 카드 - 시니어 친화 */}
       <section class="rounded-2xl bg-stone-50 ring-1 ring-stone-200 p-6 md:p-8">
         <h2 class="text-xl md:text-2xl font-bold text-stone-800 mb-6 flex items-center gap-2">
           <span aria-hidden="true">🕘</span> 진료시간
@@ -124,19 +124,19 @@ const description = `${CLINIC.legalName} 위치, 진료시간, 주차, 전화번
       </section>
     </div>
 
-    {/* 교통·주차 안내 — 시니어 친화 */}
+    {/* 교통·주차 안내 - 시니어 친화 */}
     <section class="mt-8 rounded-2xl bg-white ring-1 ring-stone-200 p-6 md:p-8">
       <h2 class="text-xl md:text-2xl font-bold text-stone-900 mb-6 flex items-center gap-2">
         <span aria-hidden="true">🚗</span> 교통·주차
       </h2>
       <ul class="space-y-4 text-[17px] md:text-lg text-stone-800 leading-[1.7]">
         <li><strong class="text-green-900">자가용</strong> · 한의원 인근 주차 가능 (상세 안내 준비 중)</li>
-        <li><strong class="text-green-900">대중교통</strong> · {CLINIC.address.addressLocality} 일대 — 버스·지하철 노선 안내 준비 중</li>
+        <li><strong class="text-green-900">대중교통</strong> · {CLINIC.address.addressLocality} 일대 - 버스·지하철 노선 안내 준비 중</li>
         <li><strong class="text-green-900">대구 시내·인근 지역에서</strong> · 달서구 대천동 위치, 인근 주거 지역에서 5~15분 거리</li>
       </ul>
     </section>
 
-    {/* 지도 embed — Google Maps 주소 기반 (API key 불필요) */}
+    {/* 지도 embed - Google Maps 주소 기반 (API key 불필요) */}
     <section class="mt-8 rounded-2xl bg-white ring-1 ring-stone-200 overflow-hidden">
       <header class="px-6 md:px-8 pt-6 pb-4 flex items-center justify-between gap-4 flex-wrap">
         <h2 class="text-xl md:text-2xl font-bold text-stone-900 flex items-center gap-2">

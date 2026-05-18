@@ -9,7 +9,7 @@
     "Noto Sans KR", "Malgun Gothic", sans-serif;
   --font-display: "Poppins", "Pretendard Variable", Pretendard, sans-serif;
 
-  /* 태림한의원 메인 톤 — forest green */
+  /* 태림한의원 메인 톤 - forest green */
   /* 太林(큰 숲) 컨셉. 한방 약초 잎 톤으로 사이트 전체 일관 */
   /* deok-* 변수명은 인프라 호환성 위해 유지, 값은 forest green */
   --color-deok-50: oklch(0.97 0.02 150);
@@ -24,7 +24,7 @@
   --color-deok-900: oklch(0.20 0.07 145);
   --color-deok-950: oklch(0.13 0.05 145);
 
-  /* easing tokens — natural smoothness for reveal + hover */
+  /* easing tokens - natural smoothness for reveal + hover */
   --ease-out-smooth: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -154,7 +154,7 @@ a {
 }
 
 /* ──────────────────────────────────────
-   Scroll Reveal — IntersectionObserver opt-in
+   Scroll Reveal - IntersectionObserver opt-in
    element에 [data-reveal] 추가하면 자동 적용
    ────────────────────────────────────── */
 [data-reveal] {
@@ -178,7 +178,7 @@ a {
 [data-reveal-delay="4"] { transition-delay: 320ms; }
 [data-reveal-delay="5"] { transition-delay: 400ms; }
 
-/* 사용자 motion preference 존중 — 모션 없이 바로 표시 */
+/* 사용자 motion preference 존중 - 모션 없이 바로 표시 */
 @media (prefers-reduced-motion: reduce) {
   [data-reveal] {
     opacity: 1;
@@ -188,7 +188,7 @@ a {
 }
 
 /* ──────────────────────────────────────
-   Header overlay variant — 히어로 위 투명, 스크롤 시 흰배경 전환
+   Header overlay variant - 히어로 위 투명, 스크롤 시 흰배경 전환
    ────────────────────────────────────── */
 .v-header-overlay {
   position: fixed;
@@ -214,7 +214,7 @@ a {
   box-shadow: 0 1px 24px -8px rgb(0 0 0 / 0.08);
 }
 
-/* overlay 모드 — 항상 deok-700 텍스트 (stone-50 hero 위 가독성 우선) */
+/* overlay 모드 - 항상 deok-700 텍스트 (stone-50 hero 위 가독성 우선) */
 .v-header-overlay .v-header-link,
 .v-header-overlay .v-header-brand,
 .v-header-overlay .v-header-icon {
@@ -223,7 +223,7 @@ a {
 }
 
 /* ──────────────────────────────────────
-   Card lift hover — hyesung 카드 패턴 차용
+   Card lift hover - hyesung 카드 패턴 차용
    ────────────────────────────────────── */
 .v-card-lift {
   transition:

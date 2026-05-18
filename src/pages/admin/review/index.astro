@@ -118,13 +118,13 @@ import { SITE } from '~/consts';
 
       document.getElementById('post-title').textContent = post.title;
       document.getElementById('post-slug').textContent = post.slug;
-      document.getElementById('post-status').textContent = `${post.fact_check_status || '—'}`;
+      document.getElementById('post-status').textContent = `${post.fact_check_status || '-'}`;
 
       const report = post.fact_check_report_parsed;
       if (!report) {
         document.getElementById('fact-summary').textContent = post.fact_check_summary || '팩트체크 보고서 없음';
-        document.getElementById('fact-confidence').textContent = post.fact_check_confidence || '—';
-        document.getElementById('fact-elapsed').textContent = '—';
+        document.getElementById('fact-confidence').textContent = post.fact_check_confidence || '-';
+        document.getElementById('fact-elapsed').textContent = '-';
         ['l1-content','l2-content','l3-content'].forEach((id) => {
           document.getElementById(id).innerHTML = '<p class="text-sm text-gray-400">보고서 JSON 없음</p>';
         });
@@ -132,8 +132,8 @@ import { SITE } from '~/consts';
       }
 
       document.getElementById('fact-summary').textContent = report.summary || '';
-      document.getElementById('fact-confidence').textContent = report.confidence || '—';
-      document.getElementById('fact-elapsed').textContent = report.elapsedMs ? (report.elapsedMs + 'ms') : '—';
+      document.getElementById('fact-confidence').textContent = report.confidence || '-';
+      document.getElementById('fact-elapsed').textContent = report.elapsedMs ? (report.elapsedMs + 'ms') : '-';
 
       // L1
       const l1 = report.layers?.l1_rules;

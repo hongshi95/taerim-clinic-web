@@ -84,7 +84,7 @@ const posts = defineCollection({
       .optional(),
     howtoTotalTime: z.string().optional(), // ISO 8601 (예: "PT30M")
 
-    // E-E-A-T 출처 (citations) — GEO 핵심
+    // E-E-A-T 출처 (citations) - GEO 핵심
     citations: z
       .array(
         z.object({

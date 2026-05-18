@@ -1,5 +1,5 @@
 ---
-// 카테고리별 큐레이션 — 대표 글(featured) 1개 + 최신 글 2개
+// 카테고리별 큐레이션 - 대표 글(featured) 1개 + 최신 글 2개
 import type { CollectionEntry } from 'astro:content';
 
 interface Props {
@@ -15,7 +15,7 @@ const slugOf = (p: CollectionEntry<'posts'>) =>
 ---
 
 <section class="py-16 md:py-20 bg-gradient-to-b from-white via-green-50/40 to-green-50/30 relative overflow-hidden">
-  {/* 옅은 노을 분위기 — hero와 일관성 */}
+  {/* 옅은 노을 분위기 - hero와 일관성 */}
   <div aria-hidden="true" class="absolute inset-0 -z-10 overflow-hidden">
     <div class="absolute -left-20 top-1/4 w-[400px] h-[400px] rounded-full bg-gradient-to-br from-green-200/20 to-transparent blur-3xl"></div>
     <div class="absolute right-0 bottom-0 w-[500px] h-[500px] rounded-full bg-gradient-to-tl from-green-200/20 to-transparent blur-3xl"></div>
@@ -64,7 +64,7 @@ const slugOf = (p: CollectionEntry<'posts'>) =>
             </header>
 
             <div class="grid gap-5 md:grid-cols-[1.4fr_1fr]">
-              {/* 대표 글 (큰 카드) — cover 유무에 따라 톤 분기 */}
+              {/* 대표 글 (큰 카드) - cover 유무에 따라 톤 분기 */}
               <a
                 href={`/${hero.data.category}/${heroSlug}/`}
                 class:list={[
@@ -87,7 +87,7 @@ const slugOf = (p: CollectionEntry<'posts'>) =>
                   </>
                 )}
 
-                {/* cover 없을 때 — 큰 emoji 배경으로 시각 임팩트 */}
+                {/* cover 없을 때 - 큰 emoji 배경으로 시각 임팩트 */}
                 {!hasCover && (
                   <div
                     aria-hidden="true"

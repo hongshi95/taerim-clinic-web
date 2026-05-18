@@ -33,7 +33,7 @@ export const SITE_NAVIGATION = [
   { label: '원장 소개', href: '/about' },
 ] as const;
 
-// 한의원 메타 (의료기관 정보 — GEO/AEO 최우선)
+// 한의원 메타 (의료기관 정보 - GEO/AEO 최우선)
 export const CLINIC = {
   legalName: '태림한의원',
   doctorName: '서조혁',
@@ -180,7 +180,7 @@ export const TREATMENTS = [
   },
 ] as const;
 
-// AI 크롤러 — 차단하지 않음 (GEO/AEO 전략)
+// AI 크롤러 - 차단하지 않음 (GEO/AEO 전략)
 // 2026년 현재 차단하면 AI 인용 기회 상실
 export const ALLOWED_AI_CRAWLERS = [
   'GPTBot', // OpenAI

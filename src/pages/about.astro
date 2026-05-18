@@ -5,14 +5,14 @@ import Footer from '~/components/layout/Footer.astro';
 import PhilosophyManifesto from '~/components/home/PhilosophyManifesto.astro';
 import { SITE, CLINIC, TREATMENTS } from '~/consts';
 
-const title = '원장 소개 — 서조혁 원장';
+const title = '원장 소개 - 서조혁 원장';
 const description = `${CLINIC.legalName} 서조혁 원장의 진료 철학과 진료 영역. 환자 경청, 통증 본질 추적, 과잉진료 X.`;
 ---
 
 <BaseLayout title={title} description={description} type="website" canonicalPath="/about/">
   <Header />
 
-  {/* Hero — 원장 사진 + 이름 + 간단 인용 */}
+  {/* Hero - 원장 사진 + 이름 + 간단 인용 */}
   <section class="bg-stone-50 border-b border-stone-200">
     <div class="v-container py-12 md:py-20 grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-16 items-center">
       <figure class="relative max-w-md mx-auto lg:mx-0">
@@ -58,10 +58,10 @@ const description = `${CLINIC.legalName} 서조혁 원장의 진료 철학과 �
     </div>
   </section>
 
-  {/* 진료 철학 매니페스토 — 좌우 교차 + scroll reveal (emptyfill 패턴) */}
+  {/* 진료 철학 매니페스토 - 좌우 교차 + scroll reveal (emptyfill 패턴) */}
   <PhilosophyManifesto />
 
-  {/* 진료 영역 + 콘텐츠 정책 — 압축된 정보 영역 */}
+  {/* 진료 영역 + 콘텐츠 정책 - 압축된 정보 영역 */}
   <section class="bg-stone-50 border-t border-stone-100 py-16 md:py-24">
     <div class="v-container max-w-4xl">
       {/* 진료 영역 */}
@@ -92,11 +92,11 @@ const description = `${CLINIC.legalName} 서조혁 원장의 진료 철학과 �
         </div>
       </div>
 
-      {/* 콘텐츠 정책 — 작게, 의료법 신뢰 */}
+      {/* 콘텐츠 정책 - 작게, 의료법 신뢰 */}
       <details class="mt-16 border-t border-stone-200 pt-10 group">
         <summary class="cursor-pointer text-[15px] md:text-base font-bold text-stone-700 hover:text-green-900 list-none flex items-center gap-2">
           <span aria-hidden="true" class="text-green-800 transition-transform group-open:rotate-90">▸</span>
-          이 사이트의 콘텐츠 정책 — 의료법 광고 가이드라인
+          이 사이트의 콘텐츠 정책 - 의료법 광고 가이드라인
         </summary>
         <div class="mt-5 text-[15px] md:text-base text-stone-600 leading-[1.85] space-y-3 pl-6">
           <p>태림한의원 사이트의 모든 진료 가이드 글은 다음을 따릅니다.</p>

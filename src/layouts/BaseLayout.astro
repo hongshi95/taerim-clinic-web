@@ -50,7 +50,7 @@ const canonical = `${SITE.url}${currentPath}`;
     {noIndex && <meta name="robots" content="noindex, nofollow" />}
     {!noIndex && <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />}
 
-    <!-- Favicon — logo.png 강제 우선 (브라우저가 SVG를 PNG보다 우선시하는 문제 회피) -->
+    <!-- Favicon - logo.png 강제 우선 (브라우저가 SVG를 PNG보다 우선시하는 문제 회피) -->
     <link rel="icon" type="image/png" sizes="any" href="/logo.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/logo.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/logo.png" />
@@ -118,7 +118,7 @@ const canonical = `${SITE.url}${currentPath}`;
   <body>
     <slot />
 
-    <!-- Scroll Reveal — [data-reveal] 요소 자동 활성 (IntersectionObserver) -->
+    <!-- Scroll Reveal - [data-reveal] 요소 자동 활성 (IntersectionObserver) -->
     <script is:inline>
       (() => {
         if (typeof window === 'undefined') return;
@@ -144,7 +144,7 @@ const canonical = `${SITE.url}${currentPath}`;
       })();
     </script>
 
-    <!-- Header overlay — scroll 12px 이상이면 is-scrolled 토글 -->
+    <!-- Header overlay - scroll 12px 이상이면 is-scrolled 토글 -->
     <script is:inline>
       (() => {
         const header = document.querySelector('.v-header-overlay');
