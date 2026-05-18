@@ -32,6 +32,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # CLAUDE.md feedback_no_em_dash: em dash(—) 절대 금지. 발견 시 build 차단.
+      # 정정: node scripts/remove-em-dash.mjs --all && git add -A && git commit
+      - name: Lint - em dash 금지 (글쓰기 규칙)
+        run: |
+          if grep -rn '—' src/ --include='*.astro' --include='*.ts' --include='*.tsx' --include='*.json' --include='*.mdx' --include='*.md' --include='*.css' --include='*.mjs' 2>/dev/null; then
+            echo ""
+            echo "❌ em dash(—) 발견 - CLAUDE.md 글쓰기 규칙 위반"
+            echo "   정정: node scripts/remove-em-dash.mjs --all"
+            exit 1
+          fi
+          echo "✓ em dash 없음"
+
       - name: Build site
         run: npm run build
 
