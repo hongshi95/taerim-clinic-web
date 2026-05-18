@@ -60,6 +60,8 @@ export const CLINIC = {
   // 플레이스(예약/소개) vs 지도(위치/길찾기) URL 분리
   naverPlaceUrl: 'https://m.place.naver.com/hospital/1221424403', // 예약·소개 (Place ID 1221424403)
   naverMapUrl: 'https://map.naver.com/p/entry/place/1221424403', // 지도·길찾기 (지도 + 마커 + 길찾기 버튼)
+  googleMapsUrl: 'https://maps.google.com/?cid=6334016964225006563', // Google Maps 비즈니스 listing (CID 6334016964225006563)
+  googleMapsCid: '6334016964225006563', // 16진수 0x57e6f2deb1edfbe3
   kakaoChannelUrl: '', // 사용자 입력 대기
   instagramUrl: 'https://www.instagram.com/taerim_han',
   threadsUrl: 'https://www.threads.com/@taerim_han?hl=ko',
@@ -86,6 +88,11 @@ export const ORGANIZATION = {
       '@type': 'PropertyValue',
       propertyID: 'NaverPlaceID',
       value: '1221424403',
+    },
+    {
+      '@type': 'PropertyValue',
+      propertyID: 'GoogleMapsCID',
+      value: '6334016964225006563',
     },
   ],
   medicalSpecialty: [
@@ -169,6 +176,7 @@ export const ORGANIZATION = {
   ],
   sameAs: [
     CLINIC.naverPlaceUrl,
+    CLINIC.googleMapsUrl,
     CLINIC.kakaoChannelUrl,
     CLINIC.instagramUrl,
     CLINIC.threadsUrl,
