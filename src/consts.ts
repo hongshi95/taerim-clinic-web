@@ -185,7 +185,7 @@ export const ORGANIZATION = {
   ].filter(Boolean),
 } as const;
 
-// 진료과목 5축 (treatments + 카테고리)
+// 진료과목 6축 (전문성 강화: 이모지 대신 카테고리 번호 + 영문 부제)
 export const TREATMENTS = [
   {
     slug: 'pain',
@@ -194,7 +194,6 @@ export const TREATMENTS = [
     shortDesc: '허리·목·어깨·무릎 통증을 추나·골타·약침으로',
     longDesc:
       '척추 정렬과 근막 균형을 회복하는 추나(척추·관절 손기법)와 골타요법, 약침을 결합하여 통증의 본질을 찾습니다.',
-    icon: '🩺',
   },
   {
     slug: 'diet',
@@ -203,7 +202,6 @@ export const TREATMENTS = [
     shortDesc: '체질을 고려한 한약 다이어트와 식이 상담',
     longDesc:
       '단순 체중 감량이 아닌 체질·식습관·대사 패턴을 파악해 요요를 막는 한약 다이어트 + 매선 체형 케어를 제공합니다.',
-    icon: '🥗',
   },
   {
     slug: 'accident',
@@ -212,7 +210,6 @@ export const TREATMENTS = [
     shortDesc: '자동차보험 적용 추나·약침 후유증 치료',
     longDesc:
       '교통사고 후 일반 검사로는 잘 잡히지 않는 근막·연부조직 손상을 추나·약침·한약으로 케어합니다. 자동차보험 적용.',
-    icon: '🚗',
   },
   {
     slug: 'pediatric',
@@ -221,7 +218,6 @@ export const TREATMENTS = [
     shortDesc: '소아 비염·키성장·성장추나·수험생 보약',
     longDesc:
       '아이의 비염·체질·수면·성장판을 함께 보고 한약과 성장추나를 병행합니다. 어머님·아버님과 충분히 상담합니다.',
-    icon: '👶',
   },
   {
     slug: 'beauty',
@@ -230,7 +226,6 @@ export const TREATMENTS = [
     shortDesc: '8자매선·코미용 매선·V라인 매선요법',
     longDesc:
       '한방 매선(녹는 실 시술)으로 팔자주름·코 라인·V라인·팔뚝 라인을 자연스럽게 정리합니다.',
-    icon: '✨',
   },
   {
     slug: 'constitution',
@@ -239,7 +234,6 @@ export const TREATMENTS = [
     shortDesc: '한약·보약·체질 진단으로 몸의 균형 회복',
     longDesc:
       '불면·이명·구안와사·만성피로·갱년기·산전산후·수험생 보약·녹용·공진단까지. 체질을 보고 균형을 회복하는 한약 처방을 합니다.',
-    icon: '🌿',
   },
 ] as const;
 

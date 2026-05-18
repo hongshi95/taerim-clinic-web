@@ -66,7 +66,7 @@ const slugOf = (p: PostEntry) => p.id.replace(/\.mdx?$/, '').split('/').pop();
           href={`/${cat.id}/`}
           class="px-3 py-1.5 rounded-full bg-gray-100 hover:bg-deok-50 hover:text-deok-700 text-gray-700 text-xs font-medium transition-colors"
         >
-          {cat.data.emoji ?? ''} {cat.data.name} {countByCategory[cat.id] ?? 0}
+          {cat.data.name} ({countByCategory[cat.id] ?? 0})
         </a>
       ))}
     </div>
@@ -101,8 +101,13 @@ const slugOf = (p: PostEntry) => p.id.replace(/\.mdx?$/, '').split('/').pop();
                           decoding="async"
                         />
                       ) : (
-                        <div class="w-full h-full flex items-center justify-center text-3xl bg-gradient-to-br from-gray-50 to-deok-50">
-                          {category?.data.emoji ?? '📝'}
+                        <div class="w-full h-full flex items-center justify-center bg-gradient-to-br from-deok-100 via-deok-50 to-stone-50">
+                          <span
+                            class="text-[9px] font-bold tracking-[0.2em] uppercase text-deok-700 text-center px-1"
+                            style="font-family: var(--font-display);"
+                          >
+                            {category?.data.name ?? ''}
+                          </span>
                         </div>
                       )}
                     </div>
@@ -112,11 +117,11 @@ const slugOf = (p: PostEntry) => p.id.replace(/\.mdx?$/, '').split('/').pop();
                       <div class="flex items-center gap-1.5 mb-1.5">
                         {category && (
                           <span class="text-[10px] font-semibold text-deok-600">
-                            {category.data.emoji} {category.data.name}
+                            {category.data.name}
                           </span>
                         )}
                         {post.data.featured && (
-                          <span class="text-[9px] font-bold text-green-700">⭐</span>
+                          <span class="text-[9px] font-bold text-green-700 tracking-wider uppercase">대표</span>
                         )}
                       </div>
                       <h3 class="font-bold text-sm text-gray-900 leading-snug group-hover:text-deok-700 line-clamp-2">

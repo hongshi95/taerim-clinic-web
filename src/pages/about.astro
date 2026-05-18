@@ -74,10 +74,15 @@ const description = `${CLINIC.legalName} 서조혁 원장의 진료 철학과 �
         </h2>
 
         <ul class="mt-10 md:mt-12 grid sm:grid-cols-2 gap-x-10 gap-y-6">
-          {TREATMENTS.map((t) => (
+          {TREATMENTS.map((t, idx) => (
             <li class="border-b border-stone-200 pb-5">
               <div class="flex items-baseline gap-3 mb-2">
-                <span class="text-2xl">{t.icon}</span>
+                <span
+                  class="text-xs font-bold tracking-[0.2em] text-deok-700 tabular-nums"
+                  style="font-family: var(--font-display);"
+                >
+                  {String(idx + 1).padStart(2, '0')}
+                </span>
                 <h3 class="text-xl md:text-2xl font-bold text-stone-900 tracking-tight">{t.name}</h3>
               </div>
               <p class="text-[16px] md:text-[17px] text-stone-700 leading-[1.7]">{t.shortDesc}</p>

@@ -74,7 +74,12 @@ const collectionSchema = {
   <main class="v-container py-8">
     <!-- 카테고리 헤더 -->
     <header class="py-8 md:py-12 mb-8 border-b border-gray-100">
-      <div class="text-4xl mb-3">{category.data.emoji ?? ''}</div>
+      <div
+        class="text-[11px] font-bold tracking-[0.25em] uppercase text-deok-700 mb-3"
+        style="font-family: var(--font-display);"
+      >
+        진료 영역
+      </div>
       <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight">
         {category.data.name}
       </h1>
