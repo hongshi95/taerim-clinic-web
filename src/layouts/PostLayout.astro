@@ -10,7 +10,7 @@ import QuickAnswer from '~/components/content/QuickAnswer.astro';
 import FAQSection from '~/components/content/FAQSection.astro';
 import AuthorBio from '~/components/content/AuthorBio.astro';
 import Citations from '~/components/content/Citations.astro';
-import { SITE } from '~/consts';
+import { SITE, CLINIC } from '~/consts';
 
 interface FAQ {
   q: string;
@@ -209,6 +209,44 @@ const modDate =
         expertise={authorExpertise}
       />
     </article>
+
+    {/* 글 끝 예약 CTA - 환자 의사결정 전환 (네이버 플레이스 + 전화 + 오시는길) */}
+    <aside class="not-prose max-w-[680px] mx-auto mt-12 p-6 md:p-8 rounded-2xl bg-gradient-to-br from-green-50 via-stone-50 to-green-50 ring-1 ring-green-200/60">
+      <h2 class="text-xl md:text-2xl font-bold text-stone-900 mb-2">
+        궁금한 점이 있으신가요?
+      </h2>
+      <p class="text-stone-600 leading-relaxed mb-5 text-[15px] md:text-base">
+        본 글은 일반적인 의료 정보입니다. 정확한 진단·처방은 진료를 통해 이뤄집니다. 예약·상담 환영합니다.
+      </p>
+      <div class="flex flex-wrap gap-2.5">
+        {CLINIC.naverPlaceUrl && (
+          <a
+            href={CLINIC.naverPlaceUrl}
+            target="_blank"
+            rel="noopener"
+            style="color:#ffffff;background-color:#15803d;"
+            class="inline-flex items-center gap-2 px-5 py-3 rounded-full text-[15px] font-bold hover:bg-green-900 shadow-lg shadow-green-900/20"
+          >
+            🟢 네이버 플레이스에서 예약
+            <span aria-hidden="true">→</span>
+          </a>
+        )}
+        {CLINIC.phone && (
+          <a
+            href={`tel:${CLINIC.phone}`}
+            class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white text-green-900 text-[15px] font-bold border border-green-200 hover:bg-green-50"
+          >
+            📞 {CLINIC.phone}
+          </a>
+        )}
+        <a
+          href="/visit/"
+          class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white text-stone-700 text-[15px] font-bold border border-stone-300 hover:bg-stone-100"
+        >
+          🗺️ 오시는길
+        </a>
+      </div>
+    </aside>
 
     <!-- 공유 링크 -->
     <div class="max-w-[680px] mx-auto mt-12 pt-6 border-t border-gray-100 flex items-center justify-between text-sm">

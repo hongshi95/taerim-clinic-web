@@ -78,6 +78,14 @@ export const ORGANIZATION = {
     height: 128,
   },
   image: `${SITE.url}/images/clinic/clinic-exterior.jpg`,
+  // 외부 식별자 (AEO/GEO: 검색 엔진이 같은 비즈니스로 인식)
+  identifier: [
+    {
+      '@type': 'PropertyValue',
+      propertyID: 'NaverPlaceID',
+      value: '1221424403',
+    },
+  ],
   medicalSpecialty: [
     'TraditionalChinese',
     'PhysicalMedicineAndRehabilitation',
