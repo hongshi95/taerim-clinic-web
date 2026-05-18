@@ -1,4 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
-  <rect width="128" height="128" rx="20" fill="#1e4a32"/>
-  <text x="64" y="92" font-family="'Pretendard Variable','Apple SD Gothic Neo','Noto Sans KR','Malgun Gothic',sans-serif" font-size="78" font-weight="800" fill="#ffffff" text-anchor="middle">태</text>
+  <!-- 태림한의원 임시 favicon — 사용자 제공 로고 색상 매칭 (밝은 forest green + 흰 배경 + 太 한자) -->
+  <!-- TODO: 진짜 로고 PNG가 public/logo.png에 저장되면 BaseLayout이 우선 사용 (link rel=icon href=/logo.png) -->
+  <rect width="128" height="128" rx="20" fill="#ffffff" stroke="#0a8a2e" stroke-width="5"/>
+  <text x="64" y="94" font-family="'Noto Serif KR', 'Nanum Myeongjo', serif" font-size="84" font-weight="800" fill="#0a8a2e" text-anchor="middle">太</text>
 </svg>
