@@ -136,6 +136,32 @@ export const ORGANIZATION = {
       name: '한약 처방',
       procedureType: 'https://schema.org/TherapeuticProcedure',
     },
+    // 기본 진료 (한방 표준)
+    {
+      '@type': 'MedicalProcedure',
+      name: '침치료',
+      procedureType: 'https://schema.org/PercutaneousProcedure',
+    },
+    {
+      '@type': 'MedicalProcedure',
+      name: '전침치료',
+      procedureType: 'https://schema.org/PercutaneousProcedure',
+    },
+    {
+      '@type': 'MedicalProcedure',
+      name: '부항',
+      procedureType: 'https://schema.org/TherapeuticProcedure',
+    },
+    {
+      '@type': 'MedicalProcedure',
+      name: '사혈부항',
+      procedureType: 'https://schema.org/TherapeuticProcedure',
+    },
+    {
+      '@type': 'MedicalProcedure',
+      name: '물리치료',
+      procedureType: 'https://schema.org/TherapeuticProcedure',
+    },
   ],
   // 진료 영역 catalog (AEO: "어떤 진료" 질문 답변 강화)
   hasOfferCatalog: {
