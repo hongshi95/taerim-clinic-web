@@ -11,7 +11,7 @@ export const SITE = {
     import.meta.env.PUBLIC_SITE_DESCRIPTION ??
     '대구 달서구 대천동 태림한의원. 추나, 약침, 한약, 매선으로 통증치료, 다이어트, 교통사고, 소아성장, 피부미용, 체질개선 6가지 진료. 대구한의원, 달서구한의원, 대천동한의원.',
   locale: 'ko-KR',
-  defaultOgImage: '/images/clinic/clinic-exterior.jpg',
+  defaultOgImage: '/images/clinic/clinic-building.webp',
 } as const;
 
 export const SITE_VERIFICATIONS = {
@@ -81,7 +81,7 @@ export const ORGANIZATION = {
     width: 128,
     height: 128,
   },
-  image: `${SITE.url}/images/clinic/clinic-exterior.jpg`,
+  image: `${SITE.url}/images/clinic/clinic-building.webp`,
   // 외부 식별자 (AEO/GEO: 검색 엔진이 같은 비즈니스로 인식)
   identifier: [
     {

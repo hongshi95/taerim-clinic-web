@@ -17,6 +17,12 @@ const TARGETS = [
   { src: 'public/images/clinic/shockwave-machine.jpg', dst: 'public/images/clinic/shockwave-machine.webp', height: 1500 },
   { src: 'public/images/clinic/shockwave-treatment.jpg', dst: 'public/images/clinic/shockwave-treatment.webp', width: 1600 },
   { src: 'public/images/clinic/shockwave-focused.jpg', dst: 'public/images/clinic/shockwave-focused.webp', width: 1600 },
+  // 한의원 외관·입구·시설 (NAS 한의원에서 폴더)
+  { src: 'public/images/clinic/clinic-building.jpg', dst: 'public/images/clinic/clinic-building.webp', width: 1600 }, // 애플플라자 빌딩 전체 (visit hero)
+  { src: 'public/images/clinic/clinic-entrance.jpg', dst: 'public/images/clinic/clinic-entrance.webp', width: 1600 }, // 입구 + 太林 로고 (Heritage 접수)
+  { src: 'public/images/clinic/clinic-building-close.jpg', dst: 'public/images/clinic/clinic-building-close.webp', width: 1600 }, // 건물 가까이 (예비)
+  // 골타 시술 (NAS 05. 골타추나&견인 폴더)
+  { src: 'public/images/clinic/golta-treatment-hd.jpg', dst: 'public/images/clinic/golta-treatment-hd.webp', width: 1600 },
 ];
 
 for (const { src, dst, width, height } of TARGETS) {
