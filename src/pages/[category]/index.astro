@@ -69,21 +69,49 @@ const collectionSchema = {
 
   <Header />
 
+  {/* 카테고리 hero 이미지 (있을 때만) - F phase: 통증치료 = 충격파 focused 사진 */}
+  {category.data.heroImage && (
+    <section class="relative bg-stone-900 w-full h-[240px] sm:h-[300px] md:h-[360px] overflow-hidden">
+      <img
+        src={category.data.heroImage}
+        alt={category.data.heroImageAlt ?? category.data.name}
+        class="absolute inset-0 w-full h-full object-cover object-center opacity-60"
+        loading="eager"
+        decoding="async"
+      />
+      <div class="absolute inset-0 bg-gradient-to-t from-stone-950/85 via-stone-950/40 to-transparent"></div>
+      <div class="absolute inset-0 flex items-end">
+        <div class="v-container w-full pb-8 md:pb-12">
+          <div class="text-[11px] md:text-xs font-bold tracking-[0.25em] uppercase text-green-300 mb-3" style="font-family: var(--font-display);">
+            진료 영역
+          </div>
+          <h1 class="text-3xl md:text-5xl font-bold text-white tracking-tight">
+            {category.data.name}
+          </h1>
+        </div>
+      </div>
+    </section>
+  )}
+
   <Breadcrumb items={[{ name: category.data.name, href: `/${categorySlug}/` }]} />
 
   <main class="v-container py-8">
-    <!-- 카테고리 헤더 -->
-    <header class="py-8 md:py-12 mb-8 border-b border-gray-100">
-      <div
-        class="text-[11px] font-bold tracking-[0.25em] uppercase text-deok-700 mb-3"
-        style="font-family: var(--font-display);"
-      >
-        진료 영역
-      </div>
-      <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight">
-        {category.data.name}
-      </h1>
-      <p class="mt-4 text-lg text-gray-600 max-w-2xl leading-relaxed">
+    {/* hero 이미지 있으면 헤더 텍스트만, 없으면 큰 h1 헤더 */}
+    <header class:list={[category.data.heroImage ? 'mb-8' : 'py-8 md:py-12 mb-8 border-b border-gray-100']}>
+      {!category.data.heroImage && (
+        <>
+          <div
+            class="text-[11px] font-bold tracking-[0.25em] uppercase text-deok-700 mb-3"
+            style="font-family: var(--font-display);"
+          >
+            진료 영역
+          </div>
+          <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-gray-900 leading-tight">
+            {category.data.name}
+          </h1>
+        </>
+      )}
+      <p class={category.data.heroImage ? 'text-lg text-gray-600 max-w-2xl leading-relaxed' : 'mt-4 text-lg text-gray-600 max-w-2xl leading-relaxed'}>
         {category.data.description}
       </p>
       <p class="mt-4 text-sm text-gray-500">
@@ -142,6 +170,44 @@ const collectionSchema = {
         <p>아직 발행된 글이 없습니다.</p>
       </div>
     )}
+
+    {/* G phase: 카테고리 CTA - 환자분 직접 예약·문의 유도 */}
+    <aside class="mt-16 p-6 md:p-8 rounded-2xl bg-gradient-to-br from-green-50 via-stone-50 to-green-50 ring-1 ring-green-200/60">
+      <h3 class="text-xl md:text-2xl font-bold text-stone-900 mb-2">
+        {category.data.name} 진료 상담을 원하시나요?
+      </h3>
+      <p class="text-stone-600 leading-relaxed mb-5 text-[15px] md:text-base max-w-2xl">
+        본 카테고리의 글은 일반적인 의료 정보입니다. 환자분의 상태에 맞는 진단·처방은 진료를 통해 이뤄집니다.
+      </p>
+      <div class="flex flex-wrap gap-2.5">
+        {CLINIC.naverPlaceUrl && (
+          <a
+            href={CLINIC.naverPlaceUrl}
+            target="_blank"
+            rel="noopener"
+            style="color:#ffffff;background-color:#15803d;"
+            class="inline-flex items-center gap-2 px-5 py-3 rounded-full text-[15px] font-bold hover:bg-green-900 shadow-lg shadow-green-900/20"
+          >
+            네이버 플레이스에서 예약
+            <span aria-hidden="true">→</span>
+          </a>
+        )}
+        {CLINIC.phone && (
+          <a
+            href={`tel:${CLINIC.phone}`}
+            class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white text-green-900 text-[15px] font-bold border border-green-200 hover:bg-green-50 tabular-nums"
+          >
+            {CLINIC.phone}
+          </a>
+        )}
+        <a
+          href="/visit/"
+          class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white text-stone-700 text-[15px] font-bold border border-stone-300 hover:bg-stone-100"
+        >
+          오시는길
+        </a>
+      </div>
+    </aside>
   </main>
 
   <Footer />

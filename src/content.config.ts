@@ -12,6 +12,8 @@ const categories = defineCollection({
     emoji: z.string().optional(),
     color: z.string().optional(), // Tailwind gradient class
     order: z.number().default(0),
+    heroImage: z.string().optional(), // 카테고리 페이지 hero 이미지
+    heroImageAlt: z.string().optional(),
   }),
 });
 

@@ -1,6 +1,8 @@
 {
   "name": "통증치료",
-  "description": "허리·목·어깨·무릎 통증과 족저근막염, 십자인대 손상까지 - 추나·골타·약침으로 통증의 본질을 찾는 치료 가이드.",
+  "description": "허리·목·어깨·무릎 통증과 족저근막염, 십자인대 손상까지. 추나·골타·약침·충격파로 통증의 본질을 찾는 치료 가이드.",
   "color": "from-green-700 to-green-900",
-  "order": 1
+  "order": 1,
+  "heroImage": "/images/clinic/shockwave-focused.webp",
+  "heroImageAlt": "충격파 Focused probe 어깨 시술"
 }
