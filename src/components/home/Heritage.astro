@@ -38,6 +38,12 @@ const facilities = [
     title: '추나·골타·약침이 이뤄지는 공간',
   },
   {
+    image: '/images/clinic/shockwave-machine.webp',
+    alt: 'Ultra Dual 충격파 치료기 (Radial + Focused 듀얼 모드)',
+    label: '신규 도입',
+    title: '충격파 치료기 (Ultra Dual)',
+  },
+  {
     image: '/images/clinic/place-02.png',
     alt: '태림한의원 한약 추출 시설 - 가운 입은 원장이 한약을 달이는 모습',
     label: '한약 제조',
@@ -58,7 +64,7 @@ const facilities = [
       </h2>
     </header>
 
-    <div class="grid gap-4 md:gap-6 md:grid-cols-3 mb-16 md:mb-24">
+    <div class="grid gap-4 md:gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-16 md:mb-24">
       {facilities.map((f) => (
         <figure class="group">
           <div class="aspect-[4/3] overflow-hidden rounded-sm bg-stone-100 shadow-md shadow-stone-900/10">
