@@ -13,9 +13,10 @@ const TARGETS = [
   { src: 'public/images/clinic/chuna-hd.png', dst: 'public/images/clinic/chuna-hd.webp', width: 1600 },
   // cutout (alpha 보존): PNG -> webp (lossless 가능)
   { src: 'public/images/clinic/director-cutout.png', dst: 'public/images/clinic/director-cutout.webp', height: 1500 },
-  // 충격파 (Ultra Dual) - 사용자가 NAS 또는 채팅 첨부 사진을 저장하면 자동 최적화
+  // 충격파 (Ultra Dual) — 3장 (기계 + radial 시술 + focused 시술)
   { src: 'public/images/clinic/shockwave-machine.jpg', dst: 'public/images/clinic/shockwave-machine.webp', height: 1500 },
   { src: 'public/images/clinic/shockwave-treatment.jpg', dst: 'public/images/clinic/shockwave-treatment.webp', width: 1600 },
+  { src: 'public/images/clinic/shockwave-focused.jpg', dst: 'public/images/clinic/shockwave-focused.webp', width: 1600 },
 ];
 
 for (const { src, dst, width, height } of TARGETS) {
