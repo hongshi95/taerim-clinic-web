@@ -25,6 +25,8 @@ const TARGETS = [
   { src: 'public/images/clinic/golta-treatment-hd.jpg', dst: 'public/images/clinic/golta-treatment-hd.webp', width: 1600 },
   // 매선요법 도구 (NAS 미용/잼버매선실 - JAMBER 녹는 실 4본 정돈 사진, 환자 얼굴 없음 + 가격표 없음)
   { src: 'public/images/clinic/maesun-threads.jpg', dst: 'public/images/clinic/maesun-threads.webp', width: 1200 },
+  // 소아 추나 시술 (NAS 아이들 추나, wide landscape, 환자 얼굴 미노출, pediatric 카테고리 hero용)
+  { src: 'public/images/clinic/pediatric-chuna.jpg', dst: 'public/images/clinic/pediatric-chuna.webp', width: 1600 },
 ];
 
 for (const { src, dst, width, height } of TARGETS) {
