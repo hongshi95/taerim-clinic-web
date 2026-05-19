@@ -100,8 +100,15 @@ export const ORGANIZATION = {
     'PhysicalMedicineAndRehabilitation',
     'Pediatric',
   ],
-  // 시술별 medicalProcedure (Google 의료 검색이 시술명으로 매칭)
+  // 시술별 medicalProcedure 6종 (Google 의료 검색이 시술명으로 매칭)
   availableService: [
+    {
+      '@type': 'MedicalProcedure',
+      name: '충격파 치료 (Shockwave Therapy)',
+      procedureType: 'https://schema.org/TherapeuticProcedure',
+      bodyLocation: '근막·관절·건',
+      description: 'Ultra Dual (Radial + Focused) 듀얼 모드 비침습 충격파',
+    },
     {
       '@type': 'MedicalProcedure',
       name: '추나요법',
@@ -193,7 +200,7 @@ export const TREATMENTS = [
     nameEn: 'Pain Treatment',
     shortDesc: '허리·목·어깨·무릎 통증을 추나·골타·약침으로',
     longDesc:
-      '척추 정렬과 근막 균형을 회복하는 추나(척추·관절 손기법)와 골타요법, 약침을 결합하여 통증의 본질을 찾습니다.',
+      '척추 정렬과 근막 균형을 회복하는 추나·골타·약침·매선·한약, 그리고 신규 도입한 충격파(Ultra Dual Radial+Focused)를 환자 단계에 맞춰 조합합니다.',
   },
   {
     slug: 'diet',
