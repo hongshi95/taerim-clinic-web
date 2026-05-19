@@ -23,6 +23,8 @@ const TARGETS = [
   { src: 'public/images/clinic/clinic-building-close.jpg', dst: 'public/images/clinic/clinic-building-close.webp', width: 1600 }, // 건물 가까이 (예비)
   // 골타 시술 (NAS 05. 골타추나&견인 폴더)
   { src: 'public/images/clinic/golta-treatment-hd.jpg', dst: 'public/images/clinic/golta-treatment-hd.webp', width: 1600 },
+  // 매선요법 도구 (NAS 미용/잼버매선실 - JAMBER 녹는 실 4본 정돈 사진, 환자 얼굴 없음 + 가격표 없음)
+  { src: 'public/images/clinic/maesun-threads.jpg', dst: 'public/images/clinic/maesun-threads.webp', width: 1200 },
 ];
 
 for (const { src, dst, width, height } of TARGETS) {
