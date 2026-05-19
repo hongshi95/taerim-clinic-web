@@ -1,0 +1,61 @@
+---
+/**
+ * PostImage - 글 본문 이미지 공통 컴포넌트
+ *
+ * 의료법 56조(의료광고) 안전 규칙:
+ * - caption은 객관적 사실만 (시술 부위, 사용 장비, 모드 등)
+ * - "효과", "완치", "최고" 등 단정 표현 금지
+ * - 비교(전/후 사진)는 식약처 사전심의 영역 (별도 컴포넌트 + 심의 필요)
+ *
+ * 사용 예시:
+ * <PostImage
+ *   src="/images/clinic/shockwave-machine.webp"
+ *   alt="태림한의원 Ultra Dual 충격파 장비 (Radial + Focused 듀얼 모드)"
+ *   caption="Ultra Dual 충격파 장비, 태림한의원 신규 도입 (2026년 봄)"
+ *   width={1600}
+ *   height={1200}
+ * />
+ */
+interface Props {
+  src: string;
+  alt: string; // 필수 (a11y + SEO)
+  caption?: string; // 선택 (figure 캡션)
+  width?: number;
+  height?: number;
+  eager?: boolean; // hero 이미지일 때만 true (기본 lazy)
+}
+
+const {
+  src,
+  alt,
+  caption,
+  width = 1600,
+  height = 1067,
+  eager = false,
+} = Astro.props;
+
+// alt 누락 검증 (개발 단계 가드)
+if (!alt || alt.trim().length < 5) {
+  throw new Error(
+    `PostImage: alt는 5자 이상 필수입니다. (의료 콘텐츠 SEO + a11y 안전). src=${src}`
+  );
+}
+---
+
+<figure class="not-prose my-8">
+  <img
+    src={src}
+    alt={alt}
+    class="w-full rounded-xl"
+    loading={eager ? 'eager' : 'lazy'}
+    decoding="async"
+    width={width}
+    height={height}
+    fetchpriority={eager ? 'high' : 'auto'}
+  />
+  {caption && (
+    <figcaption class="mt-2 text-sm text-stone-500 text-center leading-relaxed">
+      {caption}
+    </figcaption>
+  )}
+</figure>

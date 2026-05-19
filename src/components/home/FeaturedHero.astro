@@ -31,10 +31,12 @@ const readMinutes = Math.max(2, Math.round(bodyLen / 600));
   {/* 상단 메타 띠 - 대표 + 읽기시간 + 날짜 */}
   <div class="mb-5 flex items-center gap-3 flex-wrap">
     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-green-50 text-green-900 text-xs font-bold ring-1 ring-green-300/70 shadow-sm">
-      ⭐ 이번 주 대표 글
+      <span aria-hidden="true" class="inline-block w-1.5 h-1.5 rounded-full bg-green-700"></span>
+      이번 주 대표 글
     </span>
     <span class="text-xs text-gray-500 flex items-center gap-1.5">
-      <span aria-hidden="true">⏱</span> {readMinutes}분 읽기
+      <svg aria-hidden="true" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      {readMinutes}분 읽기
     </span>
     <time class="text-xs text-gray-400 flex items-center gap-1.5" datetime={post.data.publishedAt.toISOString()}>
       <span aria-hidden="true">📅</span>
@@ -103,7 +105,7 @@ const readMinutes = Math.max(2, Math.round(bodyLen / 600));
       {/* 출처 (신뢰 신호) */}
       {sourceLabel && (
         <div class="mt-5 flex items-center gap-2 text-xs text-gray-500">
-          <span aria-hidden="true">📚</span>
+          <svg aria-hidden="true" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
           <span class="font-semibold">출처</span>
           <span class="text-gray-300">·</span>
           <span class="line-clamp-1">{sourceLabel}</span>

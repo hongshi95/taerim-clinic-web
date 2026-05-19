@@ -5,6 +5,7 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import Header from '~/components/layout/Header.astro';
 import Footer from '~/components/layout/Footer.astro';
 import RotatingHero from '~/components/home/RotatingHero.astro';
+import ClinicHoursStrip from '~/components/home/ClinicHoursStrip.astro';
 import DirectorProfile from '~/components/home/DirectorProfile.astro';
 import ClinicPhilosophy from '~/components/home/ClinicPhilosophy.astro';
 import SignatureTreatments from '~/components/home/SignatureTreatments.astro';
@@ -61,8 +62,11 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
   <main>
     {/* IA: HERO → WHO → WHY → WHAT(증상) → HOW(치료) → WHERE/WHEN → PROOF → ACTION */}
 
-    {/* 1. HERO - 첫인상 + 헤드라인 + 진료시간 */}
+    {/* 1. HERO - 첫인상 + 헤드라인 */}
     <RotatingHero />
+
+    {/* 1b. NOW - 진료시간 + 위치 + 예약 strip (환자가 "지금 가도 되나" 즉시 판단) */}
+    <ClinicHoursStrip />
 
     {/* 2. WHO - 의료진 (서조혁 원장) */}
     <div data-reveal>
@@ -174,7 +178,7 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
           </div>
           <div class="flex items-center gap-4">
             <a href="/posts/" class="text-sm text-deok-600 hover:text-deok-700 font-bold">
-              📚 전체 {allPosts.length}편 →
+              전체 {allPosts.length}편 →
             </a>
           </div>
         </header>
@@ -244,10 +248,12 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
         </p>
         <div class="mt-8 flex flex-wrap justify-center gap-3">
           <a href="/posts/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-green-800 text-white text-sm font-semibold hover:bg-green-900">
-            📚 진료 가이드 전체 보기
+            진료 가이드 전체 보기
+            <span aria-hidden="true">→</span>
           </a>
           <a href="/visit/" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white text-green-900 text-sm font-semibold border border-green-200 hover:bg-green-50">
-            🗺️ 오시는길·진료시간
+            <svg aria-hidden="true" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            오시는길·진료시간
           </a>
         </div>
       </div>
