@@ -15,7 +15,8 @@ import { CLINIC } from '~/consts';
 
   {/* fixed overlay header에 hero 첫 픽셀이 가려지지 않도록 상단 여유 */}
   <div class="v-container pt-24 sm:pt-28 md:pt-32 lg:pt-36 pb-10 sm:pb-14 md:pb-20 lg:pb-28">
-    {/* 단일 컬럼 - 원장 사진은 About 페이지에 위치, 메인은 활자 중심 */}
+    {/* lg에서 좌측 활자 + 우측 원장 인물 사진 (모바일은 활자만) */}
+    <div class="grid lg:grid-cols-[1fr_minmax(380px,440px)] gap-10 lg:gap-14 items-center">
     <div class="max-w-3xl">
       <div
         data-reveal
@@ -87,6 +88,32 @@ import { CLINIC } from '~/consts';
         <dt class="text-stone-500 font-medium">일·공휴일</dt>
         <dd class="text-stone-500">휴진</dd>
       </dl>
+    </div>
+
+      {/* 우측: 원장 portrait (lg에서만 표시) */}
+      <figure data-reveal data-reveal-delay="4" class="hidden lg:block relative">
+        <div class="aspect-[3/4] overflow-hidden rounded-sm shadow-2xl shadow-stone-900/20 ring-1 ring-stone-900/5">
+          <img
+            src="/images/clinic/director-02.webp"
+            alt="태림한의원 서조혁 원장"
+            class="w-full h-full object-cover object-top"
+            loading="eager"
+            fetchpriority="high"
+            decoding="async"
+            width="440"
+            height="586"
+          />
+        </div>
+        <figcaption class="absolute -bottom-3 left-4 right-4 bg-white px-4 py-3 shadow-lg shadow-stone-900/10 ring-1 ring-stone-200">
+          <div
+            class="text-[10px] font-bold tracking-[0.25em] uppercase text-deok-700"
+            style="font-family: var(--font-display);"
+          >
+            대표원장
+          </div>
+          <div class="text-base font-bold text-stone-900 mt-0.5">서조혁 한의사</div>
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>

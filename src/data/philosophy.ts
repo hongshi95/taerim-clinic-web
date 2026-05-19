@@ -117,7 +117,7 @@ export const PHILOSOPHY_PRINCIPLES: PrinciplePillar[] = [
     quote:
       '"제가 받아보고, 연구해 보고, 환자들에게 쫌 더 효과 좋은 치료를 하려고 항상 애쓰고 있습니다."',
     quoteSource: '환자 후기에 단 원장 답글 중',
-    image: '/images/clinic/chuna-treatment.png',
+    image: '/images/clinic/chuna-hd.webp',
     imageAlt: '서조혁 원장의 추나 치료 장면',
     align: 'left',
   },
