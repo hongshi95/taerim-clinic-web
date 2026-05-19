@@ -97,6 +97,18 @@ const posts = defineCollection({
       )
       .default([]),
 
+    // 내부 링크 (vivid-blog internal-linker-mdx가 빌드 파이프라인에서 자동 채움)
+    relatedPosts: z
+      .array(
+        z.object({
+          url: z.string().url(),
+          title: z.string().min(1),
+          summary: z.string().optional(),
+          cat: z.string().optional(),
+        })
+      )
+      .default([]),
+
     // 이미지
     coverImage: z.string().optional(),
     coverImageAlt: z.string().max(200).optional(), // SEO
