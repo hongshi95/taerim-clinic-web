@@ -1,11 +1,21 @@
 ---
-// 의료진 소개 - 자격/소속만 표시. 시간 기반 마일스톤(개원/연구 활동)은 Heritage 연혁으로 분리.
+// 의료진 소개 - 자격/소속 + 주요 진료 역량. 시간 기반 마일스톤(개원/연구 활동)은 Heritage 연혁으로 분리.
 const credentials = [
   '한의사 면허 (한의대·면허 번호 추가 예정)',
   '대한한의사협회 회원',
   '대한추나의학회 정회원',
   '대한약침학회 정회원',
   '척추신경추나의학회 아카데미 수료',
+];
+
+// 주요 진료 역량 - "무엇을 할 줄 아는가" (사실 나열, 과장 표현 회피)
+const skills = [
+  '충격파 (Ultra Dual)',
+  '추나요법',
+  '골타요법',
+  '약침 · 봉약침',
+  '매선요법',
+  '체질 한약 (원내 탕전)',
 ];
 ---
 
@@ -50,13 +60,30 @@ const credentials = [
           서조혁 <span style="color:#86efac;" class="text-2xl sm:text-3xl md:text-4xl font-medium align-baseline">원장</span>
         </h3>
 
-        <ul class="mt-8 md:mt-10 space-y-4 text-[17px] md:text-lg leading-[1.7]">
+        <div style="color:#86efac;" class="mt-8 md:mt-10 text-[11px] font-bold tracking-[0.25em] uppercase mb-3">
+          자격 · 소속
+        </div>
+        <ul class="space-y-4 text-[17px] md:text-lg leading-[1.7]">
           {credentials.map((c) => (
             <li class="flex items-start gap-3">
               <span aria-hidden="true" style="color:#86efac;" class="select-none mt-1.5 text-lg">●</span>
               <span style="color:rgba(255,255,255,0.95);">
                 {c}
               </span>
+            </li>
+          ))}
+        </ul>
+
+        <div style="color:#86efac;" class="mt-8 text-[11px] font-bold tracking-[0.25em] uppercase mb-3">
+          주요 진료
+        </div>
+        <ul class="flex flex-wrap gap-2.5">
+          {skills.map((s) => (
+            <li
+              style="background-color:rgba(255,255,255,0.08);color:rgba(255,255,255,0.95);border-color:rgba(134,239,172,0.3);"
+              class="px-3.5 py-1.5 rounded-full text-[14px] md:text-[15px] font-medium border"
+            >
+              {s}
             </li>
           ))}
         </ul>
