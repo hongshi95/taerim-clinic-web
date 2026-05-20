@@ -31,6 +31,38 @@ const body = post.body ?? '';
 const stats = readingTime(body);
 const wordCount = stats.words;
 const readingMinutes = Math.max(1, Math.ceil(stats.minutes));
+
+// 관련 글: manual relatedPosts(유효한 것만) 우선 + 같은 카테고리 자동 보충, 최대 3
+// 통폐합/삭제된 draft 글(hira·guide 등)을 가리키는 깨진 링크는 자동 제거
+const allPosts = await getCollection('posts', (p) => !p.data.draft);
+const slugOf = (p: (typeof allPosts)[number]) =>
+  p.id.replace(/\.mdx?$/, '').split('/').pop() ?? p.id;
+const slugFromUrl = (url: string) => url.replace(/\/$/, '').split('/').pop() ?? '';
+const validSlugs = new Set(allPosts.map((p) => slugOf(p)));
+
+// frontmatter relatedPosts에서 살아있는 글만 (draft·삭제 링크 제거)
+const manualValid = (post.data.relatedPosts ?? []).filter((r) =>
+  validSlugs.has(slugFromUrl(r.url))
+);
+const usedSlugs = new Set(manualValid.map((r) => slugFromUrl(r.url)));
+
+// 같은 카테고리에서 자동 보충 (manual에 없는 글, 최신순)
+const autoRelated = allPosts
+  .filter(
+    (p) =>
+      p.data.category === post.data.category &&
+      p.id !== post.id &&
+      !usedSlugs.has(slugOf(p))
+  )
+  .sort((a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime())
+  .map((p) => ({
+    url: `/${p.data.category}/${slugOf(p)}/`,
+    title: p.data.title,
+    summary: p.data.description,
+    cat: category.data.name,
+  }));
+
+const relatedPosts = [...manualValid, ...autoRelated].slice(0, 3);
 ---
 
 <PostLayout
@@ -57,7 +89,7 @@ const readingMinutes = Math.max(1, Math.ceil(stats.minutes));
   howtoSteps={post.data.howtoSteps}
   howtoTotalTime={post.data.howtoTotalTime}
   citations={post.data.citations}
-  relatedPosts={post.data.relatedPosts}
+  relatedPosts={relatedPosts}
 >
   <Content />
 </PostLayout>
