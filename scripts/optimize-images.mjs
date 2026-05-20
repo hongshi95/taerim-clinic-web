@@ -27,15 +27,18 @@ const TARGETS = [
   { src: 'public/images/clinic/maesun-threads.jpg', dst: 'public/images/clinic/maesun-threads.webp', width: 1200 },
   // 소아 추나 시술 (NAS 아이들 추나, wide landscape, 환자 얼굴 미노출, pediatric 카테고리 hero용)
   { src: 'public/images/clinic/pediatric-chuna.jpg', dst: 'public/images/clinic/pediatric-chuna.webp', width: 1600 },
+  // 경추/목 진료 (NAS 06. 어깨 목이 문제 폴더, EXIF orientation 6 - rotate 자동 보정, 환자 얼굴 미노출)
+  { src: 'public/images/clinic/neck-treatment.jpg', dst: 'public/images/clinic/neck-treatment.webp', width: 1600, rotate: true },
 ];
 
-for (const { src, dst, width, height } of TARGETS) {
+for (const { src, dst, width, height, rotate } of TARGETS) {
   if (!existsSync(src)) {
     console.log(`SKIP: ${src} not found`);
     continue;
   }
   const before = statSync(src).size;
   const pipeline = sharp(src);
+  if (rotate) pipeline.rotate(); // EXIF orientation 자동 적용 (세로로 찍힌 사진 보정)
   if (width) pipeline.resize(width, null, { withoutEnlargement: true });
   if (height) pipeline.resize(null, height, { withoutEnlargement: true });
   await pipeline.webp({ quality: 85, effort: 6 }).toFile(dst);
