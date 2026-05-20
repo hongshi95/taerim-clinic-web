@@ -29,6 +29,8 @@ const TARGETS = [
   { src: 'public/images/clinic/pediatric-chuna.jpg', dst: 'public/images/clinic/pediatric-chuna.webp', width: 1600 },
   // 경추/목 진료 (NAS 06. 어깨 목이 문제 폴더, EXIF orientation 6 - rotate 자동 보정, 환자 얼굴 미노출)
   { src: 'public/images/clinic/neck-treatment.jpg', dst: 'public/images/clinic/neck-treatment.webp', width: 1600, rotate: true },
+  // 손목 진료/촉진 (NAS 11. 자전거 손목 폴더, 손·손목만 노출, 손목터널 글 cover)
+  { src: 'public/images/clinic/wrist-treatment.jpg', dst: 'public/images/clinic/wrist-treatment.webp', width: 1600, rotate: true },
 ];
 
 for (const { src, dst, width, height, rotate } of TARGETS) {
