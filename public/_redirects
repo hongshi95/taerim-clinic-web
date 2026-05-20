@@ -8,3 +8,10 @@
 # favicon.svg(임시 太 글자) 캐시 회피 → 진짜 로고로 redirect
 # mask-icon(Safari pinned tab)은 link href로 직접 참조라 redirect 영향 없음
 /favicon.svg /logo.png 301
+
+# 추나 보험 글 통폐합 (SEO cannibalization 해결)
+# 동일 주제 3편 -> cost-2026 메인으로 권위 집중. hira/guide는 draft 처리 + 301
+/pain/chuna-therapy-health-insurance-cost-hira /pain/chuna-therapy-insurance-cost-2026 301
+/pain/chuna-therapy-health-insurance-cost-hira/ /pain/chuna-therapy-insurance-cost-2026/ 301
+/pain/chuna-therapy-insurance-cost-guide /pain/chuna-therapy-insurance-cost-2026 301
+/pain/chuna-therapy-insurance-cost-guide/ /pain/chuna-therapy-insurance-cost-2026/ 301
