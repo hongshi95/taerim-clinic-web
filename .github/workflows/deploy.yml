@@ -53,3 +53,9 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           command: pages deploy dist --project-name=taerim-clinic-web --branch=main --commit-message="auto deploy"
+
+      # 배포 직후 IndexNow로 Bing·네이버 등에 전체 URL 색인 통보 (자동)
+      # 키는 스크립트 기본값(public/{key}.txt) 사용. 통보 실패해도 배포는 성공 처리.
+      - name: IndexNow 색인 통보 (Bing·Naver)
+        run: node scripts/indexnow-submit.mjs
+        continue-on-error: true
