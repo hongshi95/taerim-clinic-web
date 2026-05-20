@@ -32,10 +32,16 @@ const facilities = [
     title: '환자분을 맞이하는 곳',
   },
   {
+    image: '/images/clinic/clinic-interior.webp',
+    alt: '태림한의원 진료실 - 원장이 견인 치료를 진행하는 모습',
+    label: '진료실',
+    title: '원장이 직접 진료하는 공간',
+  },
+  {
     image: '/images/clinic/treatment-room.png',
-    alt: '태림한의원 치료실',
+    alt: '태림한의원 치료실 (적외선 물리치료기 + 베드)',
     label: '치료실',
-    title: '추나·골타·약침이 이뤄지는 공간',
+    title: '물리치료·찜질 치료실',
   },
   {
     image: '/images/clinic/shockwave-machine.webp',
@@ -64,7 +70,7 @@ const facilities = [
       </h2>
     </header>
 
-    <div class="grid gap-4 md:gap-6 sm:grid-cols-2 lg:grid-cols-4 mb-16 md:mb-24">
+    <div class="grid gap-4 md:gap-6 sm:grid-cols-2 lg:grid-cols-5 mb-16 md:mb-24">
       {facilities.map((f) => (
         <figure class="group">
           <div class="aspect-[4/3] overflow-hidden rounded-sm bg-stone-100 shadow-md shadow-stone-900/10">
