@@ -20,24 +20,32 @@ const { citations } = Astro.props;
       출처 및 인용
     </h2>
     <ol class="space-y-3 text-sm text-gray-700">
-      {citations.map((c, i) => (
-        <li class="flex gap-3">
-          <span class="shrink-0 font-mono text-xs text-gray-500 pt-0.5">[{i + 1}]</span>
-          <div class="flex-1">
-            <p class="text-gray-700 leading-relaxed m-0">{c.claim}</p>
-            <p class="mt-1 text-xs text-gray-500 m-0">
-              출처:{' '}
-              {c.url ? (
-                <a href={c.url} rel="nofollow noopener" target="_blank" class="underline hover:text-deok-600">
-                  {c.source}
-                </a>
-              ) : (
-                <span>{c.source}</span>
-              )}
-            </p>
-          </div>
-        </li>
-      ))}
+      {citations.map((c, i) => {
+        // source 안에 URL이 텍스트로 박힌 경우 자동 추출 (예: "건강보험심사평가원, https://...")
+        const embeddedUrl = c.source.match(/(https?:\/\/[^\s,]+)/)?.[1];
+        const linkUrl = c.url ?? embeddedUrl;
+        const sourceName = embeddedUrl
+          ? c.source.replace(/,?\s*https?:\/\/[^\s,]+\/?/, '').trim()
+          : c.source;
+        return (
+          <li class="flex gap-3">
+            <span class="shrink-0 font-mono text-xs text-gray-500 pt-0.5">[{i + 1}]</span>
+            <div class="flex-1">
+              <p class="text-gray-700 leading-relaxed m-0">{c.claim}</p>
+              <p class="mt-1 text-xs text-gray-500 m-0">
+                출처:{' '}
+                {linkUrl ? (
+                  <a href={linkUrl} rel="nofollow noopener" target="_blank" class="underline hover:text-deok-600 break-all">
+                    {sourceName}
+                  </a>
+                ) : (
+                  <span>{sourceName}</span>
+                )}
+              </p>
+            </div>
+          </li>
+        );
+      })}
     </ol>
   </section>
 )}
