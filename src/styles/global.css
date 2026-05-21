@@ -113,7 +113,8 @@ a {
   @apply bg-transparent text-gray-100 p-0;
 }
 
-.v-prose img {
+/* 본문 이미지는 풀폭. 단 .not-prose 영역(저자 카드 아바타 등)은 제외해 자체 크기 유지 */
+.v-prose img:not(.not-prose *) {
   @apply my-6 rounded-lg w-full;
 }
 
