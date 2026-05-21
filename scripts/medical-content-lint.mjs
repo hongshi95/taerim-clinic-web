@@ -95,14 +95,27 @@ for (const file of files) {
   });
 }
 
-console.log(`\n검출: 🔴 ${high}건(의료법 위험) · 🟡 ${mid}건(효과 수치) · 🟢 ${low}건(출처 권장)`);
+console.log(`\n검출: 🔴 ${high}건(의료법 위험) · 🟡 ${mid}건(효과 수치)`);
 
-if (high === 0 && mid === 0) {
-  console.log('✓ 의료법 위험·효과 단정 표현 없음');
+// citations(1차 출처) 검사: 발행 글(draft 아닌)은 출처 필수
+let citationless = 0;
+for (const file of files) {
+  const text = readFileSync(file, 'utf8');
+  if (/\ndraft:\s*true/.test(text)) continue; // draft 글 제외
+  const hasCitation = /\ncitations:[\s\S]{0,120}?claim:/.test(text);
+  if (!hasCitation) {
+    console.log(`🟠 ${file}  [출처(citations) 없음 - 의료 글은 1차 출처 필수]`);
+    citationless++;
+  }
+}
+if (citationless > 0) console.log(`🟠 출처 없는 발행 글: ${citationless}건`);
+
+if (high === 0 && mid === 0 && citationless === 0) {
+  console.log('✓ 의료법 위험 표현 없음 + 모든 발행 글 출처 보유');
 }
 
-// strict 모드: high 등급 발견 시 빌드 차단
-if (STRICT && high > 0) {
-  console.error(`\n❌ 의료법 위험 표현 ${high}건 - 수정 필요 (--strict)`);
+// strict 모드: 의료법 위험(high) 또는 출처 없는 글이 있으면 빌드 차단
+if (STRICT && (high > 0 || citationless > 0)) {
+  console.error(`\n❌ 차단: 의료법 위험 ${high}건 + 출처 없는 글 ${citationless}건 (--strict)`);
   process.exit(1);
 }
