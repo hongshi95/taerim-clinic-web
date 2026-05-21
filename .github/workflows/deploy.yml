@@ -44,6 +44,11 @@ jobs:
           fi
           echo "✓ em dash 없음"
 
+      # 의료 콘텐츠 팩트체크 보조: 효과 단정·과장·최상급 표현(의료법 56조) 자동 차단
+      # 수정: 위험 표현 완화 후 재커밋. 오탐은 scripts/medical-content-lint.mjs 규칙 조정
+      - name: Lint - 의료 콘텐츠 위험 표현 (의료법)
+        run: node scripts/medical-content-lint.mjs --strict
+
       - name: Build site
         run: npm run build
 
