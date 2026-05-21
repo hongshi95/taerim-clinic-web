@@ -58,3 +58,6 @@ secrets-manager.bat
 .d1/
 *.sqlite
 *.sqlite-journal
+
+# Browser QA (pw 스크린샷·스냅샷 출력)
+.playwright-cli/

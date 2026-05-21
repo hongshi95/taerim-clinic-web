@@ -8,8 +8,10 @@ import RotatingHero from '~/components/home/RotatingHero.astro';
 import ClinicHoursStrip from '~/components/home/ClinicHoursStrip.astro';
 import DirectorProfile from '~/components/home/DirectorProfile.astro';
 import ClinicPhilosophy from '~/components/home/ClinicPhilosophy.astro';
+import CareJourney from '~/components/home/CareJourney.astro';
 import SignatureTreatments from '~/components/home/SignatureTreatments.astro';
 import Heritage from '~/components/home/Heritage.astro';
+import ReviewInvite from '~/components/home/ReviewInvite.astro';
 import FeaturedHero from '~/components/home/FeaturedHero.astro';
 import CategoryShowcase from '~/components/home/CategoryShowcase.astro';
 import SocialSidebar from '~/components/layout/SocialSidebar.astro';
@@ -60,7 +62,8 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
   <SocialSidebar />
 
   <main>
-    {/* IA: HERO → WHO → WHY → WHAT(증상) → HOW(치료) → WHERE/WHEN → PROOF → ACTION */}
+    {/* IA: HERO → NOW → WHO(원장) → WHY(철학) → CARE(진료과정) → WHAT(증상) → HOW(치료) → 둘러보기 → VOICE(후기) → GUIDE(건강정보) → ACTION
+        신뢰·관계 콘텐츠를 앞에 두고, 정보성(블로그)은 후기 다음 보조 블록으로 배치해 "정보만 나열" 인상을 줄임 */}
 
     {/* 1. HERO - 첫인상 + 헤드라인 */}
     <RotatingHero />
@@ -76,6 +79,11 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
     {/* 3. WHY - 진료 철학 3대 (듣기·체질·과잉진료 X) */}
     <div data-reveal>
       <ClinicPhilosophy />
+    </div>
+
+    {/* 3b. CARE - 진료 과정 4단계 (처음 오시면 어떻게 진료하나, 첫 방문 불안 해소) */}
+    <div data-reveal>
+      <CareJourney />
     </div>
 
     {/* 4. WHAT - 진료 영역 6축 (환자가 자기 증상으로 진입) */}
@@ -150,30 +158,35 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
       <Heritage />
     </div>
 
-    {/* 7. PROOF - 대표 글 (글이 발행되면 표시) */}
+    {/* 7. VOICE - 환자 후기 안내 (의료법 준수: 제3자 플랫폼 유도, 직접 게재 X) */}
+    <div data-reveal>
+      <ReviewInvite />
+    </div>
+
+    {/* 8. GUIDE - 대표 건강 정보 글 (참고용, 글이 발행되면 표시) */}
     {featuredHero && (
       <div id="quick-answers" class="scroll-mt-20" data-reveal>
         <FeaturedHero post={featuredHero} />
       </div>
     )}
 
-    {/* 8. PROOF - 카테고리별 큐레이션 (featured 제외 후 글 있을 때만) */}
+    {/* 9. GUIDE - 진료과목별 건강 정보 큐레이션 (featured 제외 후 글 있을 때만) */}
     {showcaseHasContent && (
       <div data-reveal>
         <CategoryShowcase categories={categories} postsByCategory={postsByCategoryExFeatured} />
       </div>
     )}
 
-    {/* 9. PROOF - 최신 글 그리드 (나머지) */}
+    {/* 10. GUIDE - 최신 건강 정보 그리드 (나머지) */}
     {recentRest.length > 0 && (
       <section class="v-container py-12 md:py-16 border-t border-green-100/40">
         <header data-reveal class="flex items-baseline justify-between mb-8">
           <div>
             <h2 class="text-2xl md:text-3xl font-bold text-gray-900">
-              더 최신 글
+              건강 정보 더 보기
             </h2>
             <p class="mt-1 text-xs text-gray-500">
-              홈에 보이지 않는 글은 "전체 글"에서 확인
+              진료 전에 읽어두면 도움이 되는 글입니다. 전체 글은 "진료 가이드"에서 확인하세요.
             </p>
           </div>
           <div class="flex items-center gap-4">
@@ -237,7 +250,7 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
       </section>
     )}
 
-    {/* 10. ACTION - 환자 안내 (RSS는 사용자 친화 X라 제거, HTML <link rel=alternate>로 검색엔진 노출 유지) */}
+    {/* 11. ACTION - 환자 안내 (RSS는 사용자 친화 X라 제거, HTML <link rel=alternate>로 검색엔진 노출 유지) */}
     <section class="bg-gradient-to-br from-green-50 via-stone-50 to-green-50 py-16 md:py-20 mt-10">
       <div data-reveal class="v-container text-center">
         <h2 class="text-2xl md:text-3xl font-bold text-gray-900">

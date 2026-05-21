@@ -1,0 +1,56 @@
+---
+// 환자 후기 안내 - 의료법 제56조(치료경험담 광고 금지) 준수
+// 후기를 사이트에 직접 옮기지 않고, 제3자 플랫폼(네이버·구글)에서 직접 확인하도록 유도.
+// 별점·평점 수치를 단정해 광고하지 않는다 (객관 채널 안내만).
+import { CLINIC } from '~/consts';
+---
+
+<section class="bg-gradient-to-b from-stone-50 via-green-50/30 to-white py-14 sm:py-16 md:py-20 border-y border-stone-200/60">
+  <div class="v-container">
+    <div class="max-w-2xl mx-auto text-center">
+      <div
+        class="text-[10px] sm:text-[11px] font-bold tracking-[0.2em] sm:tracking-[0.25em] uppercase text-green-900 mb-4"
+        style="font-family: var(--font-display);"
+      >
+        환자 후기
+      </div>
+      <h2 class="text-[1.7rem] sm:text-3xl md:text-4xl font-bold text-stone-900 tracking-tight leading-[1.25]">
+        진료받으신 분들의 이야기는, <span class="font-serif italic text-green-900">직접 읽어보세요</span>
+      </h2>
+      <p class="mt-5 text-base md:text-lg text-stone-600 leading-[1.8]">
+        후기는 저희가 옮겨 적지 않습니다. 진료받으신 분들이 네이버 플레이스와 구글 지도에 직접 남긴
+        후기를, 가공 없이 그대로 확인하실 수 있습니다.
+      </p>
+
+      <div class="mt-9 flex flex-col sm:flex-row justify-center gap-3">
+        {CLINIC.naverPlaceUrl && (
+          <a
+            href={CLINIC.naverPlaceUrl}
+            target="_blank"
+            rel="noopener"
+            style="background-color:#15803d;color:#ffffff;"
+            class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-[16px] font-bold hover:bg-green-900 shadow-lg shadow-green-900/20 transition-colors"
+          >
+            <span style="color:#ffffff;">네이버 플레이스 후기 보기</span>
+            <span aria-hidden="true" style="color:#ffffff;">→</span>
+          </a>
+        )}
+        {CLINIC.googleMapsUrl && (
+          <a
+            href={CLINIC.googleMapsUrl}
+            target="_blank"
+            rel="noopener"
+            class="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full text-[16px] font-bold border border-stone-300 bg-white text-stone-800 hover:bg-stone-50 transition-colors"
+          >
+            구글 지도 후기 보기
+            <span aria-hidden="true">→</span>
+          </a>
+        )}
+      </div>
+
+      <p class="mt-6 text-xs text-stone-500 leading-relaxed">
+        진료받으신 후 후기를 남겨주시면 같은 고민을 하는 다른 분들께 도움이 됩니다.
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,113 @@
+---
+// 진료 과정 4단계 - "처음 오시면 이렇게 진료합니다"
+// 신환의 첫 방문 불안을 줄이고, 체계적이고 환자 중심이라는 신뢰를 준다.
+// 의료법 준수: 진료 과정 설명만 (효과 단정·후기·과장 표현 없음).
+// 텍스트 피로 완화: 단계별 라인 아이콘 + 연결선 + 순차 등장(data-reveal) + hover.
+const steps = [
+  {
+    no: '01',
+    label: 'STEP 1 · 문진',
+    title: '충분히 듣습니다',
+    body: '어디가, 언제부터, 어떤 상황에서 아픈지 충분히 여쭙니다. 짧게 끝내지 않고 듣는 것에서 진료가 시작됩니다.',
+    icon: '<path d="M14 9a2 2 0 0 1-2 2H6l-4 4V4a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2z"/><path d="M18 9h2a2 2 0 0 1 2 2v11l-4-4h-6a2 2 0 0 1-2-2v-1"/>',
+  },
+  {
+    no: '02',
+    label: 'STEP 2 · 진단',
+    title: '원인을 함께 찾습니다',
+    body: '증상만이 아니라 체질, 자세, 생활습관까지 살핍니다. 다른 병원 검사 결과지를 가져오셔도 좋습니다.',
+    icon: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
+  },
+  {
+    no: '03',
+    label: 'STEP 3 · 설명',
+    title: '이해되게 설명합니다',
+    body: '무엇을, 왜, 어떻게 치료하는지 환자분이 알아들을 수 있는 말로 설명하고, 치료 방향을 함께 정합니다.',
+    icon: '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/>',
+  },
+  {
+    no: '04',
+    label: 'STEP 4 · 치료·관리',
+    title: '회복까지 함께합니다',
+    body: '추나, 약침, 충격파, 한약을 단계에 맞게 조합하고, 집에서 할 수 있는 관리까지 안내합니다.',
+    icon: '<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.29 1.51 4.04 3 5.5l7 7Z"/>',
+  },
+];
+---
+
+<section class="bg-gradient-to-b from-green-50/50 via-white to-white py-12 sm:py-16 md:py-24 border-b border-stone-100">
+  <div class="v-container">
+    <header data-reveal class="max-w-3xl mb-10 md:mb-16">
+      <div
+        class="text-[10px] sm:text-[11px] font-bold tracking-[0.2em] sm:tracking-[0.25em] uppercase text-green-900 mb-4"
+        style="font-family: var(--font-display);"
+      >
+        진료 과정
+      </div>
+      <h2 class="text-[1.7rem] sm:text-3xl md:text-4xl font-bold text-stone-900 tracking-tight leading-[1.2]">
+        처음 오시면, <span class="font-serif italic text-green-900">이렇게 진료합니다</span>
+      </h2>
+      <p class="mt-4 text-base md:text-lg text-stone-600 leading-relaxed">
+        처음 오시는 분도 긴장하지 않으셔도 됩니다. 태림한의원의 진료는 이 순서로 진행됩니다.
+      </p>
+    </header>
+
+    <ol class="relative grid gap-5 md:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {/* 단계 연결선 (lg에서 카드 사이를 잇는 흐름선) */}
+      <div
+        aria-hidden="true"
+        class="hidden lg:block absolute left-0 right-0 top-[3.6rem] h-px bg-gradient-to-r from-transparent via-green-300/70 to-transparent -z-0"
+      >
+      </div>
+
+      {steps.map((s, idx) => (
+        <li
+          data-reveal
+          data-reveal-delay={Math.min(idx + 1, 5)}
+          class="group v-card-lift relative h-full overflow-hidden rounded-2xl border border-stone-200 bg-white p-6 md:p-7 shadow-md shadow-stone-900/5 z-10"
+        >
+          {/* 옅은 숫자 워터마크 (시각 텍스처) */}
+          <span
+            aria-hidden="true"
+            class="absolute -right-3 -bottom-4 text-[5.5rem] font-bold text-green-900/[0.05] tabular-nums leading-none select-none pointer-events-none"
+            style="font-family: var(--font-display);"
+          >
+            {s.no}
+          </span>
+
+          {/* 단계 아이콘 배지 */}
+          <div class="relative mb-5 inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-green-50 text-green-800 ring-1 ring-green-100 transition-colors group-hover:bg-green-100">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="w-7 h-7 transition-transform duration-300 group-hover:scale-110"
+              aria-hidden="true"
+              set:html={s.icon}
+            />
+          </div>
+
+          <div
+            class="relative text-[10px] font-bold tracking-[0.2em] uppercase text-deok-700 mb-2"
+            style="font-family: var(--font-display);"
+          >
+            {s.label}
+          </div>
+          <h3 class="relative text-lg md:text-xl font-bold text-stone-900 tracking-tight">
+            {s.title}
+          </h3>
+          <p class="relative mt-2.5 text-[15px] md:text-base text-stone-700 leading-[1.75]">
+            {s.body}
+          </p>
+        </li>
+      ))}
+    </ol>
+
+    <p data-reveal class="mt-8 text-xs text-stone-500 leading-relaxed max-w-2xl">
+      ※ 진단과 처방은 진료를 통해 이뤄지며, 환자분의 상태에 따라 진료 순서와 치료 방법은 달라질 수 있습니다.
+    </p>
+  </div>
+</section>

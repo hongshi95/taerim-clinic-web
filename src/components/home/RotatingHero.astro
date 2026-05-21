@@ -98,29 +98,31 @@ import { CLINIC } from '~/consts';
       </dl>
     </div>
 
-      {/* 우측: 원장 portrait (lg에서만 표시) */}
-      <figure data-reveal data-reveal-delay="4" class="hidden lg:block relative">
-        <div class="aspect-[4/5] overflow-hidden rounded-sm shadow-2xl shadow-stone-900/20 ring-1 ring-stone-900/5">
-          <img
-            src="/images/clinic/director-02.webp"
-            alt="태림한의원 서조혁 원장"
-            class="w-full h-full object-cover object-[center_18%]"
-            loading="eager"
-            fetchpriority="high"
-            decoding="async"
-            width="440"
-            height="586"
-          />
-        </div>
-        <figcaption class="absolute -bottom-3 left-4 right-4 bg-white px-4 py-3 shadow-lg shadow-stone-900/10 ring-1 ring-stone-200">
-          <div
-            class="text-[10px] font-bold tracking-[0.25em] uppercase text-deok-700"
-            style="font-family: var(--font-display);"
-          >
-            대표원장
+      {/* 우측: 원장 portrait (lg에서만 표시) - 이미지 + 캡션 footer 통합 카드. 떠다니는/가리는 박스 제거 */}
+      <figure data-reveal data-reveal-delay="4" class="hidden lg:block">
+        <div class="overflow-hidden rounded-sm bg-white shadow-2xl shadow-stone-900/20 ring-1 ring-stone-900/5">
+          <div class="aspect-[4/5] overflow-hidden">
+            <img
+              src="/images/clinic/director-02.webp"
+              alt="태림한의원 서조혁 원장"
+              class="w-full h-full object-cover object-[center_18%]"
+              loading="eager"
+              fetchpriority="high"
+              decoding="async"
+              width="440"
+              height="586"
+            />
           </div>
-          <div class="text-base font-bold text-stone-900 mt-0.5">서조혁 한의사</div>
-        </figcaption>
+          <figcaption class="px-5 py-4 border-t border-stone-100">
+            <div
+              class="text-[10px] font-bold tracking-[0.25em] uppercase text-deok-700"
+              style="font-family: var(--font-display);"
+            >
+              대표원장
+            </div>
+            <div class="text-base font-bold text-stone-900 mt-0.5">서조혁 한의사</div>
+          </figcaption>
+        </div>
       </figure>
     </div>
   </div>
