@@ -1,0 +1,398 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/layout/Header.astro';
+import Footer from '~/components/layout/Footer.astro';
+import { TREATMENT_DETAILS, getAdjacentTreatments } from '~/data/treatments';
+import { SITE, CLINIC } from '~/consts';
+
+export function getStaticPaths() {
+  return TREATMENT_DETAILS.map((t) => ({
+    params: { slug: t.slug },
+    props: { treatment: t },
+  }));
+}
+
+const { treatment } = Astro.props;
+const { prev, next } = getAdjacentTreatments(treatment.slug);
+
+const seoTitle = `${treatment.name} (${treatment.nameEn}) - ${CLINIC.legalName}`;
+const seoDescription = `${CLINIC.address.addressLocality} ${CLINIC.legalName} ${treatment.name}. ${treatment.tagline}`;
+
+// MedicalWebPage + MedicalProcedure 스키마 (Google/AI가 시술 페이지로 인식)
+const pageSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'MedicalWebPage',
+  '@id': `${SITE.url}/treatments/${treatment.slug}/#webpage`,
+  name: seoTitle,
+  description: seoDescription,
+  url: `${SITE.url}/treatments/${treatment.slug}/`,
+  inLanguage: 'ko',
+  isPartOf: { '@id': `${SITE.url}/#website` },
+  about: {
+    '@type': 'MedicalProcedure',
+    name: `${treatment.name} (${treatment.nameEn})`,
+    procedureType: 'https://schema.org/TherapeuticProcedure',
+  },
+};
+
+// FAQPage 스키마 (GEO/리치 결과)
+const faqSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: treatment.faqs.map((f) => ({
+    '@type': 'Question',
+    name: f.q,
+    acceptedAnswer: { '@type': 'Answer', text: f.a },
+  })),
+};
+---
+
+<BaseLayout
+  title={seoTitle}
+  description={seoDescription}
+  type="article"
+  canonicalPath={`/treatments/${treatment.slug}/`}
+>
+  <slot name="head" slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify(pageSchema)} />
+    {treatment.faqs.length > 0 && (
+      <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+    )}
+  </slot>
+
+  <Header />
+
+  {/* Breadcrumb */}
+  <nav aria-label="breadcrumb" class="bg-stone-50 border-b border-stone-200">
+    <div class="v-container py-4 md:py-5">
+      <ol class="flex flex-wrap items-center gap-2 text-[14px] md:text-[15px] text-stone-600">
+        <li><a href="/" class="hover:text-green-900">홈</a></li>
+        <li aria-hidden="true">/</li>
+        <li><a href="/#treatments" class="hover:text-green-900">진료</a></li>
+        <li aria-hidden="true">/</li>
+        <li class="text-stone-900 font-medium">{treatment.name}</li>
+      </ol>
+    </div>
+  </nav>
+
+  {/* Hero - 시술명 + 사진 */}
+  <section class="bg-white">
+    <div class="v-container py-12 sm:py-16 md:py-24">
+      <div class="grid lg:grid-cols-[1.05fr_1fr] gap-10 lg:gap-16 items-center">
+        <div class="reveal max-w-2xl">
+          <div
+            class="text-[10px] sm:text-[11px] font-bold tracking-[0.25em] uppercase text-deok-700 mb-4"
+            style="font-family: var(--font-display);"
+          >
+            시그니처 진료 · {treatment.nameEn}
+          </div>
+          <h1 class="text-[2.1rem] sm:text-4xl md:text-5xl font-bold text-stone-900 tracking-tight leading-[1.15]">
+            {treatment.name}
+          </h1>
+          <p class="mt-5 md:mt-6 text-lg md:text-xl text-stone-700 leading-[1.7] font-medium">
+            {treatment.tagline}
+          </p>
+          <p class="mt-5 text-[16px] md:text-[17px] text-stone-600 leading-[1.85]">
+            {treatment.intro}
+          </p>
+        </div>
+
+        <figure class="reveal">
+          <div class="aspect-[4/3] overflow-hidden rounded-sm shadow-2xl shadow-stone-900/20 ring-1 ring-stone-900/5">
+            <img
+              src={treatment.heroImage}
+              alt={treatment.heroImageAlt}
+              class="w-full h-full object-cover object-center"
+              loading="eager"
+              decoding="async"
+              width="640"
+              height="480"
+            />
+          </div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  {/* 무엇인가요 + 이런 경우에 */}
+  <section class="bg-stone-50 border-y border-stone-200">
+    <div class="v-container py-14 sm:py-16 md:py-24">
+      <div class="grid lg:grid-cols-[1.3fr_1fr] gap-10 lg:gap-16 max-w-5xl mx-auto">
+        <div class="reveal">
+          <h2 class="text-2xl md:text-3xl font-bold text-stone-900 tracking-tight">
+            <span class="font-serif italic text-green-900 mr-2">·</span>{treatment.name}, 무엇인가요
+          </h2>
+          <div class="mt-6 space-y-5 text-[16px] md:text-lg text-stone-700 leading-[1.85]">
+            {treatment.whatIsIt.map((p) => <p>{p}</p>)}
+          </div>
+        </div>
+
+        <div class="reveal">
+          <div class="bg-white rounded-2xl border border-stone-200 p-6 md:p-7 shadow-md shadow-stone-900/5">
+            <div
+              class="text-[11px] font-bold tracking-[0.2em] uppercase text-green-900 mb-4"
+              style="font-family: var(--font-display);"
+            >
+              이런 경우에
+            </div>
+            <ul class="space-y-3.5">
+              {treatment.indications.map((item) => (
+                <li class="flex items-start gap-3 text-[15px] md:text-base text-stone-700 leading-[1.6]">
+                  <span aria-hidden="true" class="mt-1.5 inline-block w-1.5 h-1.5 rounded-full bg-green-700 shrink-0"></span>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  {/* 진행 방식 */}
+  <section class="bg-white">
+    <div class="v-container py-14 sm:py-16 md:py-24">
+      <header data-reveal class="max-w-3xl mb-10 md:mb-14">
+        <div
+          class="text-[10px] sm:text-[11px] font-bold tracking-[0.25em] uppercase text-green-900 mb-4"
+          style="font-family: var(--font-display);"
+        >
+          진행 방식
+        </div>
+        <h2 class="text-2xl md:text-3xl font-bold text-stone-900 tracking-tight leading-[1.2]">
+          이렇게 진행됩니다
+        </h2>
+      </header>
+
+      <ol class="grid gap-5 md:gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {treatment.process.map((step, idx) => (
+          <li class="reveal relative h-full rounded-2xl border border-stone-200 bg-stone-50 p-6">
+            <div
+              class="text-3xl md:text-4xl font-bold text-green-900/15 tabular-nums leading-none mb-3"
+              style="font-family: var(--font-display);"
+              aria-hidden="true"
+            >
+              {String(idx + 1).padStart(2, '0')}
+            </div>
+            <p class="text-[15px] md:text-base text-stone-700 leading-[1.7]">{step}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  {/* 사진 갤러리 */}
+  {treatment.gallery.length > 0 && (
+    <section class="bg-stone-50 border-y border-stone-200">
+      <div class="v-container py-14 sm:py-16 md:py-24">
+        <header data-reveal class="mb-8 md:mb-10">
+          <div
+            class="text-[10px] sm:text-[11px] font-bold tracking-[0.25em] uppercase text-green-900 mb-4"
+            style="font-family: var(--font-display);"
+          >
+            진료 사진
+          </div>
+          <h2 class="text-2xl md:text-3xl font-bold text-stone-900 tracking-tight leading-[1.2]">
+            {treatment.name} 현장
+          </h2>
+        </header>
+
+        <div class={`grid gap-4 md:gap-6 ${treatment.gallery.length === 1 ? 'max-w-2xl' : 'sm:grid-cols-2 lg:grid-cols-3'}`}>
+          {treatment.gallery.map((img) => (
+            <figure class="reveal">
+              <div class="aspect-[4/3] overflow-hidden rounded-sm bg-stone-100 shadow-md shadow-stone-900/10">
+                <img
+                  src={img.src}
+                  alt={img.alt}
+                  class="w-full h-full object-cover object-center"
+                  loading="lazy"
+                  decoding="async"
+                  width="600"
+                  height="450"
+                />
+              </div>
+              <figcaption class="mt-3 text-xs sm:text-sm text-stone-500 leading-relaxed">
+                {img.alt}
+              </figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {/* 이런 점이 있습니다 + 안내 */}
+  <section class="bg-white">
+    <div class="v-container py-14 sm:py-16 md:py-24">
+      <div class="reveal max-w-3xl mx-auto">
+        <div
+          class="text-[10px] sm:text-[11px] font-bold tracking-[0.25em] uppercase text-green-900 mb-4"
+          style="font-family: var(--font-display);"
+        >
+          알아두면 좋은 점
+        </div>
+        <div class="space-y-5 text-[16px] md:text-lg text-stone-700 leading-[1.9]">
+          {treatment.benefit.map((p) => <p>{p}</p>)}
+        </div>
+
+        {treatment.note && (
+          <p class="mt-7 text-sm text-stone-500 leading-relaxed border-l-2 border-stone-300 pl-4">
+            ※ {treatment.note}
+          </p>
+        )}
+
+        {/* FAQ */}
+        {treatment.faqs.length > 0 && (
+          <div class="mt-12 md:mt-16">
+            <h2 class="text-xl md:text-2xl font-bold text-stone-900 tracking-tight mb-6">
+              자주 묻는 질문
+            </h2>
+            <div class="space-y-3">
+              {treatment.faqs.map((f) => (
+                <details class="group rounded-xl border border-stone-200 bg-stone-50 p-5">
+                  <summary class="cursor-pointer list-none flex items-start gap-3 font-bold text-stone-900 text-[15px] md:text-base">
+                    <span aria-hidden="true" class="text-green-800 transition-transform group-open:rotate-90 mt-0.5">▸</span>
+                    <span>{f.q}</span>
+                  </summary>
+                  <p class="mt-3 pl-6 text-[15px] md:text-base text-stone-700 leading-[1.8]">{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* 관련 글 */}
+        {treatment.related.length > 0 && (
+          <div class="mt-12 md:mt-16">
+            <h2 class="text-xl md:text-2xl font-bold text-stone-900 tracking-tight mb-5">
+              더 읽어보기
+            </h2>
+            <ul class="flex flex-wrap gap-2.5">
+              {treatment.related.map((r) => (
+                <li>
+                  <a
+                    href={r.href}
+                    class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-green-50 text-green-900 text-[14px] md:text-[15px] font-semibold ring-1 ring-green-100 hover:bg-green-100 transition-colors"
+                  >
+                    {r.label}
+                    <span aria-hidden="true">→</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+
+  {/* CTA */}
+  <section class="bg-gradient-to-br from-green-50 via-stone-50 to-green-50 py-14 md:py-20 border-t border-green-100/60">
+    <div data-reveal class="v-container text-center max-w-2xl">
+      <h2 class="text-2xl md:text-3xl font-bold text-stone-900">
+        {treatment.name} 진료가 궁금하신가요?
+      </h2>
+      <p class="mt-3 text-stone-600 leading-relaxed">
+        이 페이지는 일반적인 의료 정보입니다. 환자분께 맞는 진단과 처방은 진료를 통해 이뤄집니다.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-3">
+        {CLINIC.naverPlaceUrl && (
+          <a
+            href={CLINIC.naverPlaceUrl}
+            target="_blank"
+            rel="noopener"
+            style="color:#ffffff;background-color:#15803d;"
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[15px] font-bold hover:bg-green-900 shadow-lg shadow-green-900/20 transition-colors"
+          >
+            <span style="color:#ffffff;">네이버 플레이스에서 예약</span>
+            <span aria-hidden="true" style="color:#ffffff;">→</span>
+          </a>
+        )}
+        {CLINIC.phone && (
+          <a
+            href={`tel:${CLINIC.phone}`}
+            class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-green-900 text-[15px] font-bold border border-green-200 hover:bg-green-50 tabular-nums"
+          >
+            {CLINIC.phone}
+          </a>
+        )}
+        <a
+          href="/visit/"
+          class="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white text-stone-700 text-[15px] font-bold border border-stone-300 hover:bg-stone-100"
+        >
+          오시는길
+        </a>
+      </div>
+    </div>
+  </section>
+
+  {/* prev/next 시술 navigation */}
+  <section class="bg-white">
+    <div class="v-container py-12 md:py-16">
+      <div class="max-w-5xl mx-auto grid sm:grid-cols-2 gap-4 md:gap-6">
+        {prev ? (
+          <a href={`/treatments/${prev.slug}/`} class="group block bg-stone-50 hover:bg-green-50 p-6 border border-stone-200 hover:border-green-300 transition-all">
+            <div class="text-[12px] font-bold tracking-[0.2em] uppercase text-stone-500 mb-2">← 이전 시술</div>
+            <div class="text-lg font-bold text-stone-900 group-hover:text-green-900 transition-colors">{prev.name}</div>
+          </a>
+        ) : <div></div>}
+        {next ? (
+          <a href={`/treatments/${next.slug}/`} class="group block bg-stone-50 hover:bg-green-50 p-6 border border-stone-200 hover:border-green-300 transition-all text-right">
+            <div class="text-[12px] font-bold tracking-[0.2em] uppercase text-stone-500 mb-2">다음 시술 →</div>
+            <div class="text-lg font-bold text-stone-900 group-hover:text-green-900 transition-colors">{next.name}</div>
+          </a>
+        ) : <div></div>}
+      </div>
+
+      <div class="mt-10 text-center">
+        <a href="/#treatments" class="inline-flex items-center gap-2 text-[16px] font-bold text-green-900 hover:text-green-700 transition-colors">
+          <span aria-hidden="true">←</span> 전체 진료 보기
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</BaseLayout>
+
+<style>
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1), transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .reveal.in-view {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    if (typeof window === 'undefined') return;
+    const reduce = window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches;
+    if (reduce) {
+      document.querySelectorAll('.reveal').forEach((el) => el.classList.add('in-view'));
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (e.isIntersecting) {
+            e.target.classList.add('in-view');
+            io.unobserve(e.target);
+          }
+        }
+      },
+      { threshold: 0.12, rootMargin: '0px 0px -8% 0px' }
+    );
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+  })();
+</script>

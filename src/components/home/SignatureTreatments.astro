@@ -1,8 +1,10 @@
 ---
 // 시그니처 시술 6종 - 환자분 단계마다 다른 방법으로 접근
 // (상담은 ClinicPhilosophy 섹션에서 별도 강조)
+// 각 카드는 /treatments/[slug] 상세 페이지로 연결
 const items = [
   {
+    slug: 'shockwave',
     image: '/images/clinic/shockwave-treatment.webp',
     alt: 'Ultra Dual 충격파 시술 (Radial probe, 팔 부위)',
     name: '충격파 (NEW)',
@@ -10,6 +12,7 @@ const items = [
     body: 'Ultra Dual 도입. Radial(방사형) + Focused(집속형) 듀얼 모드로 만성 근막 통증, 석회화건염, 회복 정체기에 비침습 적용합니다.',
   },
   {
+    slug: 'golta',
     image: '/images/clinic/golta-tapping.webp',
     alt: '서조혁 원장의 골타요법 시술 (고무망치형 타진기로 등·허리 자극)',
     name: '골타요법',
@@ -17,6 +20,7 @@ const items = [
     body: '뼈와 근육에 일정한 자극을 가해 척추 정렬과 관절 가동범위를 회복합니다. 허리·목·어깨·골반 통증에 적용합니다.',
   },
   {
+    slug: 'chuna',
     image: '/images/clinic/chuna-hd.webp',
     alt: '서조혁 원장의 추나 치료 (척추 정렬 시술)',
     name: '추나요법',
@@ -24,6 +28,7 @@ const items = [
     body: '척추와 관절을 손기법으로 교정합니다. 2019년부터 건강보험 적용이 시작된 한방 표준 치료입니다.',
   },
   {
+    slug: 'pharmacopuncture',
     image: '/images/clinic/pharmacopuncture.png',
     alt: '태림한의원 약침에 사용하는 봉독 정제 약품 (한국한약제약 분리정제봉독 B4-eBV)',
     name: '약침',
@@ -31,6 +36,7 @@ const items = [
     body: '한약 성분을 정제해 경혈에 주입합니다. 봉독·PDRN·황련 등 환자의 체질과 증상에 맞춰 사용합니다.',
   },
   {
+    slug: 'maesun',
     image: '/images/clinic/maesun-threads.webp',
     alt: '태림한의원 매선요법에 사용하는 JAMBER 매선실 (녹는 실 4본 정돈)',
     name: '매선요법',
@@ -38,6 +44,7 @@ const items = [
     body: '녹는 실(매선)을 경혈에 자입해 자연 흡수되며 효과 지속. V라인·8자 매선·코미용·팔뚝 라인까지 적용합니다.',
   },
   {
+    slug: 'herbal',
     image: '/images/clinic/place-02.png',
     alt: '태림한의원 한약 추출 시설 (직접 달이는 모습)',
     name: '한약·보약',
@@ -72,10 +79,11 @@ const items = [
     {/* 5종 grid - 첫 항목 hero card (2x), 나머지 4종 */}
     <div class="grid gap-4 md:gap-6 md:grid-cols-2 lg:grid-cols-3">
       {items.map((item, idx) => (
-        <article
+        <a
+          href={`/treatments/${item.slug}/`}
           data-reveal
           data-reveal-delay={Math.min(idx + 1, 5)}
-          class={`v-card-lift group relative overflow-hidden rounded-sm bg-white ring-1 ring-stone-200 shadow-md shadow-stone-900/10 hover:ring-deok-300 hover:shadow-xl hover:shadow-deok-900/15 ${idx === 0 ? 'md:col-span-2 md:row-span-1 lg:col-span-1' : ''}`}
+          class={`v-card-lift group relative block overflow-hidden rounded-sm bg-white ring-1 ring-stone-200 shadow-md shadow-stone-900/10 hover:ring-deok-300 hover:shadow-xl hover:shadow-deok-900/15 ${idx === 0 ? 'md:col-span-2 md:row-span-1 lg:col-span-1' : ''}`}
         >
           <div class="aspect-[4/3] overflow-hidden bg-stone-100">
             <img
@@ -101,8 +109,12 @@ const items = [
             <p class="mt-2.5 text-[16px] text-stone-700 leading-[1.75]">
               {item.body}
             </p>
+            <span class="mt-4 inline-flex items-center gap-1 text-xs font-bold text-deok-700 group-hover:text-deok-800">
+              자세히 보기
+              <span aria-hidden="true" class="transition-transform group-hover:translate-x-1">→</span>
+            </span>
           </div>
-        </article>
+        </a>
       ))}
     </div>
 
