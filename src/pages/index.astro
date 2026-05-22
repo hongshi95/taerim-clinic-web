@@ -1,5 +1,5 @@
 ---
-import { getCollection, getEntry } from 'astro:content';
+import { getCollection } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Header from '~/components/layout/Header.astro';
@@ -12,7 +12,6 @@ import CareJourney from '~/components/home/CareJourney.astro';
 import SignatureTreatments from '~/components/home/SignatureTreatments.astro';
 import Heritage from '~/components/home/Heritage.astro';
 import ReviewInvite from '~/components/home/ReviewInvite.astro';
-import FeaturedHero from '~/components/home/FeaturedHero.astro';
 import CategoryShowcase from '~/components/home/CategoryShowcase.astro';
 import SocialSidebar from '~/components/layout/SocialSidebar.astro';
 import { SITE, TREATMENTS, CLINIC } from '~/consts';
@@ -25,31 +24,12 @@ const allPosts = (await getCollection('posts', (p) => !p.data.draft)).sort(
   (a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime()
 );
 
-// 대표 글 - featured + coverImage 우선
-const featuredHero: CollectionEntry<'posts'> | undefined =
-  allPosts.find((p) => p.data.featured && p.data.coverImage) ??
-  allPosts.find((p) => p.data.featured) ??
-  allPosts[0];
-const featuredId = featuredHero?.id;
-
-// CategoryShowcase용 - featured 글 제외한 카테고리별 분류 (중복 방지)
-const postsByCategoryExFeatured: Record<string, CollectionEntry<'posts'>[]> = {};
+// 진료과목별 분류 - 홈 건강정보는 '진료과목별' 단일 섹션으로 통합 (대표글·최신글 그리드 제거)
+const postsByCategory: Record<string, CollectionEntry<'posts'>[]> = {};
 for (const p of allPosts) {
-  if (p.id === featuredId) continue;
-  (postsByCategoryExFeatured[p.data.category] ??= []).push(p);
+  (postsByCategory[p.data.category] ??= []).push(p);
 }
-const showcaseHasContent = Object.values(postsByCategoryExFeatured).some(arr => arr.length > 0);
-
-// 최신 글 그리드용 - featured + showcase에 쓰인 글 제외
-const usedIds = new Set<string>();
-if (featuredId) usedIds.add(featuredId);
-for (const cat of categories) {
-  const posts = postsByCategoryExFeatured[cat.id] ?? [];
-  const heroOfCat = posts.find((p) => p.data.featured) ?? posts[0];
-  if (heroOfCat) usedIds.add(heroOfCat.id);
-  posts.filter((p) => p !== heroOfCat).slice(0, 2).forEach((p) => usedIds.add(p.id));
-}
-const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
+const showcaseHasContent = Object.values(postsByCategory).some((arr) => arr.length > 0);
 ---
 
 <BaseLayout
@@ -163,94 +143,14 @@ const recentRest = allPosts.filter((p) => !usedIds.has(p.id)).slice(0, 6);
       <ReviewInvite />
     </div>
 
-    {/* 8. GUIDE - 대표 건강 정보 글 (참고용, 글이 발행되면 표시) */}
-    {featuredHero && (
-      <div id="quick-answers" class="scroll-mt-20" data-reveal>
-        <FeaturedHero post={featuredHero} />
-      </div>
-    )}
-
-    {/* 9. GUIDE - 진료과목별 건강 정보 큐레이션 (featured 제외 후 글 있을 때만) */}
+    {/* 8. GUIDE - 진료과목별 건강 정보 (홈 단일 블록. 대표글·최신글 그리드를 여기로 통합) */}
     {showcaseHasContent && (
-      <div data-reveal>
-        <CategoryShowcase categories={categories} postsByCategory={postsByCategoryExFeatured} />
+      <div id="health-info" class="scroll-mt-20" data-reveal>
+        <CategoryShowcase categories={categories} postsByCategory={postsByCategory} />
       </div>
     )}
 
-    {/* 10. GUIDE - 최신 건강 정보 그리드 (나머지) */}
-    {recentRest.length > 0 && (
-      <section class="v-container py-12 md:py-16 border-t border-green-100/40">
-        <header data-reveal class="flex items-baseline justify-between mb-8">
-          <div>
-            <h2 class="text-2xl md:text-3xl font-bold text-gray-900">
-              건강 정보 더 보기
-            </h2>
-            <p class="mt-1 text-xs text-gray-500">
-              진료 전에 읽어두면 도움이 되는 글입니다. 전체 글은 "진료 가이드"에서 확인하세요.
-            </p>
-          </div>
-          <div class="flex items-center gap-4">
-            <a href="/posts/" class="text-sm text-deok-600 hover:text-deok-700 font-bold">
-              전체 {allPosts.length}편 →
-            </a>
-          </div>
-        </header>
-
-        <ul class="grid gap-6 md:grid-cols-3">
-          {recentRest.map(async (post, idx) => {
-            const category = await getEntry('categories', post.data.category);
-            const slug = post.id.replace(/\.mdx?$/, '').split('/').pop();
-            return (
-              <li data-reveal data-reveal-delay={Math.min(idx + 1, 5)}>
-                <a
-                  href={`/${post.data.category}/${slug}/`}
-                  class="v-card-lift group block h-full rounded-2xl border border-gray-200 bg-white overflow-hidden hover:border-deok-300 hover:shadow-xl hover:shadow-deok-900/10"
-                >
-                  {post.data.coverImage ? (
-                    <div class="aspect-video bg-gray-100 overflow-hidden">
-                      <img
-                        src={post.data.coverImage}
-                        alt={post.data.coverImageAlt ?? post.data.title}
-                        class="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                        loading="lazy"
-                        decoding="async"
-                      />
-                    </div>
-                  ) : (
-                    <div class="aspect-video bg-gradient-to-br from-deok-100 via-deok-50 to-stone-50 flex items-center justify-center">
-                      <span
-                        class="text-xs font-bold tracking-[0.3em] uppercase text-deok-700"
-                        style="font-family: var(--font-display);"
-                      >
-                        {category?.data.name ?? '태림한의원'}
-                      </span>
-                    </div>
-                  )}
-                  <div class="p-5">
-                    {category && (
-                      <span class="inline-block text-xs font-medium text-deok-600 mb-2">
-                        {category.data.name}
-                      </span>
-                    )}
-                    <h3 class="font-bold text-gray-900 leading-snug group-hover:text-deok-700 transition-colors line-clamp-2">
-                      {post.data.title}
-                    </h3>
-                    <p class="mt-2 text-sm text-gray-600 line-clamp-2 leading-relaxed">
-                      {post.data.description}
-                    </p>
-                    <time class="mt-3 block text-[11px] text-gray-500" datetime={post.data.publishedAt.toISOString()}>
-                      {post.data.publishedAt.toLocaleDateString('ko-KR', { year: 'numeric', month: 'long', day: 'numeric' })}
-                    </time>
-                  </div>
-                </a>
-              </li>
-            );
-          })}
-        </ul>
-      </section>
-    )}
-
-    {/* 11. ACTION - 환자 안내 (RSS는 사용자 친화 X라 제거, HTML <link rel=alternate>로 검색엔진 노출 유지) */}
+    {/* 9. ACTION - 환자 안내 (RSS는 사용자 친화 X라 제거, HTML <link rel=alternate>로 검색엔진 노출 유지) */}
     <section class="bg-gradient-to-br from-green-50 via-stone-50 to-green-50 py-16 md:py-20 mt-10">
       <div data-reveal class="v-container text-center">
         <h2 class="text-2xl md:text-3xl font-bold text-gray-900">

@@ -34,7 +34,7 @@ const slugOf = (p: PostEntry) => p.id.replace(/\.mdx?$/, '').split('/').pop();
 
 <BaseLayout
   title={`전체 글 (${allPosts.length}편) - ${SITE.name}`}
-  description={`${SITE.name}에서 발행한 모든 실측 리뷰 ${allPosts.length}편. 자동차·연애·자기관리 카테고리별 전체 글을 날짜순으로 모았습니다.`}
+  description={`${SITE.name}에서 발행한 진료 가이드·건강 정보 ${allPosts.length}편. 통증·다이어트·교통사고·소아·피부·체질 진료과목별 전체 글을 날짜순으로 모았습니다.`}
   type="website"
   canonicalPath="/posts/"
 >
@@ -52,7 +52,7 @@ const slugOf = (p: PostEntry) => p.id.replace(/\.mdx?$/, '').split('/').pop();
         전체 글 <span class="text-deok-600">{allPosts.length}편</span>
       </h1>
       <p class="mt-3 text-sm md:text-base text-gray-600">
-        실측·검증 완료된 모든 리뷰를 날짜 순으로 모았습니다.
+        진료과목별 건강 정보를 날짜 순으로 모았습니다.
       </p>
     </header>
 
