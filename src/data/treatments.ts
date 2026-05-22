@@ -43,10 +43,10 @@ export const TREATMENT_DETAILS: TreatmentDetail[] = [
     heroImage: '/images/clinic/shockwave-treatment.webp',
     heroImageAlt: 'Ultra Dual 충격파 시술 (Radial 프로브, 팔 부위)',
     intro:
-      '충격파 치료는 몸 밖에서 발생시킨 파동을 통증 부위에 전달해, 약물이나 절개 없이 만성 근막 통증과 석회화건염 등에 적용하는 비침습 치료입니다. 태림한의원은 Ultra Dual을 도입해 Radial(방사형)과 Focused(집속형) 두 모드를 함께 씁니다.',
+      '충격파 치료는 몸 밖에서 발생시킨 파동을 통증 부위에 전달해, 약물이나 절개 없이 만성 근막 통증과 석회화건염 등에 적용하는 비침습 치료입니다. 태림한의원은 Ultra Dual을 도입해 Radial(방사형)과 Focused(집중형) 두 모드를 함께 씁니다.',
     whatIsIt: [
       '충격파(Shockwave)는 체외에서 만든 음향 에너지 파동을 피부를 통해 통증 부위로 전달하는 치료입니다. 바늘이나 절개가 없는 비침습 방식이라, 주사나 약물이 부담스러운 분께도 적용할 수 있습니다.',
-      'Radial(방사형)은 넓은 범위의 근막과 표층 통증에, Focused(집속형)는 더 깊은 지점에 에너지를 모아 전달합니다. 태림한의원은 두 모드를 모두 갖춘 Ultra Dual을 도입해, 부위와 깊이에 맞춰 조합합니다.',
+      'Radial(방사형)은 넓은 범위의 근막과 표층 통증에, Focused(집중형)는 더 깊은 지점에 에너지를 모아 전달합니다. 태림한의원은 두 모드를 모두 갖춘 Ultra Dual을 도입해, 부위와 깊이에 맞춰 조합합니다.',
     ],
     indications: [
       '오래된 어깨, 팔꿈치, 발바닥 등의 만성 근막 통증',
@@ -66,7 +66,7 @@ export const TREATMENT_DETAILS: TreatmentDetail[] = [
     ],
     gallery: [
       { src: '/images/clinic/shockwave-treatment.webp', alt: 'Ultra Dual 충격파 시술 장면 (Radial 프로브)' },
-      { src: '/images/clinic/shockwave-focused.webp', alt: 'Focused(집속형) 충격파 프로브' },
+      { src: '/images/clinic/shockwave-focused.webp', alt: 'Focused(집중형) 충격파 프로브' },
       { src: '/images/clinic/shockwave-machine.webp', alt: 'Ultra Dual 충격파 치료기 (Radial + Focused 듀얼 모드)' },
     ],
     faqs: [
