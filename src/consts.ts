@@ -16,7 +16,7 @@ export const SITE = {
 
 export const SITE_VERIFICATIONS = {
   google: import.meta.env.PUBLIC_GSC_VERIFICATION ?? '',
-  naver: import.meta.env.PUBLIC_NAVER_VERIFICATION ?? '',
+  naver: import.meta.env.PUBLIC_NAVER_VERIFICATION ?? '1e3a74581bd545f1862dc4b93faaed80bdddcce1', // 공개용 인증 토큰. CI 빌드에 env 없어도 prod에 반드시 노출되도록 기본값 고정
   bing: import.meta.env.PUBLIC_BING_VERIFICATION ?? '',
   daum: import.meta.env.PUBLIC_DAUM_VERIFICATION ?? '',
 } as const;
@@ -38,7 +38,7 @@ export const CLINIC = {
   legalName: '태림한의원',
   doctorName: '서조혁',
   doctorTitle: '한의사',
-  phone: '0507-1364-5379',
+  phone: '0507-1319-5379', // 네이버 스마트콜 '홈페이지' 채널 번호 (대표번호 053-633-5379)
   address: {
     streetAddress: '진천로 93 애플플라자 3층',
     addressLocality: '대구광역시 달서구',
@@ -47,15 +47,19 @@ export const CLINIC = {
     postalCode: '',
   },
   geo: {
-    latitude: 35.846, // 달서구 대천동 대략 (사용자 정밀화 대기)
-    longitude: 128.532,
+    latitude: 35.8166384, // 네이버 플레이스(1221424403) 기준 정밀 좌표
+    longitude: 128.5224521,
   },
   openingHours: [
-    // 사용자 입력 대기. 일반적인 한의원 표준값:
-    'Mo-Fr 09:30-19:00',
-    'Sa 09:30-13:00',
+    // 네이버 플레이스(1221424403) 기준. 점심 13:00-14:00, 일요일 휴진, 공휴일 진료.
+    'Mo,We 09:00-13:00',
+    'Mo,We 14:00-20:00',
+    'Tu,Th,Fr 09:00-13:00',
+    'Tu,Th,Fr 14:00-18:30',
+    'Sa 09:00-14:00',
+    'PH 09:00-14:00',
   ],
-  closedDays: ['Su', 'PublicHolidays'],
+  closedDays: ['Su'], // 공휴일은 09:00-14:00 진료 (네이버 플레이스 기준)
   // 외부 채널 (CTA + sameAs용)
   // 플레이스(예약/소개) vs 지도(위치/길찾기) URL 분리
   naverPlaceUrl: 'https://m.place.naver.com/hospital/1221424403', // 예약·소개 (Place ID 1221424403)
@@ -194,18 +198,13 @@ export const ORGANIZATION = {
     longitude: CLINIC.geo.longitude,
   },
   openingHoursSpecification: [
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
-      opens: '09:30',
-      closes: '19:00',
-    },
-    {
-      '@type': 'OpeningHoursSpecification',
-      dayOfWeek: ['Saturday'],
-      opens: '09:30',
-      closes: '13:00',
-    },
+    // 네이버 플레이스(1221424403) 기준. 점심 13:00-14:00은 오전/오후 구간 분리로 표현.
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Wednesday'], opens: '09:00', closes: '13:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Monday', 'Wednesday'], opens: '14:00', closes: '20:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Tuesday', 'Thursday', 'Friday'], opens: '09:00', closes: '13:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Tuesday', 'Thursday', 'Friday'], opens: '14:00', closes: '18:30' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: ['Saturday'], opens: '09:00', closes: '14:00' },
+    { '@type': 'OpeningHoursSpecification', dayOfWeek: 'https://schema.org/PublicHolidays', opens: '09:00', closes: '14:00' },
   ],
   sameAs: [
     CLINIC.naverPlaceUrl,
