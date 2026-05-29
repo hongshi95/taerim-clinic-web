@@ -63,6 +63,7 @@ interface Props {
   howtoTotalTime?: string;
   citations?: Citation[];
   relatedPosts?: RelatedPost[];
+  noIndex?: boolean;
 }
 
 const {
@@ -90,6 +91,7 @@ const {
   howtoTotalTime,
   citations = [],
   relatedPosts = [],
+  noIndex = false,
 } = Astro.props;
 
 const canonicalPath = `/${categorySlug}/${slug}/`;
@@ -118,6 +120,7 @@ const modDate =
   modifiedAt={modified}
   author={authorName}
   canonicalPath={canonicalPath}
+  noIndex={noIndex}
 >
   <slot name="head" slot="head">
     <ArticleSchema

@@ -115,6 +115,7 @@ const posts = defineCollection({
 
     // 관리
     draft: z.boolean().default(false),
+    noIndex: z.boolean().default(false),
     featured: z.boolean().default(false),
     tags: z.array(z.string()).default([]),
   }),
