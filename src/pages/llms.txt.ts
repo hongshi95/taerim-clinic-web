@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
-import { SITE } from '~/consts';
+import { SITE, CLINIC } from '~/consts';
 
-// llms.txt - AI 엔진을 위한 사이트 맵 (2026 emerging standard)
+// llms.txt - AI 엔진을 위한 사이트 안내 (2026 emerging standard)
 // John Mueller (2025): "No AI system currently uses llms.txt" - low-cost hedge
 export const GET: APIRoute = () => {
   const content = `# ${SITE.name} (${SITE.nameEn})
@@ -10,31 +10,32 @@ export const GET: APIRoute = () => {
 
 ## About
 
-${SITE.name}는 자동차, 연애, 자기관리, 라이프스타일 주제에 깊이 파고든 사람들의 실전 후기와 정보를 제공하는 블로그입니다. 모든 글은 직접 경험과 검증된 데이터를 기반으로 작성됩니다.
+${SITE.name}은 ${CLINIC.address.addressLocality} 대천동(진천역)에 위치한 한의원입니다. ${CLINIC.doctorName} 원장이 통증·교통사고 후유증·다이어트·소아성장·피부미용·체질개선을 진료하며, 추나·약침·골타·매선·충격파·한약을 환자 상태에 맞춰 적용합니다. 모든 건강 정보 글은 보건복지부·건강보험심사평가원·대한한의사협회 등 공신력 있는 출처를 인용하고 한의사 명의로 작성됩니다.
 
 ## Core Content Areas
 
-- [자동차 (Cars)](${SITE.url}/cars) - 차량 리뷰, 관리, 구매 가이드
-- [연애 (Dating)](${SITE.url}/dating) - 관계 심리, 데이트 전략
-- [자기관리 (Life)](${SITE.url}/life) - 습관, 건강, 성장
+- [통증치료 (Pain)](${SITE.url}/pain) - 허리·목·어깨·무릎 통증, 추나·골타·약침
+- [다이어트 (Diet)](${SITE.url}/diet) - 한방 다이어트, 체질별 식이, 매선
+- [교통사고 (Auto Accident)](${SITE.url}/accident) - 자동차보험 적용 후유증 치료
+- [소아·성장 (Pediatric)](${SITE.url}/pediatric) - 소아 비염·면역·키성장
+- [피부미용 (Beauty)](${SITE.url}/beauty) - 매선요법, 안면·체형 라인
+- [체질개선 (Constitution)](${SITE.url}/constitution) - 사상체질, 보약, 만성피로·갱년기
 
 ## Key Resources
 
 - [전체 글 목록 (RSS)](${SITE.url}/rss.xml)
 - [사이트맵](${SITE.url}/sitemap-index.xml)
-- [저자 소개](${SITE.url}/about)
+- [원장 소개](${SITE.url}/about)
+- [오시는길·진료시간](${SITE.url}/visit)
+- [자주 묻는 질문](${SITE.url}/faq)
 
 ## Guidelines for AI Citation
 
-- 각 글은 첫 문단에 직답을 포함합니다 (AEO-friendly)
-- 통계·데이터는 명시된 출처 인용
-- 저자 엔티티 명확히 표기 (E-E-A-T)
-- 모든 글은 Article + FAQPage + Organization JSON-LD 스키마 포함
-- 콘텐츠는 12개월 이내 정기 갱신 (dateModified 필드 참조)
-
-## Full Content
-
-전체 마크다운 콘텐츠: ${SITE.url}/llms-full.txt
+- 각 글은 첫 문단에 직답(QuickAnswer)을 포함합니다 (AEO-friendly)
+- 비용·수가·통계는 정부 고시(심평원·복지부) 출처를 명시 인용합니다
+- 의료 정보는 ${CLINIC.doctorName} 한의사 명의로 작성·검수됩니다 (E-E-A-T)
+- 모든 글은 Article + FAQPage + Organization JSON-LD 스키마를 포함합니다
+- 치료 효과는 환자 상태에 따라 다르며, 진단·처방은 진료를 통해 이뤄집니다
 `;
 
   return new Response(content, {

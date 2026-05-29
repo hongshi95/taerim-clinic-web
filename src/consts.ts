@@ -11,7 +11,7 @@ export const SITE = {
     import.meta.env.PUBLIC_SITE_DESCRIPTION ??
     '대구 달서구 대천동(진천역) 태림한의원. 추나·약침·한약·매선·충격파로 통증치료, 다이어트, 교통사고, 소아성장, 피부미용, 체질개선 진료. 대구한의원, 달서구한의원, 진천역한의원, 대천동한의원.',
   locale: 'ko-KR',
-  defaultOgImage: '/images/clinic/clinic-building.webp',
+  defaultOgImage: '/og-image.jpg', // 1200x630 JPG (카카오톡은 webp OG 미렌더 → JPG 고정). 재생성: node scripts/make-og-image.mjs
 } as const;
 
 export const SITE_VERIFICATIONS = {
