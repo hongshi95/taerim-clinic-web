@@ -1,5 +1,5 @@
 ---
-import { SITE, SITE_NAVIGATION } from '~/consts';
+import { SITE, SITE_NAVIGATION, CLINIC } from '~/consts';
 
 interface Props {
   variant?: 'overlay' | 'solid';
@@ -55,38 +55,56 @@ const iconBtnClass =
       </span>
     </a>
 
-    <nav class="hidden md:flex items-center gap-1 text-sm">
-      {SITE_NAVIGATION.map((item) => {
-        const isActive =
-          item.href === '/'
-            ? currentPath === '/'
-            : currentPath.startsWith(item.href);
-        return (
-          <a
-            href={item.href}
-            class:list={[
-              'px-3 py-2 rounded-md font-medium transition-colors',
-              linkBaseClass,
-              isActive ? linkActiveClass : linkHoverClass,
-            ]}
-          >
-            {item.label}
-          </a>
-        );
-      })}
-    </nav>
+    <div class="flex items-center gap-2 md:gap-3">
+      <nav class="hidden md:flex items-center gap-1 text-sm">
+        {SITE_NAVIGATION.map((item) => {
+          const isActive =
+            item.href === '/'
+              ? currentPath === '/'
+              : currentPath.startsWith(item.href);
+          return (
+            <a
+              href={item.href}
+              class:list={[
+                'px-3 py-2 rounded-md font-medium transition-colors',
+                linkBaseClass,
+                isActive ? linkActiveClass : linkHoverClass,
+              ]}
+            >
+              {item.label}
+            </a>
+          );
+        })}
+      </nav>
 
-    <button
-      id="mobile-menu-btn"
-      class:list={['md:hidden p-2 rounded-md', iconBtnClass]}
-      aria-label="메뉴 열기"
-    >
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="3" x2="21" y1="6" y2="6"></line>
-        <line x1="3" x2="21" y1="12" y2="12"></line>
-        <line x1="3" x2="21" y1="18" y2="18"></line>
-      </svg>
-    </button>
+      {/* 고정 예약 CTA - 어느 페이지에서도 1클릭 예약 (데스크톱+모바일 항상 노출) */}
+      {CLINIC.naverPlaceUrl && (
+        <a
+          href={CLINIC.naverPlaceUrl}
+          target="_blank"
+          rel="noopener"
+          style="color:#ffffff;background-color:#15803d;"
+          class="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-[13px] sm:text-sm font-bold hover:bg-green-900 shadow-sm transition-colors whitespace-nowrap"
+        >
+          예약
+          <span aria-hidden="true">→</span>
+        </a>
+      )}
+
+      <button
+        id="mobile-menu-btn"
+        class:list={['md:hidden p-2 rounded-md', iconBtnClass]}
+        aria-label="메뉴 열기"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="3" x2="21" y1="6" y2="6"></line>
+          <line x1="3" x2="21" y1="12" y2="12"></line>
+          <line x1="3" x2="21" y1="18" y2="18"></line>
+        </svg>
+      </button>
+    </div>
   </div>
 
   <nav
@@ -107,7 +125,17 @@ const iconBtnClass =
 </header>
 
 <script is:inline>
-  document.getElementById('mobile-menu-btn')?.addEventListener('click', () => {
-    document.getElementById('mobile-menu')?.classList.toggle('hidden');
-  });
+  (() => {
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
+    if (!btn || !menu) return;
+    const setOpen = (open) => {
+      menu.classList.toggle('hidden', !open);
+      btn.setAttribute('aria-expanded', String(open));
+      btn.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+    };
+    btn.addEventListener('click', () => setOpen(menu.classList.contains('hidden')));
+    // 링크 클릭 시 메뉴 자동 닫기 (모바일 UX)
+    menu.querySelectorAll('a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+  })();
 </script>
