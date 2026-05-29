@@ -1,0 +1,43 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import Header from '~/components/layout/Header.astro';
+import Footer from '~/components/layout/Footer.astro';
+import { SITE } from '~/consts';
+---
+
+<BaseLayout
+  title="편집 정책"
+  description={`${SITE.name}의 콘텐츠 제작 원칙, 의학 정보 정리 방식과 정보의 한계를 투명하게 안내합니다.`}
+  canonicalPath="/editorial-policy/"
+>
+  <Header />
+
+  <main class="v-container py-12 md:py-16">
+    <article class="v-prose">
+      <h1>편집 정책</h1>
+      <p class="lead">
+        {SITE.name}는 한의 진료·건강 정보를 보건복지부·학회 등 공인 출처에서 수집해, 환자와 보호자가 이해하기 쉽게 정리합니다. 콘텐츠를 어떻게 만들고 검증하는지, 정보의 한계는 무엇인지 투명하게 밝힙니다.
+      </p>
+
+      <h2>콘텐츠를 만드는 4단계</h2>
+      <ol>
+        <li><strong>1차 출처 수집</strong> - 대한한의사협회, 보건복지부, 건강보험심사평가원, 식품의약품안전처의 진료지침·고시·통계를 직접 확인합니다.</li>
+        <li><strong>의료진 검토</strong> - 한의학적 설명과 치료 정보는 본원 한의사가 검토해 정확성을 확인합니다.</li>
+        <li><strong>수치 대조</strong> - 보험 적용 여부, 비용, 시술 기준 같은 결정적 정보는 게시 전 공식 자료와 다시 대조합니다.</li>
+        <li><strong>갱신</strong> - 제도·수가·진료지침이 바뀌면 본문을 수정하고 갱신일을 표기합니다.</li>
+      </ol>
+
+      <h2>정보의 한계 (의료법 안내 - 꼭 읽어주세요)</h2>
+      <p>
+        본 사이트의 정보는 일반적인 건강 정보 제공을 위한 것이며, <strong>의료법상 진단·치료 행위를 대신하지 않습니다</strong>. 개인의 증상과 체질에 따라 적합한 치료는 다르므로, 통증·질환이 있으시면 반드시 한의사 또는 의사의 직접 진료를 받으시기 바랍니다. 치료 효과는 개인차가 있으며, 본 정보만으로 자가 진단·자가 치료를 하지 마시기 바랍니다.
+      </p>
+
+      <h2>저자와 갱신</h2>
+      <p>
+        {SITE.name}의 글은 본원 한의사가 공식 자료를 검토해 작성·감수하며, 각 글에 작성·갱신 시점과 참고한 공식 출처를 표기합니다. 오류를 발견하시면 <a href="/about/">소개 페이지</a>의 안내로 알려주시면 확인 후 정정하겠습니다.
+      </p>
+    </article>
+  </main>
+
+  <Footer />
+</BaseLayout>
