@@ -4,7 +4,7 @@ import type { CollectionEntry } from 'astro:content';
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Header from '~/components/layout/Header.astro';
 import Footer from '~/components/layout/Footer.astro';
-import RotatingHero from '~/components/home/RotatingHero.astro';
+import Hero from '~/components/home/Hero.astro';
 import ClinicHoursStrip from '~/components/home/ClinicHoursStrip.astro';
 import DirectorProfile from '~/components/home/DirectorProfile.astro';
 import ClinicPhilosophy from '~/components/home/ClinicPhilosophy.astro';
@@ -46,7 +46,7 @@ const showcaseHasContent = Object.values(postsByCategory).some((arr) => arr.leng
         신뢰·관계 콘텐츠를 앞에 두고, 정보성(블로그)은 후기 다음 보조 블록으로 배치해 "정보만 나열" 인상을 줄임 */}
 
     {/* 1. HERO - 첫인상 + 헤드라인 */}
-    <RotatingHero />
+    <Hero />
 
     {/* 1b. NOW - 진료시간 + 위치 + 예약 strip (환자가 "지금 가도 되나" 즉시 판단) */}
     <ClinicHoursStrip />
