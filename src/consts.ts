@@ -9,7 +9,7 @@ export const SITE = {
   nameEn: 'Taerimhan Korean Medicine Clinic',
   description:
     import.meta.env.PUBLIC_SITE_DESCRIPTION ??
-    '대구 달서구 대천동(진천역) 태림한의원. 추나·약침·한약·매선·충격파로 통증치료, 다이어트, 교통사고, 소아성장, 피부미용, 체질개선 진료. 대구한의원, 달서구한의원, 진천역한의원, 대천동한의원.',
+    '대구 달서구 대천동(진천역) 태림한의원. 추나·약침·한약·매선·근건이완수기요법으로 통증치료, 다이어트, 교통사고, 소아성장, 피부미용, 체질개선 진료. 대구한의원, 달서구한의원, 진천역한의원, 대천동한의원.',
   locale: 'ko-KR',
   defaultOgImage: '/og-image.jpg', // 1200x630 JPG (카카오톡은 webp OG 미렌더 → JPG 고정). 재생성: node scripts/make-og-image.mjs
 } as const;
@@ -108,10 +108,10 @@ export const ORGANIZATION = {
   availableService: [
     {
       '@type': 'MedicalProcedure',
-      name: '충격파 치료 (Shockwave Therapy)',
+      name: '근건이완수기요법 (Shockwave)',
       procedureType: 'https://schema.org/TherapeuticProcedure',
       bodyLocation: '근막·관절·건',
-      description: 'Ultra Dual (Radial + Focused) 듀얼 모드 비침습 충격파',
+      description: '체외충격파를 이용한 비침습 근건이완 물리요법 (표면·심부 자극)',
     },
     {
       '@type': 'MedicalProcedure',
@@ -231,7 +231,7 @@ export const TREATMENTS = [
     nameEn: 'Pain Treatment',
     shortDesc: '허리·목·어깨·무릎 통증을 추나·골타·약침으로',
     longDesc:
-      '척추 정렬과 근막 균형을 회복하는 추나·골타·약침·매선·한약, 그리고 신규 도입한 충격파(Ultra Dual Radial+Focused)를 환자 단계에 맞춰 조합합니다.',
+      '척추 정렬과 근막 균형을 회복하는 추나·골타·약침·매선·한약, 그리고 신규 도입한 체외충격파를 이용한 근건이완수기요법을 환자 단계에 맞춰 조합합니다.',
   },
   {
     slug: 'diet',
