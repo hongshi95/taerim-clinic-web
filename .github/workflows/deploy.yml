@@ -44,6 +44,11 @@ jobs:
           fi
           echo "✓ em dash 없음"
 
+      # 관련글(relatedPosts) 스냅샷 동기화: 소스 글 제목 교정 시 다른 글에 박힌 옛 스냅샷(stale)이
+      # 남아 의료 lint를 막던 재발 방지. lint 직전에 소스 글 기준으로 자동 갱신.
+      - name: Sync relatedPosts snapshots
+        run: node scripts/sync-related-posts.mjs --write
+
       # 의료 콘텐츠 팩트체크 보조: 효과 단정·과장·최상급 표현(의료법 56조) 자동 차단
       # 수정: 위험 표현 완화 후 재커밋. 오탐은 scripts/medical-content-lint.mjs 규칙 조정
       - name: Lint - 의료 콘텐츠 위험 표현 (의료법)
