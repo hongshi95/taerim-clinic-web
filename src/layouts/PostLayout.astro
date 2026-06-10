@@ -13,6 +13,7 @@ import AuthorBio from '~/components/content/AuthorBio.astro';
 import Citations from '~/components/content/Citations.astro';
 import RelatedPosts from '~/components/content/RelatedPosts.astro';
 import MobileCtaBar from '~/components/layout/MobileCtaBar.astro';
+import SocialSidebar from '~/components/layout/SocialSidebar.astro';
 import { SITE, CLINIC } from '~/consts';
 
 interface FAQ {
@@ -328,6 +329,9 @@ const modDate =
   </main>
 
   <Footer />
+
+  {/* 우측 SNS 사이드바 (데스크톱 전용) - 홈에만 있던 것을 검색 유입 글 페이지에도 노출 */}
+  <SocialSidebar />
 
   {/* 모바일 하단 고정 전화/예약 바 - 검색 유입 모바일 독자 전환 */}
   <MobileCtaBar />
