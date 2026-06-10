@@ -12,6 +12,7 @@ import FAQSection from '~/components/content/FAQSection.astro';
 import AuthorBio from '~/components/content/AuthorBio.astro';
 import Citations from '~/components/content/Citations.astro';
 import RelatedPosts from '~/components/content/RelatedPosts.astro';
+import MobileCtaBar from '~/components/layout/MobileCtaBar.astro';
 import { SITE, CLINIC } from '~/consts';
 
 interface FAQ {
@@ -93,6 +94,39 @@ const {
   relatedPosts = [],
   noIndex = false,
 } = Astro.props;
+
+// 글 끝 CTA를 검색 의도(카테고리)에 맞춰 변주 - 효과 단정 없이 사실(보험/절차/상담) 기반.
+// 교통사고 독자(사고 직후, 최고 의도)와 미용 독자에게 같은 문구를 쓰면 전환을 놓침.
+const CTA_COPY: Record<string, { heading: string; body: string }> = {
+  accident: {
+    heading: '교통사고 후 통증, 자동차보험으로 진료받을 수 있습니다',
+    body: '자동차손해배상보장법에 따라 보험사 사고접수번호만 있으면 본인부담금 없이(원칙) 추나·약침·한약 진료가 가능합니다. 증상이 며칠 뒤 나타나는 경우도 많아 사고 후 빠른 검진을 권합니다.',
+  },
+  pain: {
+    heading: '통증이 계속된다면 원인 확인이 먼저입니다',
+    body: '같은 부위 통증도 원인은 사람마다 다릅니다. 진료를 통해 상태를 확인하고 침·추나·약침 등 치료 방향을 안내받으실 수 있습니다.',
+  },
+  diet: {
+    heading: '한방 다이어트, 체질 확인부터 시작하세요',
+    body: '같은 처방도 체질에 따라 반응이 다릅니다(개인차). 진료 상담으로 본인 체질과 생활 패턴에 맞는 관리 방향을 확인해 보세요.',
+  },
+  constitution: {
+    heading: '내 체질에 맞는 보약이 궁금하다면',
+    body: '보약·공진단·경옥고는 체질과 몸 상태에 따라 처방이 달라집니다. 진료 상담을 통해 확인하실 수 있습니다.',
+  },
+  pediatric: {
+    heading: '아이 상태, 진료로 정확히 확인하세요',
+    body: '아이마다 성장 속도와 체질이 다릅니다. 진료를 통해 아이에게 맞는 관리 방향을 안내받으실 수 있습니다.',
+  },
+  beauty: {
+    heading: '매선·한방 미용, 상담 후 결정하세요',
+    body: '시술 범위와 비용은 상태에 따라 달라집니다. 비급여 진료비용은 상담 시 안내받으실 수 있습니다.',
+  },
+};
+const ctaCopy = CTA_COPY[categorySlug] ?? {
+  heading: '궁금한 점이 있으신가요?',
+  body: '본 글은 일반적인 의료 정보입니다. 정확한 진단·처방은 진료를 통해 이뤄집니다. 예약·상담 환영합니다.',
+};
 
 const canonicalPath = `/${categorySlug}/${slug}/`;
 const modified = modifiedAt ?? publishedAt;
@@ -231,10 +265,10 @@ const modDate =
     {/* 글 끝 예약 CTA - 환자 의사결정 전환 (네이버 플레이스 + 전화 + 오시는길) */}
     <aside class="not-prose max-w-[680px] mx-auto mt-12 p-6 md:p-8 rounded-2xl bg-gradient-to-br from-green-50 via-stone-50 to-green-50 ring-1 ring-green-200/60">
       <h2 class="text-xl md:text-2xl font-bold text-stone-900 mb-2">
-        궁금한 점이 있으신가요?
+        {ctaCopy.heading}
       </h2>
       <p class="text-stone-600 leading-relaxed mb-5 text-[15px] md:text-base">
-        본 글은 일반적인 의료 정보입니다. 정확한 진단·처방은 진료를 통해 이뤄집니다. 예약·상담 환영합니다.
+        {ctaCopy.body}
       </p>
       <div class="flex flex-wrap gap-2.5">
         {CLINIC.naverPlaceUrl && (
@@ -266,6 +300,20 @@ const modDate =
           오시는길
         </a>
       </div>
+
+      {/* 위치·진료시간 요약 - 지역 검색 독자의 핵심 의사결정 정보 ("우리 동네네, 야간진료 하네") */}
+      <div class="mt-5 pt-5 border-t border-green-200/60 grid gap-2 sm:grid-cols-2 text-[14px] leading-[1.7] text-stone-700">
+        <div>
+          <span class="font-bold text-stone-900">위치</span><br />
+          대구 달서구 진천로 93 애플플라자 3층<br />
+          <span class="text-stone-500">대구도시철도 1호선 진천역 도보 거리</span>
+        </div>
+        <div>
+          <span class="font-bold text-stone-900">진료시간</span><br />
+          월·수 09:00 - 20:00 (야간진료) · 화·목·금 09:00 - 18:30<br />
+          <span class="text-stone-500">토·공휴일 09:00 - 14:00 · 일요일 휴진 · 점심 13:00 - 14:00</span>
+        </div>
+      </div>
     </aside>
 
     <!-- 공유 링크 -->
@@ -280,4 +328,7 @@ const modDate =
   </main>
 
   <Footer />
+
+  {/* 모바일 하단 고정 전화/예약 바 - 검색 유입 모바일 독자 전환 */}
+  <MobileCtaBar />
 </BaseLayout>

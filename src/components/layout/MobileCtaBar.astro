@@ -1,0 +1,43 @@
+---
+/**
+ * MobileCtaBar.astro - 모바일 하단 고정 CTA (글 페이지 전용)
+ *
+ * 검색 유입 독자의 전환 채널: 한의원은 전화 문의가 주채널인데
+ * 기존엔 전화번호가 글 맨 끝 CTA에만 있어 모바일에서 사실상 안 보였음.
+ * lg(1024px) 미만에서만 노출. 전화(tel:) + 네이버 예약 2버튼.
+ */
+import { CLINIC } from '~/consts';
+---
+
+<div
+  class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-white/95 backdrop-blur-md border-t border-stone-200 shadow-[0_-2px_12px_rgba(0,0,0,0.07)]"
+  style="padding-bottom: env(safe-area-inset-bottom);"
+  aria-label="진료 문의"
+>
+  <div class="grid grid-cols-2 gap-2 px-3 py-2">
+    {CLINIC.phone && (
+      <a
+        href={`tel:${CLINIC.phone}`}
+        class="inline-flex items-center justify-center gap-2 h-11 rounded-full bg-white text-green-900 text-[15px] font-bold border border-green-300"
+      >
+        <svg aria-hidden="true" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.37 1.9.72 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.35 1.85.59 2.81.72A2 2 0 0 1 22 16.92z"/></svg>
+        전화 문의
+      </a>
+    )}
+    {CLINIC.naverPlaceUrl && (
+      <a
+        href={CLINIC.naverPlaceUrl}
+        target="_blank"
+        rel="noopener"
+        style="color:#ffffff;background-color:#15803d;"
+        class="inline-flex items-center justify-center gap-2 h-11 rounded-full text-[15px] font-bold shadow-sm"
+      >
+        네이버 예약
+        <span aria-hidden="true">→</span>
+      </a>
+    )}
+  </div>
+</div>
+
+{/* fixed 바가 푸터 하단을 가리지 않도록 문서 흐름에 같은 높이 여백 확보 */}
+<div class="lg:hidden h-[64px]" aria-hidden="true"></div>
