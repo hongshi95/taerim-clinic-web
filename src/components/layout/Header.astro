@@ -34,10 +34,10 @@ const iconBtnClass =
 
 <header class={headerClass}>
   <div class="v-container flex items-center justify-between h-16">
-    <a href="/" class="flex items-center gap-2">
+    <a href="/" class="flex items-center gap-2 shrink-0">
       <span
         class:list={[
-          'text-xl font-bold tracking-tight',
+          'text-xl font-bold tracking-tight whitespace-nowrap',
           brandClass,
         ]}
         style="font-family: var(--font-display);"
@@ -46,7 +46,7 @@ const iconBtnClass =
       </span>
       <span
         class:list={[
-          'hidden sm:inline text-xs font-medium tracking-widest uppercase',
+          'hidden xl:inline whitespace-nowrap text-xs font-medium tracking-widest uppercase',
           subBrandClass,
         ]}
         style="font-family: var(--font-display);"
@@ -56,7 +56,7 @@ const iconBtnClass =
     </a>
 
     <div class="flex items-center gap-2 md:gap-3">
-      <nav class="hidden md:flex items-center gap-1 text-sm">
+      <nav class="hidden lg:flex items-center gap-1 text-sm">
         {SITE_NAVIGATION.map((item) => {
           const isActive =
             item.href === '/'
@@ -93,7 +93,7 @@ const iconBtnClass =
 
       <button
         id="mobile-menu-btn"
-        class:list={['md:hidden p-2 rounded-md', iconBtnClass]}
+        class:list={['lg:hidden p-2 rounded-md', iconBtnClass]}
         aria-label="메뉴 열기"
         aria-expanded="false"
         aria-controls="mobile-menu"
@@ -109,7 +109,7 @@ const iconBtnClass =
 
   <nav
     id="mobile-menu"
-    class="md:hidden hidden border-t border-gray-100 bg-white"
+    class="lg:hidden hidden border-t border-gray-100 bg-white"
   >
     <div class="v-container py-3 flex flex-col gap-1">
       {SITE_NAVIGATION.map((item) => (
