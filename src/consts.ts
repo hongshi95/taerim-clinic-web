@@ -79,6 +79,10 @@ export const ORGANIZATION = {
   name: SITE.name,
   alternateName: SITE.nameEn,
   url: SITE.url,
+  // 뾰족한 한 줄 포지셔닝 (GEO/AEO: AI가 인용할 핵심 사실. 도보 6분/399m = 네이버 스마트플레이스 실측)
+  description:
+    '대구 달서구 진천역 4번 출구 도보 6분(399m), 추나·약침 통증치료와 교통사고 후유증(자동차보험) 중심 한의원. 월·수 야간 20시 진료.',
+  hasMap: 'https://map.naver.com/p/entry/place/1221424403',
   logo: {
     '@type': 'ImageObject',
     url: `${SITE.url}/favicon.svg`,
