@@ -1,5 +1,6 @@
 ---
-// 출처 표시 (E-E-A-T) - 본문 하단에 렌더링
+// 출처 표시 (E-E-A-T) - 페이지 최하단, 기본 접힘 아코디언
+// 접혀 있어도 DOM에 존재하므로 색인/E-E-A-T 신호 유지 (구조화 데이터는 CitationsSchema가 별도 전달)
 
 interface Citation {
   claim: string;
@@ -15,37 +16,42 @@ const { citations } = Astro.props;
 ---
 
 {citations.length > 0 && (
-  <section class="not-prose my-10 p-5 rounded-xl bg-gray-50 border border-gray-200" aria-labelledby="citations-heading">
-    <h2 id="citations-heading" class="text-sm font-bold text-gray-600 uppercase tracking-wider mb-4">
-      출처 및 인용
-    </h2>
-    <ol class="space-y-3 text-sm text-gray-700">
-      {citations.map((c, i) => {
-        // source 안에 URL이 텍스트로 박힌 경우 자동 추출 (예: "건강보험심사평가원, https://...")
-        const embeddedUrl = c.source.match(/(https?:\/\/[^\s,]+)/)?.[1];
-        const linkUrl = c.url ?? embeddedUrl;
-        const sourceName = embeddedUrl
-          ? c.source.replace(/,?\s*https?:\/\/[^\s,]+\/?/, '').trim()
-          : c.source;
-        return (
-          <li class="flex gap-3">
-            <span class="shrink-0 font-mono text-xs text-gray-500 pt-0.5">[{i + 1}]</span>
-            <div class="flex-1">
-              <p class="text-gray-700 leading-relaxed m-0">{c.claim}</p>
-              <p class="mt-1 text-xs text-gray-500 m-0">
-                출처:{' '}
-                {linkUrl ? (
-                  <a href={linkUrl} rel="nofollow noopener" target="_blank" class="underline hover:text-deok-600 break-all">
-                    {sourceName}
-                  </a>
-                ) : (
-                  <span>{sourceName}</span>
-                )}
-              </p>
-            </div>
-          </li>
-        );
-      })}
-    </ol>
+  <section class="not-prose max-w-[680px] mx-auto mt-10" aria-labelledby="citations-heading">
+    <details class="rounded-xl bg-gray-50 border border-gray-200">
+      <summary class="cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden flex items-center justify-between gap-3 px-5 py-4">
+        <h2 id="citations-heading" class="text-sm font-bold text-gray-600 uppercase tracking-wider m-0">
+          출처 및 인용 {citations.length}건
+        </h2>
+        <span class="shrink-0 text-xs text-gray-400">펼쳐보기 ▾</span>
+      </summary>
+      <ol class="px-5 pb-5 space-y-2.5 text-sm text-gray-700">
+        {citations.map((c, i) => {
+          // source 안에 URL이 텍스트로 박힌 경우 자동 추출 (예: "건강보험심사평가원, https://...")
+          const embeddedUrl = c.source.match(/(https?:\/\/[^\s,]+)/)?.[1];
+          const linkUrl = c.url ?? embeddedUrl;
+          const sourceName = embeddedUrl
+            ? c.source.replace(/,?\s*https?:\/\/[^\s,]+\/?/, '').trim()
+            : c.source;
+          return (
+            <li class="flex gap-3">
+              <span class="shrink-0 font-mono text-xs text-gray-500 pt-0.5">[{i + 1}]</span>
+              <div class="flex-1">
+                <p class="text-gray-700 leading-relaxed m-0">{c.claim}</p>
+                <p class="mt-0.5 text-xs text-gray-500 m-0">
+                  출처:{' '}
+                  {linkUrl ? (
+                    <a href={linkUrl} rel="nofollow noopener" target="_blank" class="underline hover:text-deok-600 break-all">
+                      {sourceName}
+                    </a>
+                  ) : (
+                    <span>{sourceName}</span>
+                  )}
+                </p>
+              </div>
+            </li>
+          );
+        })}
+      </ol>
+    </details>
   </section>
 )}

@@ -250,9 +250,6 @@ const modDate =
       <!-- 다음에 읽을 글 (내부 링크 SEO) -->
       <RelatedPosts posts={relatedPosts} />
 
-      <!-- 출처/인용 (E-E-A-T) -->
-      <Citations citations={citations} />
-
       <!-- 저자 바이오 -->
       <AuthorBio
         slug={authorSlug}
@@ -316,6 +313,9 @@ const modDate =
         </div>
       </div>
     </aside>
+
+    {/* 출처/인용 (E-E-A-T) - 페이지 최하단 + 기본 접힘: CTA 전환 동선 방해 방지. SEO 신호는 head의 CitationsSchema(JSON-LD)와 DOM 내 텍스트로 유지 */}
+    <Citations citations={citations} />
 
     <!-- 공유 링크 -->
     <div class="max-w-[680px] mx-auto mt-12 pt-6 border-t border-gray-100 flex items-center justify-between text-sm">
