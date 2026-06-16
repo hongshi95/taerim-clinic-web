@@ -68,7 +68,7 @@ export const CLINIC = {
   naverMapUrl: 'https://map.naver.com/p/entry/place/1221424403', // 지도·길찾기 (지도 + 마커 + 길찾기 버튼)
   googleMapsUrl: 'https://maps.google.com/?cid=6334016964225006563', // Google Maps 비즈니스 listing (CID 6334016964225006563)
   googleMapsCid: '6334016964225006563', // 16진수 0x57e6f2deb1edfbe3
-  kakaoChannelUrl: '', // 사용자 입력 대기
+  kakaoChannelUrl: 'https://pf.kakao.com/_QhrsG', // 태림한의원 카카오 채널 (CTA + sameAs)
   instagramUrl: 'https://www.instagram.com/taerim_han',
   threadsUrl: 'https://www.threads.com/@taerim_han?hl=ko',
   youtubeUrl: '',
