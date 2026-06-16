@@ -4,5 +4,6 @@
   "color": "from-emerald-500 to-green-700",
   "order": 4,
   "heroImage": "/images/clinic/pediatric-chuna.webp",
-  "heroImageAlt": "태림한의원 소아 성장추나 시술 - 서조혁 원장이 아동 환자에게 척추 정렬 시술을 진행하는 모습"
+  "heroImageAlt": "태림한의원 소아 성장추나 시술 - 서조혁 원장이 아동 환자에게 척추 정렬 시술을 진행하는 모습",
+  "ogImage": "/og-pediatric.jpg"
 }

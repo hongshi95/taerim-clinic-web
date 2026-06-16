@@ -71,6 +71,7 @@ const relatedPosts = [...manualValid, ...autoRelated].slice(0, 3);
   slug={slug!}
   coverImage={post.data.coverImage}
   coverImageAlt={post.data.coverImageAlt}
+  ogImage={post.data.coverImage ?? category.data.ogImage}
   publishedAt={post.data.publishedAt.toISOString()}
   modifiedAt={(post.data.modifiedAt ?? post.data.publishedAt).toISOString()}
   authorName={author.data.name}

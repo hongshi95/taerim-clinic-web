@@ -23,7 +23,10 @@ const {
   author,
 } = Astro.props;
 
-const ogImage = image ?? `${SITE.url}${SITE.defaultOgImage}`;
+// og:image는 절대 URL 필수 (카카오/페북/네이버). 상대경로로 받으면 SITE.url 붙여 절대화.
+const ogImage = image
+  ? (image.startsWith('http') ? image : `${SITE.url}${image}`)
+  : `${SITE.url}${SITE.defaultOgImage}`;
 const absoluteUrl = url.startsWith('http') ? url : `${SITE.url}${url}`;
 ---
 

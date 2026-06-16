@@ -46,6 +46,7 @@ interface Props {
   slug: string;
   coverImage?: string;
   coverImageAlt?: string;
+  ogImage?: string; // 공유 대표 이미지 (없으면 coverImage, 그것도 없으면 사이트 기본). 본문 인라인 이미지와 분리
   publishedAt: string;
   modifiedAt?: string;
   authorName: string;
@@ -74,6 +75,7 @@ const {
   slug,
   coverImage,
   coverImageAlt,
+  ogImage,
   publishedAt,
   modifiedAt,
   authorName,
@@ -150,7 +152,7 @@ const modDate =
   title={title}
   description={description}
   type="article"
-  image={coverImage}
+  image={ogImage ?? coverImage}
   publishedAt={publishedAt}
   modifiedAt={modified}
   author={authorName}
@@ -162,7 +164,7 @@ const modDate =
       title={title}
       description={description}
       slug={slug}
-      coverImage={coverImage}
+      coverImage={ogImage ?? coverImage}
       publishedAt={publishedAt}
       modifiedAt={modified}
       authorName={authorName}

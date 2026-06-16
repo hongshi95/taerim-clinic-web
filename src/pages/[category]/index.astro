@@ -61,6 +61,7 @@ const collectionSchema = {
   title={seoTitle}
   description={seoDescription}
   type="website"
+  image={category.data.ogImage}
   canonicalPath={`/${categorySlug}/`}
 >
   <slot name="head" slot="head">

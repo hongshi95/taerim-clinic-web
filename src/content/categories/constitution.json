@@ -4,5 +4,6 @@
   "color": "from-lime-600 to-emerald-700",
   "order": 6,
   "heroImage": "/images/clinic/place-02.png",
-  "heroImageAlt": "태림한의원 한약 추출 시설 - 가운 입은 원장이 체질별 한약을 직접 달이는 모습"
+  "heroImageAlt": "태림한의원 한약 추출 시설 - 가운 입은 원장이 체질별 한약을 직접 달이는 모습",
+  "ogImage": "/og-constitution.jpg"
 }

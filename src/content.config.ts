@@ -14,6 +14,7 @@ const categories = defineCollection({
     order: z.number().default(0),
     heroImage: z.string().optional(), // 카테고리 페이지 hero 이미지
     heroImageAlt: z.string().optional(),
+    ogImage: z.string().optional(), // 카테고리별 공유 대표 이미지 (검색/SNS 썸네일). 없으면 SITE.defaultOgImage
   }),
 });
 

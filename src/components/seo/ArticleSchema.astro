@@ -30,7 +30,10 @@ const {
 } = Astro.props;
 
 const url = `${SITE.url}/${categorySlug}/${slug}`;
-const image = coverImage ?? `${SITE.url}${SITE.defaultOgImage}`;
+// schema image도 절대 URL 필수 - 상대경로로 받으면 절대화
+const image = coverImage
+  ? (coverImage.startsWith('http') ? coverImage : `${SITE.url}${coverImage}`)
+  : `${SITE.url}${SITE.defaultOgImage}`;
 
 // @type을 ['MedicalWebPage', 'Article'] 듀얼로 - 의료 콘텐츠 신뢰 신호 + 일반 Article SEO 모두 확보
 // Google 의료 콘텐츠 검수 정책에 부합 (자격자 author + 의료기관 publisher + lastReviewed)

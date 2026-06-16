@@ -2,5 +2,6 @@
   "name": "교통사고",
   "description": "교통사고 후 일반 검사로 잡히지 않는 근막·연부조직 손상을 추나·약침·한약으로 회복. 자동차보험 적용 가이드.",
   "color": "from-stone-600 to-green-800",
-  "order": 3
+  "order": 3,
+  "ogImage": "/og-accident.jpg"
 }
