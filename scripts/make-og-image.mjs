@@ -27,10 +27,10 @@ const TARGET_H = 630;
 const JOBS = [
   { out: 'og-image.jpg',        src: 'chuna-hd.webp',          vfrac: 0.12 }, // 홈/기본/통증치료 (추나)
   { out: 'og-accident.jpg',     src: 'consultation.png',       vfrac: 0.45 }, // 교통사고 (진료 상담)
-  { out: 'og-diet.jpg',         src: 'photo-edited.jpg',       vfrac: 0.55 }, // 다이어트 (원장 상담)
+  { out: 'og-diet.jpg',         src: 'director-consult.jpg',   vfrac: 0.15 }, // 다이어트 (원장 진료 상담)
   { out: 'og-pediatric.jpg',    src: 'pediatric-chuna.webp',   vfrac: 0.30 }, // 소아 (소아 추나)
   { out: 'og-constitution.jpg', src: 'herbal-preparation.png', vfrac: 0.50 }, // 체질개선 (한약 조제)
-  { out: 'og-beauty.jpg',       src: 'maesun-threads.webp',    vfrac: 0.50 }, // 피부미용 (매선)
+  { out: 'og-beauty.jpg',       src: 'director-consult.jpg',   vfrac: 0.15 }, // 피부미용 (원장 진료 상담)
 ];
 
 const ratio = TARGET_W / TARGET_H;
