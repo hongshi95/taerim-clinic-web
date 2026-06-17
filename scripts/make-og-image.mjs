@@ -9,7 +9,7 @@
  * 피사체(얼굴/동작)가 잘리지 않는 세로 위치를 잡는다. (sharp position:'attention'은 밝은
  * 영역을 피사체로 잘못 잡아 건물 사진 시절 OG에 하늘만 보이던 원인이라 사용하지 않는다.)
  *
- * 카테고리 매핑(2026-06): 추나=물리치료 장면이라 다이어트와 안 어울려, 다이어트는 상담 장면 사용.
+ * 카테고리 매핑(2026-06): 교통사고=추나 치료 장면(근막·연부조직 회복), 다이어트=원장 진료 상담(여성 환자) 장면.
  */
 import sharp from 'sharp';
 import path from 'node:path';
@@ -26,11 +26,11 @@ const TARGET_H = 630;
 // out: 결과 파일명 / src: 소스 / vfrac: 세로 크롭 위치
 const JOBS = [
   { out: 'og-image.jpg',        src: 'chuna-hd.webp',          vfrac: 0.12 }, // 홈/기본/통증치료 (추나)
-  { out: 'og-accident.jpg',     src: 'consultation.png',       vfrac: 0.45 }, // 교통사고 (진료 상담)
-  { out: 'og-diet.jpg',         src: 'director-consult.jpg',   vfrac: 0.15 }, // 다이어트 (원장 진료 상담)
+  { out: 'og-accident.jpg',     src: 'chuna-accident.jpg',     vfrac: 0.22 }, // 교통사고 (추나 치료 - 근막·연부조직 회복)
+  { out: 'og-diet.jpg',         src: 'diet-consult.jpg',       vfrac: 0.15 }, // 다이어트 (원장 식이·체성분 상담)
   { out: 'og-pediatric.jpg',    src: 'pediatric-chuna.webp',   vfrac: 0.30 }, // 소아 (소아 추나)
   { out: 'og-constitution.jpg', src: 'herbal-preparation.png', vfrac: 0.50 }, // 체질개선 (한약 조제)
-  { out: 'og-beauty.jpg',       src: 'director-consult.jpg',   vfrac: 0.15 }, // 피부미용 (원장 진료 상담)
+  { out: 'og-beauty.jpg',       src: 'maesun-threads.webp',    vfrac: 0.50 }, // 피부미용 (매선 실 - 매선요법)
 ];
 
 const ratio = TARGET_W / TARGET_H;
