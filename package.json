@@ -3,12 +3,14 @@
   "type": "module",
   "version": "0.1.0",
   "private": true,
-  "description": "태림한의원 — 대구 달서구 대천동 한의원 (Astro + Cloudflare)",
+  "description": "태림한의원 - 대구 달서구 대천동 한의원 (Astro + Cloudflare)",
   "engines": {
     "node": ">=22.12.0"
   },
   "scripts": {
     "dev": "astro dev",
+    "sanitize": "node scripts/sanitize-mdx.mjs",
+    "prebuild": "node scripts/sanitize-mdx.mjs",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
