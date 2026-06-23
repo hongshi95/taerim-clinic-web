@@ -56,7 +56,7 @@ const iconBtnClass =
     </a>
 
     <div class="flex items-center gap-2 md:gap-3">
-      <nav class="hidden lg:flex items-center gap-1 text-sm">
+      <nav class="hidden lg:flex items-center gap-0.5 xl:gap-1 text-sm">
         {SITE_NAVIGATION.map((item) => {
           const isActive =
             item.href === '/'
@@ -66,7 +66,7 @@ const iconBtnClass =
             <a
               href={item.href}
               class:list={[
-                'px-3 py-2 rounded-md font-medium transition-colors',
+                'px-2 xl:px-3 py-2 rounded-md font-medium whitespace-nowrap transition-colors',
                 linkBaseClass,
                 isActive ? linkActiveClass : linkHoverClass,
               ]}
