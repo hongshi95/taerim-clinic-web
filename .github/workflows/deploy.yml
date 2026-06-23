@@ -32,21 +32,25 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # CLAUDE.md feedback_no_em_dash: em dash(—) 절대 금지.
-      # 2026-06-16 자가치유 전환: 발견 시 build 차단(silent red) 대신 자동 제거 후 커밋하고 진행.
+      # 글쓰기 규칙 + MDX 빌드안전 자가치유 (두 기계적 정리를 한 커밋으로 묶음).
+      # 2026-06-16 em dash 자가치유 전환: 발견 시 build 차단(silent red) 대신 자동 제거 후 커밋하고 진행.
       #   em dash 제거는 기계적·안전(remove-em-dash.mjs)이라 사람 개입 불필요. 의료법 lint(아래)만 차단 유지.
+      # 2026-06-23 MDX sanitize 추가: internal-linker가 남긴 <!-- ... --> HTML 주석/미치환 이미지
+      #   플레이스홀더가 astro build를 깨 6/22부터 8연속 배포 동결(무알림)된 사고 재발 방지.
+      #   sanitize-mdx.mjs는 콘텐츠 .mdx만 정리(합법 .astro 주석은 불건드림) + 멱등 -> 커밋백 무한루프 없음.
       #   GITHUB_TOKEN의 push는 워크플로를 재트리거하지 않음(GitHub 기본 동작) → 무한루프 없음.
-      - name: Auto-fix em dash (글쓰기 규칙 자가치유)
+      - name: Auto-fix em dash + sanitize MDX (글쓰기 규칙/빌드안전 자가치유)
         run: |
           node scripts/remove-em-dash.mjs --all
+          node scripts/sanitize-mdx.mjs
           if git diff --quiet; then
-            echo "✓ em dash 없음"
+            echo "✓ em dash / MDX 잔재 없음"
           else
-            echo "⚠️ em dash 발견 → 자동 제거 후 커밋 (배포 차단 안 함)"
+            echo "⚠️ em dash 또는 MDX 잔재 발견 → 자동 정리 후 커밋 (배포 차단 안 함)"
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git add -A
-            git commit -m "style: auto-strip em dash (CI self-heal)"
+            git commit -m "style: auto-strip em dash + sanitize MDX (CI self-heal)"
             # 커밋백은 best-effort: 빌드 트리는 이미 정리됐으므로 push가 레이스로 거부돼도 배포는 정상.
             git push origin HEAD:main || echo "⚠️ 커밋백 push 생략 (레이스/거부) - 빌드 트리 정리됨, 배포 정상 진행. 다음 빌드가 재정리."
           fi
