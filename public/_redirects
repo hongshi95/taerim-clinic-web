@@ -1,6 +1,4 @@
-# sitemap.xml 별칭 → sitemap-index.xml (Astro @astrojs/sitemap이 sitemap-index.xml만 생성)
-# 검색엔진(GSC/Bing/Naver)이 표준 /sitemap.xml 요청 시 정확한 sitemap-index.xml로 자동 리디렉션
-/sitemap.xml /sitemap-index.xml 301
+# (sitemap.xml은 이제 src/pages/sitemap.xml.ts가 실제 파일로 생성 → 별칭 리디렉션 제거)
 
 # favicon.ico 브라우저 자동 요청 → 진짜 로고로 리다이렉트
 # (옛 favicon.ico 파일 삭제 + Cloudflare CDN 캐시 회피)
