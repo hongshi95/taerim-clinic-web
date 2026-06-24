@@ -12,6 +12,8 @@
 # 색인/피드/AI 파일 = 1시간 (변경 즉시 빠르게 반영)
 /sitemap.xml
   Cache-Control: public, max-age=3600, must-revalidate
+/sitemap-index.xml
+  Cache-Control: public, max-age=3600, must-revalidate
 /rss.xml
   Cache-Control: public, max-age=3600, must-revalidate
 /llms.txt
