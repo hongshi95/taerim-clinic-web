@@ -221,11 +221,11 @@ export const ORGANIZATION = {
     CLINIC.youtubeUrl,
     CLINIC.blogUrl,
   ].filter(Boolean),
-  // 지역 SEO: 진료 서비스 지역 명시 (대구 달서구 + 대천동·월배·진천역 하이퍼로컬)
+  // 지역 SEO: 진료 서비스 지역 명시 (대구 달서구 + 대천동·월성동·월배·진천역 하이퍼로컬)
   areaServed: [
     { '@type': 'City', name: '대구광역시' },
     { '@type': 'AdministrativeArea', name: '대구광역시 달서구' },
-    '대천동', '월배', '진천역', '상인동', '도원동', '유천동', '본동',
+    '대천동', '월성동', '월배', '진천역', '상인동', '도원동', '유천동', '본동',
   ],
 } as const;
 
