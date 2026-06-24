@@ -5,11 +5,11 @@
  * (구글은 IndexNow 미지원 → GSC에서 별도 처리)
  *
  * 사용: node scripts/indexnow-submit.mjs
- * sitemap-0.xml에서 전체 URL을 읽어 한 번에 통보
+ * sitemap.xml에서 전체 URL을 읽어 한 번에 통보
  */
 const KEY = process.env.TAERIMHAN_INDEXNOW_KEY || 'd9302cc99124c895f0c30edc61542da4';
 const HOST = 'taerimclinic.com';
-const SITEMAP = `https://${HOST}/sitemap-0.xml`;
+const SITEMAP = `https://${HOST}/sitemap.xml`;
 
 // 1) sitemap에서 URL 추출
 const res = await fetch(SITEMAP);

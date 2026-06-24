@@ -1,7 +1,6 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import react from '@astrojs/react';
-import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import tailwindcss from '@tailwindcss/vite';
 import compress from 'astro-compress';
@@ -14,16 +13,7 @@ export default defineConfig({
   integrations: [
     react(),
     mdx(),
-    sitemap({
-      changefreq: 'daily',
-      priority: 0.7,
-      lastmod: new Date(),
-      filter: (page) => !page.includes('/admin/'),
-      i18n: {
-        defaultLocale: 'ko',
-        locales: { ko: 'ko-KR' },
-      },
-    }),
+    // 사이트맵은 src/pages/sitemap.xml.ts(페이지별 실제 lastmod)로 직접 생성. @astrojs/sitemap 제거(중복 방지).
     compress({
       CSS: true,
       HTML: {

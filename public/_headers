@@ -1,0 +1,20 @@
+# Cloudflare Pages 캐시 정책
+# 목표: 색인/피드 파일은 빨리 갱신(짧게), 해시 자산은 영구 캐시(가볍게 = CDN이 부하 흡수)
+
+# 빌드 해시가 붙는 정적 자산 (JS/CSS) = 1년 immutable (재요청 0)
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# 이미지 = 30일 (배포 시 CF가 자동 갱신)
+/images/*
+  Cache-Control: public, max-age=2592000
+
+# 색인/피드/AI 파일 = 1시간 (변경 즉시 빠르게 반영)
+/sitemap.xml
+  Cache-Control: public, max-age=3600, must-revalidate
+/rss.xml
+  Cache-Control: public, max-age=3600, must-revalidate
+/llms.txt
+  Cache-Control: public, max-age=3600, must-revalidate
+/robots.txt
+  Cache-Control: public, max-age=3600
