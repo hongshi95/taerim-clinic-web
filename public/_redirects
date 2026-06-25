@@ -1,5 +1,9 @@
 # (sitemap.xml은 이제 src/pages/sitemap.xml.ts가 실제 파일로 생성 → 별칭 리디렉션 제거)
 
+# 구 분할 사이트맵 주소 → 단일 sitemap.xml 301 (과거 서치콘솔 제출·외부참조·AI크롤러 안전망. 6사 통일=도버맨 방식)
+/sitemap-index.xml /sitemap.xml 301
+/sitemap-0.xml /sitemap.xml 301
+
 # favicon.ico 브라우저 자동 요청 → 진짜 로고로 리다이렉트
 # (옛 favicon.ico 파일 삭제 + Cloudflare CDN 캐시 회피)
 /favicon.ico /logo.png 301
