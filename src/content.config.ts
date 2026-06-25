@@ -2,7 +2,7 @@ import { defineCollection, z } from 'astro:content';
 import { glob } from 'astro/loaders';
 
 // ──────────────────────────────────────
-// 카테고리 (cars / dating / life)
+// 카테고리 (진료분야: pain / diet / accident / pediatric / beauty / constitution 등)
 // ──────────────────────────────────────
 const categories = defineCollection({
   loader: glob({ pattern: '**/*.json', base: 'src/content/categories' }),
@@ -45,8 +45,8 @@ const posts = defineCollection({
       .string()
       .min(50, 'description은 50자 이상')
       .max(155, 'description은 155자 이내 (SEO)'),
-    category: z.string(), // slug reference (cars/dating/life)
-    author: z.string(), // slug reference
+    category: z.string(), // slug reference (진료분야: pain/diet/accident 등)
+    author: z.string(), // slug reference (한의사 slug, 예: seo-johyuk)
 
     // AEO/GEO 필수
     quickAnswer: z

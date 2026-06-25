@@ -12,6 +12,7 @@ interface Props {
   authorSlug: string;
   categoryName: string;
   categorySlug: string;
+  entities?: string[];
   wordCount?: number;
 }
 
@@ -26,6 +27,7 @@ const {
   authorSlug,
   categoryName,
   categorySlug,
+  entities = [],
   wordCount,
 } = Astro.props;
 
@@ -44,7 +46,11 @@ const schema = {
   headline: title,
   name: title,
   description,
-  image: [image],
+  image: {
+    '@type': 'ImageObject',
+    url: image,
+    caption: title,
+  },
   datePublished: publishedAt,
   dateModified: modifiedAt,
   lastReviewed: modifiedAt, // MedicalWebPage 전용 (자격자 마지막 검토일)
@@ -65,6 +71,10 @@ const schema = {
     '@id': url,
   },
   about: { '@type': 'MedicalCondition', name: categoryName }, // 의료 주제
+  // entities = 글이 다루는 고유 주제어 → mentions로 출력(의료=min5 허용). 답변엔진(AEO) 인용 신호.
+  ...(entities.length > 0
+    ? { mentions: entities.map((name) => ({ '@type': 'Thing', name })) }
+    : {}),
   audience: { '@type': 'PatientsAudience' }, // 환자 대상 명시
   articleSection: categoryName,
   inLanguage: SITE.locale,

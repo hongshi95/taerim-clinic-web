@@ -76,7 +76,8 @@ export const CLINIC = {
 } as const;
 
 export const ORGANIZATION = {
-  '@type': ['MedicalBusiness', 'LocalBusiness'],
+  // MedicalClinic = 한의원 통용 타입(LocalBusiness 상속). 두꺼비365도 동일. 별도결정① 확정.
+  '@type': ['MedicalClinic', 'LocalBusiness'],
   '@id': `${SITE.url}/#organization`,
   name: SITE.name,
   alternateName: SITE.nameEn,

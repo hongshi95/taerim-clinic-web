@@ -31,8 +31,6 @@ export const GET: APIRoute = async () => {
     entries.push({
       loc: `${base}/${post.data.category}/${slug}/`,
       lastmod: iso(lastmod),
-      changefreq: 'monthly',
-      priority: 0.8,
     });
   }
 
@@ -43,37 +41,34 @@ export const GET: APIRoute = async () => {
     const latest = catPosts.length
       ? new Date(Math.max(...catPosts.map((p) => (p.data.modifiedAt ?? p.data.publishedAt).getTime())))
       : buildDate;
-    entries.push({ loc: `${base}/${cat.id}/`, lastmod: iso(latest), changefreq: 'weekly', priority: 0.9 });
+    entries.push({ loc: `${base}/${cat.id}/`, lastmod: iso(latest) });
   }
 
-  // 저자 페이지
+  // 저자 페이지 - lastmod 생략(콘텐츠 날짜 아닌 빌드시각이라 부정확)
   const authors = await getCollection('authors');
   for (const a of authors) {
-    entries.push({ loc: `${base}/about/author/${a.id}/`, lastmod: iso(buildDate), changefreq: 'monthly', priority: 0.5 });
+    entries.push({ loc: `${base}/about/author/${a.id}/` });
   }
 
-  // 진료과목 상세
+  // 진료과목 상세 - 정적 콘텐츠, lastmod 생략
   for (const t of TREATMENT_DETAILS) {
-    entries.push({ loc: `${base}/treatments/${t.slug}/`, lastmod: iso(buildDate), changefreq: 'monthly', priority: 0.7 });
+    entries.push({ loc: `${base}/treatments/${t.slug}/` });
   }
 
-  // 진료 철학
+  // 진료 철학 - 정적 콘텐츠, lastmod 생략
   for (const p of PHILOSOPHY_PRINCIPLES) {
-    entries.push({ loc: `${base}/about/philosophy/${p.slug}/`, lastmod: iso(buildDate), changefreq: 'yearly', priority: 0.4 });
+    entries.push({ loc: `${base}/about/philosophy/${p.slug}/` });
   }
 
-  // 정적 페이지 (admin 제외)
-  const staticPages: Entry[] = [
-    { loc: `${base}/`, changefreq: 'weekly', priority: 1.0 },
-    { loc: `${base}/about/`, changefreq: 'monthly', priority: 0.7 },
-    { loc: `${base}/visit/`, changefreq: 'monthly', priority: 0.7 },
-    { loc: `${base}/faq/`, changefreq: 'monthly', priority: 0.6 },
-    { loc: `${base}/posts/`, changefreq: 'weekly', priority: 0.6 },
-    { loc: `${base}/editorial-policy/`, changefreq: 'yearly', priority: 0.3 },
-    { loc: `${base}/privacy/`, changefreq: 'yearly', priority: 0.2 },
-    { loc: `${base}/disclosure/`, changefreq: 'yearly', priority: 0.2 },
-  ];
-  for (const s of staticPages) entries.push({ ...s, lastmod: iso(buildDate) });
+  // 콘텐츠로 갱신되는 홈/글목록 = 최신 글 날짜 lastmod, 나머지 정적 페이지는 생략(부정확한 빌드시각보다 없는 게 낫다)
+  const siteLatest = posts.length
+    ? new Date(Math.max(...posts.map((p) => (p.data.modifiedAt ?? p.data.publishedAt).getTime())))
+    : buildDate;
+  entries.push({ loc: `${base}/`, lastmod: iso(siteLatest) });
+  entries.push({ loc: `${base}/posts/`, lastmod: iso(siteLatest) });
+  for (const s of ['about', 'visit', 'faq', 'editorial-policy', 'privacy', 'disclosure']) {
+    entries.push({ loc: `${base}/${s}/` });
+  }
 
   const body = entries
     .map((e) => {

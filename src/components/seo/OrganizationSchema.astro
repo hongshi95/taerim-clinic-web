@@ -15,14 +15,7 @@ const schema = {
       description: SITE.description,
       inLanguage: SITE.locale,
       publisher: { '@id': `${SITE.url}/#organization` },
-      potentialAction: {
-        '@type': 'SearchAction',
-        target: {
-          '@type': 'EntryPoint',
-          urlTemplate: `${SITE.url}/search?q={search_term_string}`,
-        },
-        'query-input': 'required name=search_term_string',
-      },
+      // SearchAction 제거: /search 공개페이지 실재 안 함 = 거짓 신호.
     },
   ],
 };

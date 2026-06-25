@@ -18,7 +18,7 @@
     "deploy": "npm run build && npm run cf:deploy",
     "audit": "npm run typecheck && npm run build",
     "setup": "npm install && npm run hooks:install && npm run secrets:install",
-    "cf:deploy": "wrangler pages deploy dist --commit-message=\"local deploy\"",
+    "cf:deploy": "wrangler pages deploy dist --project-name=taerim-clinic-web --branch=main --commit-message=\"local deploy\"",
     "cf:d1:migrate": "wrangler d1 execute taerimhan_db --file=./migrations/0001_initial.sql",
     "cf:d1:migrate:remote": "wrangler d1 execute taerimhan_db --remote --file=./migrations/0001_initial.sql",
     "cf:secrets:list": "wrangler pages secret list --project-name=taerim-clinic-web",

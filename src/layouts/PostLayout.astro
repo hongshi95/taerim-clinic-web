@@ -4,6 +4,7 @@ import Header from '~/components/layout/Header.astro';
 import Footer from '~/components/layout/Footer.astro';
 import Breadcrumb from '~/components/layout/Breadcrumb.astro';
 import ArticleSchema from '~/components/seo/ArticleSchema.astro';
+import BreadcrumbSchema from '~/components/seo/BreadcrumbSchema.astro';
 import HowToSchema from '~/components/seo/HowToSchema.astro';
 import CitationsSchema from '~/components/seo/CitationsSchema.astro';
 import FAQSchema from '~/components/seo/FAQSchema.astro';
@@ -61,6 +62,7 @@ interface Props {
   quickAnswerBullets?: string[];
   faqs?: FAQ[];
   wordCount?: number;
+  entities?: string[];
   schemaType?: 'Article' | 'HowTo' | 'Review' | 'FAQPage';
   howtoSteps?: HowToStep[];
   howtoTotalTime?: string;
@@ -90,6 +92,7 @@ const {
   quickAnswerBullets,
   faqs = [],
   wordCount,
+  entities = [],
   schemaType = 'Article',
   howtoSteps,
   howtoTotalTime,
@@ -171,7 +174,15 @@ const modDate =
       authorSlug={authorSlug}
       categoryName={categoryName}
       categorySlug={categorySlug}
+      entities={entities}
       wordCount={wordCount}
+    />
+    <BreadcrumbSchema
+      items={[
+        { name: '홈', href: '/' },
+        { name: categoryName, href: `/${categorySlug}/` },
+        { name: title, href: canonicalPath },
+      ]}
     />
     {schemaType === 'HowTo' && howtoSteps && howtoSteps.length > 0 && (
       <HowToSchema
