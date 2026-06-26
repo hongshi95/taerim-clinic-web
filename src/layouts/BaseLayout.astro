@@ -2,6 +2,7 @@
 import { SITE, SITE_VERIFICATIONS } from '~/consts';
 import OpenGraph from '~/components/seo/OpenGraph.astro';
 import OrganizationSchema from '~/components/seo/OrganizationSchema.astro';
+import ConsultBar from '~/components/ConsultBar.astro';
 import '~/styles/global.css';
 
 interface Props {
@@ -117,6 +118,9 @@ const canonical = `${SITE.url}${currentPath}`;
 
   <body>
     <slot />
+
+    {/* 공개 페이지에만 하단 빠른 상담 신청 바 (admin·noindex 제외) */}
+    {!noIndex && <ConsultBar />}
 
     <!-- Scroll Reveal - [data-reveal] 요소 자동 활성 (IntersectionObserver) -->
     <script is:inline>

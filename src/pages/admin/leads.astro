@@ -1,0 +1,139 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import { SITE } from '~/consts';
+---
+
+<BaseLayout title="문의 접수" noIndex={true}>
+  <div class="min-h-screen bg-gray-50">
+    <header class="bg-white border-b border-gray-200 sticky top-0 z-10">
+      <div class="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <a href="/admin/dashboard/" class="text-lg font-bold text-gray-800">{SITE.name}</a>
+          <span class="text-xs px-2 py-0.5 rounded bg-green-100 text-green-800 font-medium">문의 접수</span>
+        </div>
+        <nav class="flex items-center gap-4 text-sm">
+          <a href="/admin/dashboard/" class="text-gray-500 hover:text-gray-900">← 대시보드</a>
+          <button id="refresh-btn" class="text-gray-500 hover:text-gray-900">새로고침</button>
+          <button id="logout-btn" class="text-gray-500 hover:text-red-600">로그아웃</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="max-w-5xl mx-auto px-6 py-8">
+      <h1 class="text-2xl font-bold text-gray-900 mb-1">상담 신청(문의) 접수</h1>
+      <p class="text-gray-600 mb-6" id="summary">불러오는 중...</p>
+
+      <div id="leads-container" class="bg-white rounded-xl border border-gray-200 overflow-hidden">
+        <div class="p-8 text-center text-gray-500">로딩 중...</div>
+      </div>
+
+      <p class="text-xs text-gray-400 mt-4">
+        새 문의는 공개 사이트 하단 “빠른 상담 신청” 바에서 접수됩니다. 연락처를 누르면 바로 전화가 걸립니다.
+      </p>
+    </main>
+  </div>
+
+  <script is:inline>
+    fetch('/api/admin-check').then((r) => { if (!r.ok) window.location.href = '/admin/'; });
+    document.getElementById('logout-btn')?.addEventListener('click', async () => {
+      await fetch('/api/auth', { method: 'DELETE' });
+      window.location.href = '/admin/';
+    });
+    document.getElementById('refresh-btn')?.addEventListener('click', () => loadLeads());
+
+    function escapeHtml(s) {
+      return String(s ?? '').replace(/[&<>"']/g, (c) =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])
+      );
+    }
+
+    function fmtPhone(p) {
+      const d = String(p || '').replace(/\D/g, '');
+      if (d.length === 11) return d.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3');
+      if (d.length === 10) return d.replace(/(\d{3})(\d{3})(\d{4})/, '$1-$2-$3');
+      return d;
+    }
+
+    function fmtTime(t) {
+      try { return new Date((t || '').replace(' ', 'T') + 'Z').toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }); }
+      catch { return escapeHtml(t); }
+    }
+
+    const STATUS = {
+      new: { label: '신규', cls: 'bg-amber-100 text-amber-800' },
+      contacted: { label: '연락중', cls: 'bg-blue-100 text-blue-800' },
+      done: { label: '완료', cls: 'bg-gray-100 text-gray-600' },
+    };
+
+    async function setStatus(id, status) {
+      try {
+        await fetch('/api/leads', {
+          method: 'PATCH',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, status }),
+        });
+        loadLeads();
+      } catch (e) { alert('상태 변경 실패: ' + e); }
+    }
+    window.__setStatus = setStatus;
+
+    async function loadLeads() {
+      const container = document.getElementById('leads-container');
+      try {
+        const res = await fetch('/api/leads');
+        if (res.status === 401) { window.location.href = '/admin/'; return; }
+        const data = await res.json();
+        const leads = data.leads || [];
+        const open = leads.filter((l) => l.status !== 'done').length;
+        document.getElementById('summary').textContent =
+          '총 ' + leads.length + '건 · 미완료 ' + open + '건';
+
+        if (leads.length === 0) {
+          container.innerHTML = '<div class="p-8 text-center text-gray-500">아직 접수된 문의가 없습니다.</div>';
+          return;
+        }
+
+        container.innerHTML = `
+          <table class="w-full text-sm">
+            <thead class="bg-gray-50 text-xs uppercase tracking-wider text-gray-500">
+              <tr>
+                <th class="px-4 py-3 text-left">신청시각</th>
+                <th class="px-4 py-3 text-left">이름</th>
+                <th class="px-4 py-3 text-left">지역</th>
+                <th class="px-4 py-3 text-left">연락처</th>
+                <th class="px-4 py-3 text-left">출처</th>
+                <th class="px-4 py-3 text-left">상태</th>
+                <th class="px-4 py-3 text-right">처리</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+              ${leads.map((l) => {
+                const st = STATUS[l.status] || STATUS.new;
+                const phone = String(l.phone || '').replace(/\D/g, '');
+                return `
+                <tr class="${l.status === 'done' ? 'opacity-60' : ''}">
+                  <td class="px-4 py-3 text-gray-500 text-xs whitespace-nowrap">${escapeHtml(fmtTime(l.created_at))}</td>
+                  <td class="px-4 py-3 font-medium text-gray-900">${escapeHtml(l.name)}</td>
+                  <td class="px-4 py-3 text-gray-700">${escapeHtml(l.area || '-')}</td>
+                  <td class="px-4 py-3">
+                    <a href="tel:${phone}" class="text-green-700 font-medium hover:underline">${escapeHtml(fmtPhone(phone))}</a>
+                  </td>
+                  <td class="px-4 py-3 text-gray-500 text-xs">${escapeHtml(l.source || '-')}</td>
+                  <td class="px-4 py-3"><span class="text-xs px-2 py-1 rounded ${st.cls}">${st.label}</span></td>
+                  <td class="px-4 py-3 text-right whitespace-nowrap">
+                    ${l.status !== 'contacted' ? `<button onclick="__setStatus('${l.id}','contacted')" class="text-blue-600 hover:text-blue-800 text-xs font-medium mr-2">연락중</button>` : ''}
+                    ${l.status !== 'done' ? `<button onclick="__setStatus('${l.id}','done')" class="text-gray-500 hover:text-gray-800 text-xs font-medium">완료</button>` : `<button onclick="__setStatus('${l.id}','new')" class="text-amber-600 hover:text-amber-800 text-xs font-medium">되돌리기</button>`}
+                  </td>
+                </tr>`;
+              }).join('')}
+            </tbody>
+          </table>
+        `;
+      } catch (err) {
+        container.innerHTML = '<div class="p-8 text-center text-red-600">불러오기 실패: ' + escapeHtml(String(err)) + '</div>';
+      }
+    }
+
+    loadLeads();
+  </script>
+</BaseLayout>

@@ -1,0 +1,260 @@
+---
+// 공개 사이트 하단 고정 "빠른 상담 신청" 바.
+// 제출 → localStorage 아웃박스에 먼저 저장(무손실) → POST /api/consult(D1 저장) → ok면 아웃박스 제거.
+// 실패 시 아웃박스에 남겨 재시도(온라인 복귀/다음 접속 자동 재전송). 관리자(/admin/leads)에서 열람.
+import { CLINIC } from '~/consts';
+
+const AREAS = [
+  '대천동', '월성동', '월배', '진천역', '상인동', '도원동', '유천동', '본동', '대구 달서구', '기타',
+];
+---
+
+<aside
+  class="tc-consult"
+  id="tc-consult"
+  data-phone={CLINIC.phone}
+  data-kakao={CLINIC.kakaoChannelUrl}
+  role="region"
+  aria-label="빠른 상담 신청"
+>
+  <form class="tc-form" id="tc-form">
+    <span class="tc-title">빠른 상담 신청</span>
+
+    <select class="tc-field tc-area" id="tc-area" aria-label="거주지 선택">
+      <option value="">거주지 선택</option>
+      {AREAS.map((a) => <option value={a}>{a}</option>)}
+    </select>
+
+    <input class="tc-field" id="tc-name" placeholder="이름" aria-label="이름" maxlength="20" autocomplete="name" />
+
+    <input
+      class="tc-field"
+      id="tc-phone"
+      inputmode="numeric"
+      maxlength="11"
+      placeholder="연락처(-없이 입력)"
+      aria-label="연락처"
+      autocomplete="tel"
+    />
+
+    <label class="tc-agree">
+      <input type="checkbox" id="tc-agree" />
+      <span>개인정보 수집·이용 동의</span>
+    </label>
+
+    <button type="button" class="tc-detail" id="tc-detail">[자세히]</button>
+    <button type="submit" class="tc-submit" id="tc-submit">상담신청하기</button>
+    <button type="button" class="tc-close" id="tc-close" aria-label="상담바 닫기">×</button>
+
+    <p class="tc-err" id="tc-err" role="alert" hidden></p>
+  </form>
+
+  <div class="tc-done" id="tc-done" hidden></div>
+
+  <div class="tc-policy" id="tc-policy" hidden>
+    <strong>개인정보 수집·이용 동의</strong> · 수집 항목: 이름, 거주지(지역), 연락처 ·
+    이용 목적: 상담 신청 접수 및 진료·예약 안내 연락 ·
+    보유 기간: 상담 완료 후 6개월 이내 파기(동의 철회 시 지체 없이 파기) ·
+    동의를 거부하실 수 있으며, 이 경우 온라인 상담 접수가 제한될 수 있습니다. 전화로는 언제든 상담하실 수 있습니다.
+  </div>
+</aside>
+
+<style>
+  .tc-consult {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 50;
+    background: #ffffff;
+    border-top: 1px solid #e2e8e3;
+    box-shadow: 0 -6px 24px rgba(20, 40, 30, 0.08);
+    padding: 10px 16px;
+  }
+  .tc-form,
+  .tc-done {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+  .tc-title {
+    font-weight: 700;
+    color: #1e4a32;
+    font-size: 15px;
+    margin-right: 4px;
+  }
+  .tc-field {
+    height: 40px;
+    border: 1px solid #cdd8d0;
+    border-radius: 8px;
+    padding: 0 12px;
+    font-size: 14px;
+    min-width: 110px;
+    background: #fff;
+  }
+  .tc-area { min-width: 128px; }
+  .tc-agree {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: #4a5a50;
+    white-space: nowrap;
+  }
+  .tc-detail {
+    background: none;
+    border: 0;
+    color: #1e4a32;
+    font-size: 13px;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .tc-submit {
+    height: 40px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 999px;
+    background: #1e4a32;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+  }
+  .tc-submit:disabled { opacity: 0.6; cursor: default; }
+  .tc-close {
+    margin-left: auto;
+    background: none;
+    border: 0;
+    font-size: 22px;
+    line-height: 1;
+    color: #9aa8a0;
+    cursor: pointer;
+    padding: 0 4px;
+  }
+  .tc-err { width: 100%; color: #c0392b; font-size: 13px; margin: 4px 0 0; }
+  .tc-done strong { color: #1e4a32; }
+  .tc-done span { color: #4a5a50; font-size: 14px; }
+  .tc-done :global(.tc-tel) {
+    background: #1e4a32;
+    color: #fff;
+    padding: 9px 18px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 14px;
+    text-decoration: none;
+  }
+  .tc-policy {
+    max-width: 1100px;
+    margin: 8px auto 0;
+    font-size: 12px;
+    color: #5a6a60;
+    line-height: 1.7;
+    border-top: 1px dashed #d8e0da;
+    padding-top: 8px;
+  }
+  @media (max-width: 760px) {
+    .tc-title { width: 100%; }
+    .tc-field { flex: 1 1 42%; min-width: 0; }
+    .tc-area { flex-basis: 100%; }
+    .tc-submit { flex: 1 1 100%; }
+    .tc-close { position: absolute; top: 8px; right: 10px; }
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    const root = document.getElementById('tc-consult');
+    if (!root) return;
+    const OUTBOX = 'taerim_consult_outbox_v1';
+    const CLOSED = 'taerim_consult_closed_v1';
+    if (localStorage.getItem(CLOSED) === '1') { root.remove(); return; }
+
+    const form = document.getElementById('tc-form');
+    const done = document.getElementById('tc-done');
+    const policy = document.getElementById('tc-policy');
+    const err = document.getElementById('tc-err');
+    const submitBtn = document.getElementById('tc-submit');
+    const phoneNum = root.getAttribute('data-phone') || '';
+    const kakao = root.getAttribute('data-kakao') || '';
+
+    const readOutbox = () => { try { const v = JSON.parse(localStorage.getItem(OUTBOX) || '[]'); return Array.isArray(v) ? v : []; } catch { return []; } };
+    const writeOutbox = (l) => { try { localStorage.setItem(OUTBOX, JSON.stringify(l)); } catch {} };
+    const addOutbox = (x) => { const l = readOutbox().filter((i) => i.id !== x.id); l.push(x); writeOutbox(l); };
+    const rmOutbox = (id) => writeOutbox(readOutbox().filter((i) => i.id !== id));
+    const genId = () => { try { if (crypto && crypto.randomUUID) return crypto.randomUUID(); } catch {} return 'x' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8); };
+    const nowKST = () => { try { return new Date().toLocaleString('ko-KR', { timeZone: 'Asia/Seoul' }); } catch { return new Date().toISOString(); } };
+
+    async function deliver(lead) {
+      try {
+        const res = await fetch('/api/consult', {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+          body: JSON.stringify(lead),
+          keepalive: true,
+        });
+        if (!res.ok) return false;
+        const d = await res.json().catch(() => null);
+        return !!(d && d.ok);
+      } catch { return false; }
+    }
+
+    let flushing = false;
+    async function flush() {
+      if (flushing) return;
+      flushing = true;
+      try { for (const l of readOutbox()) { if (await deliver(l)) rmOutbox(l.id); } }
+      finally { flushing = false; }
+    }
+
+    function showDone(ok) {
+      form.hidden = true; policy.hidden = true; done.hidden = false;
+      const tel = phoneNum ? '<a class="tc-tel" href="tel:' + phoneNum + '">바로 전화 ' + phoneNum + '</a>' : '';
+      done.innerHTML = ok
+        ? '<strong>상담 신청이 접수되었습니다.</strong><span>입력하신 연락처로 원장이 직접 확인하고 곧 연락드리겠습니다.</span>' + tel
+        : '<strong>전송이 잠시 지연되고 있어요.</strong><span>자동으로 다시 보내는 중입니다. 급하시면 전화나 카카오로 보내주세요.</span>' + tel +
+          (kakao ? '<a class="tc-tel" href="' + kakao + '" target="_blank" rel="noreferrer">카카오로 보내기</a>' : '');
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      err.hidden = true;
+      const name = document.getElementById('tc-name').value.trim();
+      const ph = document.getElementById('tc-phone').value.replace(/\D/g, '');
+      const area = document.getElementById('tc-area').value || '미선택';
+      const agree = document.getElementById('tc-agree').checked;
+      if (!name) { err.textContent = '이름을 입력해 주세요.'; err.hidden = false; return; }
+      if (ph.length < 10) { err.textContent = '연락처를 정확히 입력해 주세요.'; err.hidden = false; return; }
+      if (!agree) { err.textContent = '개인정보 수집·이용에 동의해 주세요.'; err.hidden = false; return; }
+
+      submitBtn.disabled = true; submitBtn.textContent = '전송 중...';
+      const lead = { id: genId(), time: nowKST(), name, area, phone: ph, source: '하단 상담바' };
+      addOutbox(lead);
+      const ok = await deliver(lead);
+      if (ok) rmOutbox(lead.id);
+      showDone(ok);
+
+      if (!ok) {
+        let delay = 5000;
+        const tick = async () => { await flush(); if (readOutbox().length) { delay = Math.min(delay * 2, 300000); setTimeout(tick, delay); } };
+        setTimeout(tick, delay);
+      }
+    });
+
+    document.getElementById('tc-detail').addEventListener('click', () => { policy.hidden = !policy.hidden; });
+    document.getElementById('tc-close').addEventListener('click', () => { localStorage.setItem(CLOSED, '1'); root.remove(); document.documentElement.classList.remove('has-tc-consult'); });
+    document.getElementById('tc-phone').addEventListener('input', (e) => { e.target.value = e.target.value.replace(/\D/g, ''); });
+
+    window.addEventListener('online', () => { void flush(); });
+    setTimeout(() => { void flush(); }, 2500);
+    document.documentElement.classList.add('has-tc-consult');
+  })();
+</script>
+
+<style is:global>
+  html.has-tc-consult body { padding-bottom: 88px; }
+  @media (max-width: 760px) { html.has-tc-consult body { padding-bottom: 150px; } }
+</style>
