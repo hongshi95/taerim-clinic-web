@@ -4,6 +4,35 @@
 
 interface Env {
   DB: D1Database;
+  // 선택: 설정 시 상담 접수를 구글시트에도 미러링(직원 폰 확인용). 미설정이면 조용히 skip.
+  SHEET_WEBHOOK_URL?: string;
+  // 선택: 웹훅 위변조 방지용 공유 시크릿(Apps Script에서 검증).
+  SHEET_WEBHOOK_TOKEN?: string;
+}
+
+interface LeadRow {
+  id: string;
+  created_at: string;
+  name: string;
+  area: string;
+  phone: string;
+  source: string;
+}
+
+// 구글시트(Apps Script 웹앱) 미러 — 비차단/best-effort.
+// 실패해도 상담 접수(D1) 결과엔 영향 없음. URL 미설정 시 즉시 skip.
+async function mirrorToSheet(env: Env, lead: LeadRow): Promise<void> {
+  const url = env.SHEET_WEBHOOK_URL;
+  if (!url) return;
+  try {
+    await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ ...lead, token: env.SHEET_WEBHOOK_TOKEN ?? '' }),
+    });
+  } catch {
+    // 미러 실패는 무시(상담은 이미 D1에 저장됨).
+  }
 }
 
 function json(data: unknown, status = 200): Response {
@@ -29,7 +58,7 @@ async function ensureLeadsTable(env: Env): Promise<void> {
   leadsTableReady = true;
 }
 
-export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
+export const onRequestPost: PagesFunction<Env> = async ({ request, env, waitUntil }) => {
   let body: Record<string, unknown>;
   try {
     // ConsultBar는 text/plain로 전송(프리플라이트 회피) → 텍스트를 JSON.parse.
@@ -49,12 +78,14 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
 
   try {
     await ensureLeadsTable(env);
+    const id = genId();
+    const createdAt = new Date().toISOString();
     await env.DB.prepare(
       `INSERT INTO leads (id, name, area, phone, source, agreed, user_agent, ip)
        VALUES (?, ?, ?, ?, ?, 1, ?, ?)`
     )
       .bind(
-        genId(),
+        id,
         name,
         area,
         phone,
@@ -63,6 +94,8 @@ export const onRequestPost: PagesFunction<Env> = async ({ request, env }) => {
         request.headers.get('CF-Connecting-IP') ?? ''
       )
       .run();
+    // 구글시트 미러는 응답을 막지 않도록 waitUntil로 백그라운드 처리.
+    waitUntil(mirrorToSheet(env, { id, created_at: createdAt, name, area, phone, source }));
     return json({ ok: true });
   } catch (e) {
     return json({ ok: false, error: 'DB error', details: String(e).slice(0, 120) }, 500);
