@@ -3,10 +3,6 @@
 // 제출 → localStorage 아웃박스에 먼저 저장(무손실) → POST /api/consult(D1 저장) → ok면 아웃박스 제거.
 // 실패 시 아웃박스에 남겨 재시도(온라인 복귀/다음 접속 자동 재전송). 관리자(/admin/leads)에서 열람.
 import { CLINIC } from '~/consts';
-
-const AREAS = [
-  '대천동', '월성동', '월배', '진천역', '상인동', '도원동', '유천동', '본동', '대구 달서구', '기타',
-];
 ---
 
 <aside
@@ -19,11 +15,6 @@ const AREAS = [
 >
   <form class="tc-form" id="tc-form">
     <span class="tc-title">빠른 상담 신청</span>
-
-    <select class="tc-field tc-area" id="tc-area" aria-label="거주지 선택">
-      <option value="">거주지 선택</option>
-      {AREAS.map((a) => <option value={a}>{a}</option>)}
-    </select>
 
     <input class="tc-field" id="tc-name" placeholder="이름" aria-label="이름" maxlength="20" autocomplete="name" />
 
@@ -224,14 +215,13 @@ const AREAS = [
       err.hidden = true;
       const name = document.getElementById('tc-name').value.trim();
       const ph = document.getElementById('tc-phone').value.replace(/\D/g, '');
-      const area = document.getElementById('tc-area').value || '미선택';
       const agree = document.getElementById('tc-agree').checked;
       if (!name) { err.textContent = '이름을 입력해 주세요.'; err.hidden = false; return; }
       if (ph.length < 10) { err.textContent = '연락처를 정확히 입력해 주세요.'; err.hidden = false; return; }
       if (!agree) { err.textContent = '개인정보 수집·이용에 동의해 주세요.'; err.hidden = false; return; }
 
       submitBtn.disabled = true; submitBtn.textContent = '전송 중...';
-      const lead = { id: genId(), time: nowKST(), name, area, phone: ph, source: '하단 상담바' };
+      const lead = { id: genId(), time: nowKST(), name, phone: ph, source: '하단 상담바' };
       addOutbox(lead);
       const ok = await deliver(lead);
       if (ok) rmOutbox(lead.id);

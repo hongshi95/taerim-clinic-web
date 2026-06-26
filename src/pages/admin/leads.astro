@@ -99,7 +99,6 @@ import { SITE } from '~/consts';
               <tr>
                 <th class="px-4 py-3 text-left">신청시각</th>
                 <th class="px-4 py-3 text-left">이름</th>
-                <th class="px-4 py-3 text-left">지역</th>
                 <th class="px-4 py-3 text-left">연락처</th>
                 <th class="px-4 py-3 text-left">출처</th>
                 <th class="px-4 py-3 text-left">상태</th>
@@ -114,7 +113,6 @@ import { SITE } from '~/consts';
                 <tr class="${l.status === 'done' ? 'opacity-60' : ''}">
                   <td class="px-4 py-3 text-gray-500 text-xs whitespace-nowrap">${escapeHtml(fmtTime(l.created_at))}</td>
                   <td class="px-4 py-3 font-medium text-gray-900">${escapeHtml(l.name)}</td>
-                  <td class="px-4 py-3 text-gray-700">${escapeHtml(l.area || '-')}</td>
                   <td class="px-4 py-3">
                     <a href="tel:${phone}" class="text-green-700 font-medium hover:underline">${escapeHtml(fmtPhone(phone))}</a>
                   </td>
