@@ -39,7 +39,7 @@ const PRIVACY =
     {/* 상단 바 */}
     <header class="topbar">
       <span class="brand">한방 다이어트</span>
-      <a href="#apply" class="topbar-cta">상담 신청 <span aria-hidden="true">→</span></a>
+      <button type="button" class="topbar-cta js-open-consult">상담 신청 <span aria-hidden="true">→</span></button>
     </header>
 
     {/* HERO */}
@@ -60,7 +60,7 @@ const PRIVACY =
       </figure>
 
       <div class="hero-cta rise" style="--d:.4s">
-        <a href="#apply" class="btn btn-accent full">1:1 상담 신청하기</a>
+        <button type="button" class="btn btn-accent full js-open-consult">1:1 상담 신청하기</button>
       </div>
     </section>
 
@@ -102,7 +102,7 @@ const PRIVACY =
           <div><dt>구성</dt><dd>{EVENT.unit}</dd></div>
         </dl>
         <p class="promo-note">효과·감량 정도·소요 기간은 개인의 체질과 생활습관에 따라 다를 수 있습니다.</p>
-        <a href="#apply" class="btn btn-accent full">상담 신청하고 혜택 받기</a>
+        <button type="button" class="btn btn-accent full js-open-consult">상담 신청하고 혜택 받기</button>
       </div>
     </section>
 
@@ -165,7 +165,7 @@ const PRIVACY =
         <div class="cta-txt">
           <h2>지금 신청하면<br />대표원장이 <b>직접 진료</b></h2>
           <p>비용·예약 강요 없이, 궁금한 점부터 편하게.</p>
-          <a href="#apply" class="btn btn-accent">상담 신청하기</a>
+          <button type="button" class="btn btn-accent js-open-consult">상담 신청하기</button>
         </div>
         <figure class="cta-doc">
           <img src="/images/clinic/diet-lp-cutout.webp" alt="서조혁 원장" width="610" height="1563" loading="lazy" decoding="async" />
@@ -195,36 +195,13 @@ const PRIVACY =
       </div>
     </section>
 
-    {/* 상담 신청 폼 */}
-    <section id="apply" class="wrap apply">
+    {/* 마지막 CTA */}
+    <section class="wrap final">
       <div data-reveal>
-        <p class="eyebrow">APPLY</p>
-        <h2 class="h2">1:1 상담 신청</h2>
-        <p class="apply-sub">연락처만 남기면, 한의원에서 직접 전화드려요.</p>
+        <h2 class="final-title">안 빠지던 이유부터,<br />원장이 같이 찾아요</h2>
+        <p class="final-sub">성함·연락처만 남기면, 한의원에서 직접 전화드려요. 먼저 물어보고 결정하셔도 괜찮아요.</p>
+        <button type="button" class="btn btn-accent full js-open-consult">1:1 상담 신청하기</button>
       </div>
-
-      <form class="lp-form" data-source={SOURCE} data-reveal>
-        <div class="field">
-          <label class="lp-label">이름</label>
-          <input class="lp-input lp-name" type="text" placeholder="성함" maxlength="20" autocomplete="name" aria-label="이름" />
-        </div>
-        <div class="field">
-          <label class="lp-label">연락처</label>
-          <input class="lp-input lp-phone" type="tel" inputmode="numeric" maxlength="11" placeholder="010 0000 0000" autocomplete="tel" aria-label="연락처" />
-        </div>
-
-        <label class="lp-agree">
-          <input type="checkbox" class="lp-check" />
-          <span>개인정보 수집·이용 동의</span>
-          <button type="button" class="lp-policy-toggle">자세히</button>
-        </label>
-        <div class="lp-policy" hidden>{PRIVACY}</div>
-
-        <button type="submit" class="btn btn-accent full lp-submit">상담 신청하기</button>
-
-        <p class="lp-err" role="alert" hidden></p>
-        <div class="lp-done" role="status" hidden></div>
-      </form>
     </section>
 
     {/* 법적 고지 */}
@@ -239,9 +216,42 @@ const PRIVACY =
       <p class="legal-tiny">의료광고 심의필 제□□□□-□□□호 (※ 심의 대상 시 심의번호 기재)</p>
     </footer>
 
+    {/* 상담 신청 드로어 (모든 CTA가 이 폼을 띄움) */}
+    <div class="consult-overlay" id="consult" aria-hidden="true">
+      <button type="button" class="consult-bg" data-close-consult aria-label="닫기"></button>
+      <div class="consult-sheet" role="dialog" aria-modal="true" aria-label="상담 신청">
+        <button type="button" class="consult-x" data-close-consult aria-label="닫기">×</button>
+        <p class="eyebrow">1:1 상담 신청</p>
+        <h3 class="consult-title">성함·연락처만 남기면<br />한의원에서 전화드려요</h3>
+
+        <form class="lp-form" data-source={SOURCE}>
+          <div class="field">
+            <label class="lp-label">성함</label>
+            <input class="lp-input lp-name" type="text" placeholder="성함을 입력해 주세요" maxlength="20" autocomplete="name" aria-label="성함" />
+          </div>
+          <div class="field">
+            <label class="lp-label">연락처</label>
+            <input class="lp-input lp-phone" type="tel" inputmode="numeric" maxlength="11" placeholder="휴대폰 번호 (- 없이)" autocomplete="tel" aria-label="연락처" />
+          </div>
+
+          <label class="lp-agree">
+            <input type="checkbox" class="lp-check" />
+            <span>개인정보 수집·이용 동의</span>
+            <button type="button" class="lp-policy-toggle">자세히</button>
+          </label>
+          <div class="lp-policy" hidden>{PRIVACY}</div>
+
+          <button type="submit" class="btn btn-accent full lp-submit">상담 신청하기</button>
+
+          <p class="lp-err" role="alert" hidden></p>
+          <div class="lp-done" role="status" hidden></div>
+        </form>
+      </div>
+    </div>
+
     {/* 모바일 고정 CTA */}
     <div class="lp-mobilebar">
-      <a href="#apply" class="mb-cta">1:1 상담 신청하기</a>
+      <button type="button" class="mb-cta js-open-consult">1:1 상담 신청하기</button>
     </div>
   </main>
 </BaseLayout>
@@ -357,6 +367,10 @@ const PRIVACY =
     font-size: 13px;
     font-weight: 700;
     color: var(--accent-deep);
+    background: none;
+    border: 0;
+    cursor: pointer;
+    padding: 4px 2px;
   }
 
   /* HERO */
@@ -582,9 +596,81 @@ const PRIVACY =
   .qa[open] summary i::after { transform: scaleY(0); opacity: 0; }
   .qa p { margin: 0; padding: 0 2px 18px; font-size: 14px; line-height: 1.75; color: var(--ink-soft); word-break: keep-all; }
 
-  /* 폼 */
-  .apply { margin-top: 52px; }
-  .apply-sub { margin: -12px 0 22px; font-size: 14px; color: var(--ink-soft); }
+  /* 마지막 CTA */
+  .final { margin-top: 52px; }
+  .final-title {
+    font-size: clamp(1.4rem, 6vw, 1.85rem);
+    font-weight: 800;
+    line-height: 1.4;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    margin: 0 0 12px;
+    word-break: keep-all;
+  }
+  .final-sub { margin: 0 0 22px; font-size: 14px; line-height: 1.7; color: var(--ink-soft); word-break: keep-all; }
+
+  /* 상담 드로어 (바텀시트) */
+  .consult-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s var(--ease), visibility 0.3s var(--ease);
+  }
+  .consult-overlay.is-open { opacity: 1; visibility: visible; }
+  .consult-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: rgba(45, 32, 30, 0.5);
+    cursor: pointer;
+  }
+  .consult-sheet {
+    position: relative;
+    width: 100%;
+    max-width: 480px;
+    max-height: 92vh;
+    overflow-y: auto;
+    background: var(--bg-card);
+    border-radius: 24px 24px 0 0;
+    padding: 30px 22px calc(24px + env(safe-area-inset-bottom));
+    box-shadow: 0 -20px 60px rgba(60, 40, 36, 0.28);
+    transform: translateY(100%);
+    transition: transform 0.4s var(--ease);
+  }
+  .consult-overlay.is-open .consult-sheet { transform: translateY(0); }
+  .consult-x {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 34px;
+    height: 34px;
+    border: 0;
+    background: none;
+    font-size: 26px;
+    line-height: 1;
+    color: var(--ink-faint);
+    cursor: pointer;
+  }
+  .consult-title {
+    font-size: 20px;
+    font-weight: 800;
+    line-height: 1.42;
+    letter-spacing: -0.01em;
+    color: var(--ink);
+    margin: 3px 0 22px;
+    word-break: keep-all;
+  }
+  /* 드로어 안 폼은 카드 테두리·그림자 제거 (시트 자체가 카드) */
+  .consult-sheet .lp-form { border: 0; box-shadow: none; padding: 0; background: transparent; border-radius: 0; }
+
+  /* 폼 공통 */
   .lp-form {
     display: flex;
     flex-direction: column;
@@ -657,7 +743,7 @@ const PRIVACY =
   .mb-cta {
     flex: 1;
     display: flex; align-items: center; justify-content: center;
-    height: 52px; border-radius: 13px;
+    height: 52px; border: 0; border-radius: 13px; cursor: pointer;
     background: var(--accent); color: #fff; font-size: 16px; font-weight: 700;
     box-shadow: 0 10px 20px -10px rgba(224, 139, 131, 0.7);
   }
@@ -688,6 +774,25 @@ const PRIVACY =
         if (days >= 0) el.textContent = days === 0 ? '오늘 마감' : 'D-' + days;
       }
     } catch {}
+
+    // 상담 드로어 열고/닫기 (모든 .js-open-consult 버튼)
+    const overlay = document.getElementById('consult');
+    if (overlay) {
+      const openConsult = () => {
+        overlay.classList.add('is-open');
+        overlay.setAttribute('aria-hidden', 'false');
+        document.documentElement.style.overflow = 'hidden';
+        setTimeout(() => { const n = overlay.querySelector('.lp-name'); if (n) n.focus(); }, 400);
+      };
+      const closeConsult = () => {
+        overlay.classList.remove('is-open');
+        overlay.setAttribute('aria-hidden', 'true');
+        document.documentElement.style.overflow = '';
+      };
+      document.querySelectorAll('.js-open-consult').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); openConsult(); }));
+      overlay.querySelectorAll('[data-close-consult]').forEach((b) => b.addEventListener('click', closeConsult));
+      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeConsult(); });
+    }
 
     const OUTBOX = 'taerim_consult_outbox_v1';
     const forms = document.querySelectorAll('.lp-form');
