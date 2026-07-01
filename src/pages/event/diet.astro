@@ -39,7 +39,7 @@ const PRIVACY =
     {/* 상단 바 */}
     <header class="topbar">
       <span class="brand">한방 다이어트</span>
-      <button type="button" class="topbar-cta js-open-consult">상담 신청 <span aria-hidden="true">→</span></button>
+      <a href="#apply" class="topbar-cta">상담 신청 <span aria-hidden="true">→</span></a>
     </header>
 
     {/* HERO */}
@@ -55,13 +55,30 @@ const PRIVACY =
         한의사가 1:1로 확인하고, 요요를 줄이는 방향으로 설계해 드려요.
       </p>
 
-      <figure class="hero-photo rise" style="--d:.3s">
-        <img src="/images/clinic/diet-lp-hero.webp" alt="태림한의원 서조혁 원장" width="1024" height="768" fetchpriority="high" decoding="async" />
-      </figure>
+      <form id="apply" class="lp-form hero-form rise" style="--d:.3s" data-source={SOURCE}>
+        <p class="lp-form-title">지금 1:1 상담 신청 <span>남겨주시면 한의원에서 전화드려요</span></p>
+        <div class="field">
+          <label class="lp-label">이름</label>
+          <input class="lp-input lp-name" type="text" placeholder="성함" maxlength="20" autocomplete="name" aria-label="이름" />
+        </div>
+        <div class="field">
+          <label class="lp-label">연락처</label>
+          <input class="lp-input lp-phone" type="tel" inputmode="numeric" maxlength="11" placeholder="휴대폰 번호 (- 없이)" autocomplete="tel" aria-label="연락처" />
+        </div>
+        <label class="lp-agree">
+          <input type="checkbox" class="lp-check" />
+          <span>개인정보 수집·이용 동의</span>
+          <button type="button" class="lp-policy-toggle">자세히</button>
+        </label>
+        <div class="lp-policy" hidden>{PRIVACY}</div>
+        <button type="submit" class="btn btn-accent full lp-submit">상담 신청하기</button>
+        <p class="lp-err" role="alert" hidden></p>
+        <div class="lp-done" role="status" hidden></div>
+      </form>
 
-      <div class="hero-cta rise" style="--d:.4s">
-        <button type="button" class="btn btn-accent full js-open-consult">1:1 상담 신청하기</button>
-      </div>
+      <figure class="hero-photo rise" style="--d:.42s">
+        <img src="/images/clinic/diet-lp-hero.webp" alt="태림한의원 서조혁 원장" width="1024" height="768" loading="lazy" decoding="async" />
+      </figure>
     </section>
 
     {/* 고민 공감 */}
@@ -102,7 +119,7 @@ const PRIVACY =
           <div><dt>구성</dt><dd>{EVENT.unit}</dd></div>
         </dl>
         <p class="promo-note">효과·감량 정도·소요 기간은 개인의 체질과 생활습관에 따라 다를 수 있습니다.</p>
-        <button type="button" class="btn btn-accent full js-open-consult">상담 신청하고 혜택 받기</button>
+        <a href="#apply" class="btn btn-accent full">상담 신청하고 혜택 받기</a>
       </div>
     </section>
 
@@ -165,7 +182,7 @@ const PRIVACY =
         <div class="cta-txt">
           <h2>지금 신청하면<br />대표원장이 <b>직접 진료</b></h2>
           <p>비용·예약 강요 없이, 궁금한 점부터 편하게.</p>
-          <button type="button" class="btn btn-accent js-open-consult">상담 신청하기</button>
+          <a href="#apply2" class="btn btn-accent">상담 신청하기</a>
         </div>
         <figure class="cta-doc">
           <img src="/images/clinic/diet-lp-cutout.webp" alt="서조혁 원장" width="610" height="1563" loading="lazy" decoding="async" />
@@ -195,13 +212,32 @@ const PRIVACY =
       </div>
     </section>
 
-    {/* 마지막 CTA */}
-    <section class="wrap final">
+    {/* 마지막 상담 폼 */}
+    <section id="apply2" class="wrap final">
       <div data-reveal>
+        <p class="eyebrow">APPLY</p>
         <h2 class="final-title">안 빠지던 이유부터,<br />원장이 같이 찾아요</h2>
-        <p class="final-sub">성함·연락처만 남기면, 한의원에서 직접 전화드려요. 먼저 물어보고 결정하셔도 괜찮아요.</p>
-        <button type="button" class="btn btn-accent full js-open-consult">1:1 상담 신청하기</button>
+        <p class="final-sub">성함·연락처만 남기면, 한의원에서 직접 전화드려요.</p>
       </div>
+      <form class="lp-form" data-source={SOURCE} data-reveal>
+        <div class="field">
+          <label class="lp-label">이름</label>
+          <input class="lp-input lp-name" type="text" placeholder="성함" maxlength="20" autocomplete="name" aria-label="이름" />
+        </div>
+        <div class="field">
+          <label class="lp-label">연락처</label>
+          <input class="lp-input lp-phone" type="tel" inputmode="numeric" maxlength="11" placeholder="휴대폰 번호 (- 없이)" autocomplete="tel" aria-label="연락처" />
+        </div>
+        <label class="lp-agree">
+          <input type="checkbox" class="lp-check" />
+          <span>개인정보 수집·이용 동의</span>
+          <button type="button" class="lp-policy-toggle">자세히</button>
+        </label>
+        <div class="lp-policy" hidden>{PRIVACY}</div>
+        <button type="submit" class="btn btn-accent full lp-submit">상담 신청하기</button>
+        <p class="lp-err" role="alert" hidden></p>
+        <div class="lp-done" role="status" hidden></div>
+      </form>
     </section>
 
     {/* 법적 고지 */}
@@ -216,42 +252,9 @@ const PRIVACY =
       <p class="legal-tiny">의료광고 심의필 제□□□□-□□□호 (※ 심의 대상 시 심의번호 기재)</p>
     </footer>
 
-    {/* 상담 신청 드로어 (모든 CTA가 이 폼을 띄움) */}
-    <div class="consult-overlay" id="consult" aria-hidden="true">
-      <button type="button" class="consult-bg" data-close-consult aria-label="닫기"></button>
-      <div class="consult-sheet" role="dialog" aria-modal="true" aria-label="상담 신청">
-        <button type="button" class="consult-x" data-close-consult aria-label="닫기">×</button>
-        <p class="eyebrow">1:1 상담 신청</p>
-        <h3 class="consult-title">성함·연락처만 남기면<br />한의원에서 전화드려요</h3>
-
-        <form class="lp-form" data-source={SOURCE}>
-          <div class="field">
-            <label class="lp-label">성함</label>
-            <input class="lp-input lp-name" type="text" placeholder="성함을 입력해 주세요" maxlength="20" autocomplete="name" aria-label="성함" />
-          </div>
-          <div class="field">
-            <label class="lp-label">연락처</label>
-            <input class="lp-input lp-phone" type="tel" inputmode="numeric" maxlength="11" placeholder="휴대폰 번호 (- 없이)" autocomplete="tel" aria-label="연락처" />
-          </div>
-
-          <label class="lp-agree">
-            <input type="checkbox" class="lp-check" />
-            <span>개인정보 수집·이용 동의</span>
-            <button type="button" class="lp-policy-toggle">자세히</button>
-          </label>
-          <div class="lp-policy" hidden>{PRIVACY}</div>
-
-          <button type="submit" class="btn btn-accent full lp-submit">상담 신청하기</button>
-
-          <p class="lp-err" role="alert" hidden></p>
-          <div class="lp-done" role="status" hidden></div>
-        </form>
-      </div>
-    </div>
-
     {/* 모바일 고정 CTA */}
     <div class="lp-mobilebar">
-      <button type="button" class="mb-cta js-open-consult">1:1 상담 신청하기</button>
+      <a href="#apply2" class="mb-cta">1:1 상담 신청하기</a>
     </div>
   </main>
 </BaseLayout>
@@ -671,6 +674,7 @@ const PRIVACY =
   .consult-sheet .lp-form { border: 0; box-shadow: none; padding: 0; background: transparent; border-radius: 0; }
 
   /* 폼 공통 */
+  #apply, #apply2 { scroll-margin-top: 16px; }
   .lp-form {
     display: flex;
     flex-direction: column;
@@ -680,6 +684,9 @@ const PRIVACY =
     padding: 22px 20px;
     box-shadow: var(--shadow);
   }
+  .hero-form { margin-top: 24px; }
+  .lp-form-title { margin: 0 0 16px; font-size: 16.5px; font-weight: 800; color: var(--ink); letter-spacing: -0.01em; }
+  .lp-form-title span { display: block; margin-top: 5px; font-size: 13px; font-weight: 500; color: var(--ink-soft); }
   .field { margin-bottom: 16px; }
   .lp-label { display: block; font-size: 13px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
   .lp-input {
@@ -774,25 +781,6 @@ const PRIVACY =
         if (days >= 0) el.textContent = days === 0 ? '오늘 마감' : 'D-' + days;
       }
     } catch {}
-
-    // 상담 드로어 열고/닫기 (모든 .js-open-consult 버튼)
-    const overlay = document.getElementById('consult');
-    if (overlay) {
-      const openConsult = () => {
-        overlay.classList.add('is-open');
-        overlay.setAttribute('aria-hidden', 'false');
-        document.documentElement.style.overflow = 'hidden';
-        setTimeout(() => { const n = overlay.querySelector('.lp-name'); if (n) n.focus(); }, 400);
-      };
-      const closeConsult = () => {
-        overlay.classList.remove('is-open');
-        overlay.setAttribute('aria-hidden', 'true');
-        document.documentElement.style.overflow = '';
-      };
-      document.querySelectorAll('.js-open-consult').forEach((b) => b.addEventListener('click', (e) => { e.preventDefault(); openConsult(); }));
-      overlay.querySelectorAll('[data-close-consult]').forEach((b) => b.addEventListener('click', closeConsult));
-      document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && overlay.classList.contains('is-open')) closeConsult(); });
-    }
 
     const OUTBOX = 'taerim_consult_outbox_v1';
     const forms = document.querySelectorAll('.lp-form');
