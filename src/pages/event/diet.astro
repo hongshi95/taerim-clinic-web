@@ -123,27 +123,28 @@ const PRIVACY =
       </div>
     </section>
 
-    {/* 솔루션 / 프로그램 */}
+    {/* 한약 다이어트 진행 프로세스 (매선 제외) */}
     <section class="wrap prog">
       <div data-reveal>
         <p class="eyebrow">PROGRAM</p>
-        <h2 class="h2">상담 후, 이렇게 진행돼요</h2>
+        <h2 class="h2">한약 다이어트,<br />이렇게 진행돼요</h2>
       </div>
-      <div class="pcards">
+      <figure class="prog-photo" data-reveal>
+        <img src="/images/clinic/diet-lp-consult.webp" alt="한의사 1:1 진단" loading="lazy" decoding="async" />
+      </figure>
+      <ol class="flow" data-reveal data-reveal-delay="1">
         {[
-          { img: '/images/clinic/herbal-preparation.png', t: '체질 맞춤 한약', d: '체질·대사 패턴에 맞춰 처방을 설계합니다. 복용 중인 약·건강 상태를 진료 시 함께 확인합니다.' },
-          { img: '/images/clinic/maesun-threads.webp', t: '매선 체형 케어', d: '한방 매선(녹는 실)으로 부위별 라인을 정리합니다. 필요 여부는 진단 후 결정합니다.' },
-          { img: '/images/clinic/diet-lp-consult.webp', t: '식이·생활 코칭', d: '굶는 식단이 아니라, 지속 가능한 식습관·생활 리듬을 함께 잡습니다.' },
-        ].map((p, i) => (
-          <article class="pcard" data-reveal data-reveal-delay={Math.min(i + 1, 5)}>
-            <figure><img src={p.img} alt={p.t} loading="lazy" decoding="async" /></figure>
-            <div class="pcard-txt">
-              <h3>{p.t}</h3>
-              <p>{p.d}</p>
-            </div>
-          </article>
+          { t: '원인부터 확인', d: '맥진·체질 진단과 인바디(체성분) 측정으로 왜 안 빠지는지부터 확인합니다. 식욕·순환·대사·기력 중 무엇이 문제인지 봅니다.' },
+          { t: '체질 맞춤 한약 처방', d: '정해진 다이어트약이 아니라, 확인한 원인에 맞춰 약재를 사람마다 다르게 구성합니다.' },
+          { t: '식이·생활 관리 병행', d: '굶는 다이어트가 아니라, 지속 가능한 식습관·생활 리듬을 함께 잡습니다.' },
+          { t: '회차별 점검·조정', d: '복용 반응을 보며 처방을 조정하고, 감량 이후 유지 단계까지 함께 봅니다.' },
+        ].map((s, i) => (
+          <li class="flow-item">
+            <span class="fn">{String(i + 1).padStart(2, '0')}</span>
+            <div><h3>{s.t}</h3><p>{s.d}</p></div>
+          </li>
         ))}
-      </div>
+      </ol>
     </section>
 
     {/* 원장 직접 진료 */}
@@ -153,7 +154,7 @@ const PRIVACY =
         <div class="doctor-txt">
           <span class="badge sm">대표원장 직접 진료</span>
           <h3>서조혁 <b>원장</b></h3>
-          <p>정해진 패키지를 똑같이 드리지 않습니다. 한 사람의 체질과 생활을 먼저 살피고, 한약·매선·식이를 상태에 맞춰 조합합니다.</p>
+          <p>정해진 패키지를 똑같이 드리지 않습니다. 한 사람의 체질과 생활을 먼저 살피고, 한약 처방과 식이·생활 관리를 상태에 맞춰 설계합니다.</p>
         </div>
       </div>
     </section>
@@ -169,7 +170,7 @@ const PRIVACY =
           { t: '상담 신청', d: '이름·연락처만 남기면 끝.' },
           { t: '전화 상담', d: '한의원에서 직접 연락드려 상태를 간단히 확인해요.' },
           { t: '내원 진단', d: '체질·생활습관을 진료로 자세히 확인합니다.' },
-          { t: '맞춤 설계', d: '한약·매선·식이 계획을 함께 정합니다.' },
+          { t: '맞춤 설계', d: '한약 처방과 식이 계획을 함께 정합니다.' },
         ].map((s, i) => (
           <li><span class="sn">{i + 1}</span><div><b>{s.t}</b><p>{s.d}</p></div></li>
         ))}
@@ -490,6 +491,17 @@ const PRIVACY =
 
   /* 프로그램 */
   .prog { margin-top: 52px; }
+  .prog-photo { margin: 0 0 20px; }
+  .prog-photo img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; border-radius: var(--radius); box-shadow: var(--shadow-sm); display: block; }
+  .flow { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+  .flow-item {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: #fff; border: 1px solid var(--line); border-radius: 14px;
+    padding: 16px 16px; box-shadow: var(--shadow-sm);
+  }
+  .flow-item .fn { flex: none; min-width: 26px; font-size: 20px; font-weight: 800; color: var(--accent); line-height: 1.15; }
+  .flow-item h3 { margin: 0 0 6px; font-size: 16px; font-weight: 800; color: var(--ink); }
+  .flow-item p { margin: 0; font-size: 14px; line-height: 1.7; color: var(--ink-soft); word-break: keep-all; }
   .pcards { display: flex; flex-direction: column; gap: 16px; }
   .pcard {
     background: #fff;
